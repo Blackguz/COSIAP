@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "head.html" %}
+</head>
+<body>
+    {% include "sidebar.html" %}
+    {% include "header.html" %}
+
+    {% block bodycontent %}
+    {% endblock bodycontent %}
+    <main>
+        {% block mainb %}
+        {% endblock mainb %}
+    </main>
+
+    {% include "footer.html" %}
+    
+    <!-- Scripts -->
+    <script src="{% static 'assets/js/bootstrap.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    
+    {% block extra_scripts %}
+    {% endblock extra_scripts %}
+</body>
+</html>
