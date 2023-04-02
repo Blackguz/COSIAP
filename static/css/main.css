@@ -1,0 +1,37 @@
+/*
+  GLOBAL STYLES
+*/
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*
+  Register Form
+*/
+.register-form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    display: flex;
+}
+
+.form-group .form-control {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.form-group .form-control:last-child {
+    margin-right: 0;
+}
