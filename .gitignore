@@ -11,7 +11,7 @@ media
 *.bak
 
 # If you are using PyCharm #
-.idea
+.idea/*
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
