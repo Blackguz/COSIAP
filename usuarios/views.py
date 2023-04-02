@@ -29,10 +29,7 @@ def login(request):
 
 def register_solicitante(request):
     if request.method == 'POST':
-        print("Intento registrar un solicitante")
         form = SolicitanteCreationForm(request.POST)
-        print(form.is_valid())
-        print(form)
         if form.is_valid():
             solicitante = form.save()
             login(request)
