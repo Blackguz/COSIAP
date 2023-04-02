@@ -23,4 +23,5 @@ urlpatterns = [
     path('usuarios/', include('usuarios.urls')),
     path('administracion/', include('administracion.urls')),
     path('convocatorias/', include('convocatorias.urls')),
+    #path('/', indice)
 ]
