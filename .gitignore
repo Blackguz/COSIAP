@@ -1,5 +1,5 @@
 # Ignorar scripts marco
-
+gitmarco.bat
 # Ignorar archivos de migración de Django
 # Django #
 *.log
