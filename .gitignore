@@ -1,0 +1,3 @@
+# Ignorar archivos de migración de Django
+**/migrations/*.py
+**/migrations/*.pyc
