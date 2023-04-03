@@ -1,6 +1,11 @@
 /*
   GLOBAL STYLES
 */
+* {
+    padding: 0;
+    margin: 0;
+}
+
 body {
     background-color: #f8f9fa;
 }
@@ -34,4 +39,30 @@ body {
 
 .form-group .form-control:last-child {
     margin-right: 0;
+}
+
+/*
+    Index
+*/
+.header-1 {
+    padding: 2rem;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+}
+
+.topbar a {
+    margin: 0 1rem;
+}
+
+.brand-bar-h {
+    flex: 1;
+    display: flex;
+    padding: 1rem;
+}
+
+#brand-logo-50 {
+    width: 50px;
 }
