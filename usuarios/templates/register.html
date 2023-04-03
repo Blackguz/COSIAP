@@ -28,6 +28,18 @@
                 </script>
             {% endfor %}
         {% endif %}
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field in form %}
+                {% for error in field.errors %}
+                <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+                {% endfor %}
+            </ul>
+            <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+        </div>
+        {% endif %}
         <form class="register-form" method="POST" action="{% url 'registro' %}">
             {% csrf_token %}
             <h2 class="text-center mb-4">Formulario de registro para solicitantes</h2>

@@ -29,12 +29,10 @@ def login(request):
 
 def register_solicitante(request):
     if request.method == 'POST':
-        print("Intento registrar un solicitante")
         form = SolicitanteCreationForm(request.POST)
         if form.is_valid():
-            print("El formulario es valido")
             solicitante = form.save()
-            login(request, solicitante)
+            login(request)
             messages.success(request, 'Registro exitoso. Bienvenido/a!')
             return redirect('index')
         else:
