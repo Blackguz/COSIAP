@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;500;900&display=swap');
+
 /*
   GLOBAL STYLES
 */
@@ -12,6 +14,9 @@ body {
     align-items: center;
 }
 
+p{
+    font-family: 'Roboto', sans-serif;
+}
 
 /*
   Register Form

@@ -17,7 +17,7 @@ def login(request):
             print("Intento hacer login")
             login(request, user)
             if user.is_staff:
-                return redirect('admin:index')
+                return redirect('administracion:index')
             else:
                 return redirect('index')
         else:
