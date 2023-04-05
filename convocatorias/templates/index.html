@@ -8,28 +8,61 @@
     <link rel="stylesheet" href="../../static/css/main.css">
 </head>
 <body>
-    <header class="header-1">
-        <nav class="topbar">
-            <div class="brand-bar-h">
-                <!-- Imagen del cozcyt (Color) 50px-->
-                <img id="brand-logo-50" src="../../static/assets/images/faces/1.jpg" alt="logo_cozcyt" title="Logo COZCyT">
-                <p>CONSEJO ZACATECANO DE<br><span>CIENCIA, TECNOLOGÍA <br>E INNOVACIÓN</span><br>ESTADO DE ZACATECAS</p>
-            </div>
-            <a href="#">Inicio</a>
-            <a href="#">Apoyos</a>
-            <a href="#">Nosotros</a>
-            <a href="#">Contacto</a>
-            <button>Login/Registro</button>
-        </nav>
-        <section>
-            <h1>Sistema de<br>Apoyos<br>COSCyT</h1>
-            <button>Crear cuenta</button>
+    <div class="topbar-container">
+        <header class="header-bar">
+            <nav class="topbar">
+                <div class="brand-bar-h">
+                    <!-- Imagen del cozcyt (Color) 50px-->
+                    <img id="brand-logo" src="../../static/img/icons/Logocozcyt.jpg" alt="logo_cozcyt" title="Logo COZCyT">
+                </div>
+                <a href="#">Inicio</a>
+                <a href="#">Apoyos</a>
+                <a href="#">Nosotros</a>
+                <a href="#">Contacto</a>
+                <button id="login-btn">Login/Registro</button>
+            </nav>
+        </header>
+        <section class="welcome-sect">
+            <h1 class="title-36 white-bold">Sistema de<br>Apoyos<br>COSCyT</h1>
+            <button id="create-acc">Crear cuenta</button>
         </section>
-    </header>
-    <main>
-        <h2>Apoyos disponibles</h2>
-        <p>No dudes en solicitar los apoyos necesarios</p>
+    </div>
+    <main class="summary-becas-container">
+        <h2 class="bg-text-line">Apoyos disponibles</h2>
+        <p class="small-info-text">No dudes en solicitar los apoyos necesarios</p>
         <!-- Aquí será el display de las becas -->
+        <div class="becas-display">
+            <div class="beca-card">
+                <img src="" alt="">
+                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
+                <h4>$28,000.00</h4>
+                <h5>Requerimientos</h5>
+                <p>Carta de recepción</p>
+                <p>Borrador de investigación</p>
+                <p>Estimación de gastos</p>
+                <button class="white-bold">Inscribirme</button>
+            </div>
+            <div class="beca-card">
+                <img src="" alt="">
+                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
+                <h4>$28,000.00</h4>
+                <h5>Requerimientos</h5>
+                <p>Carta de recepción</p>
+                <p>Borrador de investigación</p>
+                <p>Estimación de gastos</p>
+                <button class="white-bold">Inscribirme</button>
+            </div>
+            <div class="beca-card">
+                <img src="" alt="">
+                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
+                <h4>$28,000.00</h4>
+                <h5>Requerimientos</h5>
+                <p>Carta de recepción</p>
+                <p>Borrador de investigación</p>
+                <p>Estimación de gastos</p>
+                <button class="white-bold">Inscribirme</button>
+            </div>
+        </div>
         <button>Ver todos</button>
     </main>
     <section>
@@ -68,7 +101,7 @@
             </div>
         </section>
         <section>
-            <img id="brand-logo-50" src="../../static/assets/images/faces/1.jpg" alt="logo_cozcyt" title="Logo COZCyT">
+            <img width="100" src="../../static/assets/images/faces/1.jpg" alt="logo_cozcyt" title="Logo COZCyT">
             <h6>Gobierno del Estado de Zacatecas 2021 - 2027</h6>
             <!-- Insertar logos facebook, twitter, youtube, instagram, correo -->
         </section>
