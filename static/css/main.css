@@ -6,7 +6,7 @@
 :root {
     /* Colores de fondo*/
     --bg-regular-color: rgb(118, 21, 14);
-    --beca-card-border-1: rgb(203, 203, 203);
+    --beca-card-border-1: #e1e1e1;
     /* Colores de fuente */
     --small-info-color: rgb(96, 96, 96);
 
@@ -47,6 +47,7 @@ button {
 p {
     font-family: 'Roboto', sans-serif;
 }
+/*Utilidades*/
 .title-48 {
     font-size: 3rem;
 }
@@ -189,7 +190,7 @@ p {
     padding-bottom: 40px;
 }
 
-.becas-display {
+/* .becas-display {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
@@ -206,12 +207,10 @@ p {
     flex-direction: column;
     align-items: center;
     max-width: 150px;
-}
-
-.beca-card > h3,
-.beca-card > h4,
-.beca-card > h5 {
     text-align: center;
+    grid-row: span;
+    transition: height 1s ease;
+    overflow: hidden;
 }
 
 .beca-card > *:not(:first-child):not(:last-child) {
@@ -223,12 +222,55 @@ p {
     color: var(--small-info-color);
 }
 
-.becas-display > .beca-card:nth-child(2) {
+.beca-card:hover {
     height: 100%;
+} */
+
+.becas {
+    display: flex;
+    flex-direction: column;
 }
 
-.becas-display > .beca-card:nth-child(2) > *:not(:first-child):not(:last-child) {
-    margin: 12px 0;
+@media (min-width: 768px) {
+    .becas {
+        -webkit-margin-before: 10rem;
+        flex-direction: row;
+        margin-block-start: 10rem;
+        margin-inline: auto;
+        max-width: 80rem;
+    }
+}
+
+.becas .beca {
+    border: solid 1px var(--beca-card-border-1);
+    flex-grow: 1;
+    padding: 0.8rem 1rem;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .becas .beca {
+        transition-duration: 0.3s;
+        transition-property: transition, -webkit-transform;
+    }
+
+    .becas .beca:hover {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+}
+
+.becas .beca .presupuesto {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.becas .beca .requisitos {
+    list-style: none;
+}
+
+.becas .beca .requisitos li:not(:last-child) {
+    margin-bottom: 0.5rem;
 }
 
 #apoyos-img-definition {
