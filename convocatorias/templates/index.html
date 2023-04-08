@@ -7,68 +7,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
     <link rel="stylesheet" href="../../static/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" crossorigin="anonymous">
 </head>
 
 <body>
     <div class="topbar-container">
-        <header class="header-bar">
-            <nav class="topbar">
-                <div class="brand-bar-h">
-                    <!-- Imagen del cozcyt (Color) 50px-->
-                    <img id="brand-logo" src="../../static/img/icons/Logocozcyt.jpg" alt="logo_cozcyt"
-                        title="Logo COZCyT">
-                </div>
-                <a href="#">Inicio</a>
-                <a href="#">Apoyos</a>
-                <a href="#">Nosotros</a>
-                <a href="#">Contacto</a>
-                <button id="login-btn">Login/Registro</button>
-            </nav>
-        </header>
-        <section class="welcome-sect">
-            <h1 class="title-48 white-bold">Sistema de<br>Apoyos<br>COSCyT</h1>
-            <button id="create-acc">Crear cuenta</button>
-        </section>
+        <div class="topbar-bg">
+            <header class="header-bar">
+                <nav class="topbar">
+                    <div class="brand-bar">
+                        <!-- Imagen del cozcyt (Color) 50px-->
+                        <img id="brand-logo" src="../../static/img/icons/Logocozcyt.jpg" alt="logo_cozcyt"
+                            title="Logo COZCyT">
+                    </div>
+                    <a href="#">Inicio</a>
+                    <a href="#">Apoyos</a>
+                    <a href="#">Nosotros</a>
+                    <a href="#">Contacto</a>
+                    <a class="boton-reg" id="login-btn" href="#">Login/Registro</a>
+                </nav>
+            </header>
+            <section class="welcome-sect">
+                <h1 class="title-48 white-bold">Sistema de<br>Apoyos<br>COSCyT</h1>
+                <a href="#" class="boton-reg">Crear cuenta</a>
+            </section>
+        </div>
     </div>
     <main class="centered-column-container">
         <h2 class="bg-text-line">Apoyos disponibles</h2>
         <p class="small-info-text">No dudes en solicitar los apoyos necesarios</p>
         <!-- Aquí será el display de las becas -->
-        <!-- <div class="becas-display">
-            <div class="beca-card">
-                <img src="" alt="doc-logo">
-                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
-                <h4>$28,000.00</h4>
-                <h5>Requerimientos</h5>
-                <p>Carta de recepción</p>
-                <p>Borrador de investigación</p>
-                <p>Estimación de gastos</p>
-                <button class="white-bold">Inscribirme</button>
-            </div>
-            <div class="beca-card">
-                <img src="" alt="doc-logo">
-                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
-                <h4>$28,000.00</h4>
-                <h5>Requerimientos</h5>
-                <p>Carta de recepción</p>
-                <p>Borrador de investigación</p>
-                <p>Estimación de gastos</p>
-                <button class="white-bold">Inscribirme</button>
-            </div>
-            <div class="beca-card">
-                <img src="" alt="doc-logo">
-                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
-                <h4>$28,000.00</h4>
-                <h5>Requerimientos</h5>
-                <p>Carta de recepción</p>
-                <p>Borrador de investigación</p>
-                <p>Estimación de gastos</p>
-                <button class="white-bold">Inscribirme</button>
-            </div>
-        </div> -->
         <div class="becas">
             <div class="beca">
-                <img src="" alt="doc-logo">
+                <!-- <i class="fa-solid fa-file-contract"></i> -->
+                <img src="../../static/img/icons/logodocbeca.png" alt="logo_beca">
                 <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
                 <p class="presupuesto">$28,000.00</p>
                 <h3>Requerimientos</h3>
@@ -77,16 +49,41 @@
                     <li>Carta</li>
                     <li>Estimación</li>
                 </ul>
-                <a href="#" class="boton-beca">Inscribirme</a>
+                <a href="#" class="boton-reg boton-beca">Inscribirme</a>
             </div>
-            <!--Beca-->
+            <div class="beca">
+                <!-- <i class="fa-solid fa-file-contract"></i> -->
+                <img src="../../static/img/icons/logodocbeca.png" alt="logo_beca">
+                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
+                <p class="presupuesto">$28,000.00</p>
+                <h3>Requerimientos</h3>
+                <ul class="requisitos">
+                    <li>Borrador</li>
+                    <li>Carta</li>
+                    <li>Estimación</li>
+                </ul>
+                <a href="#" class="boton-reg boton-beca">Inscribirme</a>
+            </div>
+            <div class="beca">
+                <!-- <i class="fa-solid fa-file-contract"></i> -->
+                <img src="../../static/img/icons/logodocbeca.png" alt="logo_beca">
+                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
+                <p class="presupuesto">$28,000.00</p>
+                <h3>Requerimientos</h3>
+                <ul class="requisitos">
+                    <li>Borrador</li>
+                    <li>Carta</li>
+                    <li>Estimación</li>
+                </ul>
+                <a href="#" class="boton-reg boton-beca">Inscribirme</a>
+            </div>
         </div>
-        <button>Ver todos</button>
+        <a href="#" class="boton-reg">Ver todos</a>
     </main>
-    <section class="red-info-box">
-        <h3 class="white-bold title-48">Apoyos COZCyT</h3>
+    <section class="red-info-box info-programa-cozcyt">
         <!-- Información de los apoyos de COZCyT -->
-        <div class="vert-container">
+        <div class="desc-programa">
+            <h3 class="white-bold title-48">Apoyos COZCyT</h3>
             <p class="text-info-white">
                 El programa <b>APOYOS COSZCYT</b> promueve la producción científica de los estudiantes, investigadores e
                 instituciones públicas y organizaciones del estado de Zacatecas, mediante respaldo financiero para
@@ -97,12 +94,12 @@
                 <b>Proyectos de innovación tecnológica.</b><br>
                 <b>Eventos de difusión</b>, investigación, formación
             </p>
-            <img id="apoyos-img-definition" src="" alt="student-img">
         </div>
+        <img id="apoyos-img-definition" src="../../static/img/icons/becas_mex_22.jpg" alt="student-img">
     </section>
-    <section class="centered-column-container">
-        <h2 style="color: var(--bg-regular-color);">Contactanos</h2>
-        <!-- Formulario -->
+    <section class="centered-column-container support-sect">
+        <h2>Contactanos</h2>
+        {% include "contact_form.html" %}
     </section>
     <section class="contacts-sect">
         <h4 class="small-info-text">¿A quién contactar para mayor información?</h4>
