@@ -193,12 +193,23 @@ p {
     margin-left: 3rem;
 }
 
-.centered-column-container .bg-text-line {
-    text-align: left;
+.centered-column-container .info-bar {
+    width: 55vw;
+}
+
+.centered-column-container .info-bar h2 {
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+    .centered-column-container .info-bar {
+        width: calc(65vw + 10rem);
+    }
 }
 
 .bg-text-line {
     position: relative;
+    width: fit-content;
 }
 
 .bg-text-line::before {
@@ -209,6 +220,10 @@ p {
     background-color: var(--bg-regular-color);
     width: 100%;
     height: 5px;
+}
+
+.centered-column-container .bg-text-line {
+    text-align: left;
 }
 
 .centered-column-container {
@@ -252,7 +267,7 @@ p {
     max-width: 13rem;
 }
 
-.becas .beca>*:not(:first-child):not(:last-child) {
+.becas > .beca:not(:first-child):not(:last-child) {
     margin: 0.9rem 0;
 }
 
