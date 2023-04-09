@@ -267,8 +267,8 @@ p {
     max-width: 13rem;
 }
 
-.becas > .beca:not(:first-child):not(:last-child) {
-    margin: 0.9rem 0;
+.becas .beca > *:not(:first-child):not(:last-child) {
+    margin: 0.8rem 0;
 }
 
 @media (min-width: 768px) {
