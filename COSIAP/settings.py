@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'COSIAP',
         'USER': 'cosiap',
         'PASSWORD': 'password123',
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }

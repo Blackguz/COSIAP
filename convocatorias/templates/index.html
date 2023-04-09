@@ -1,12 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inicio</title>
+    <link rel="stylesheet" href="../../static/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" crossorigin="anonymous">
 </head>
+
 <body>
-    <h1>HOLAAA</h1>
+    <div class="topbar-container">
+        <div class="topbar-bg">
+            <header class="header-bar">
+                <nav class="topbar">
+                    <div class="brand-bar">
+                        <!-- Imagen del cozcyt (Color) 50px-->
+                        <img id="brand-logo" src="../../static/img/icons/Logocozcyt.jpg" alt="logo_cozcyt"
+                            title="Logo COZCyT">
+                    </div>
+                    <a href="#">Inicio</a>
+                    <a href="#">Apoyos</a>
+                    <a href="#">Nosotros</a>
+                    <a href="#">Contacto</a>
+                    <a class="boton-reg" id="login-btn" href="#">Login/Registro</a>
+                </nav>
+            </header>
+            <section class="welcome-sect">
+                <h1 class="title-48 white-bold">Sistema de<br>Apoyos<br>COSCyT</h1>
+                <a href="#" class="boton-reg">Crear cuenta</a>
+            </section>
+        </div>
+    </div>
+    <main class="centered-column-container">
+        <div class="info-bar">
+            <h2 class="bg-text-line">Apoyos disponibles</h2>
+            <p class="small-info-text">No dudes en solicitar los apoyos necesarios</p>
+        </div>
+        <!-- Aquí será el display de las becas -->
+        <div class="becas">
+            <div class="beca">
+                <!-- <i class="fa-solid fa-file-contract"></i> -->
+                <img src="../../static/img/icons/logodocbeca.png" alt="logo_beca">
+                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
+                <p class="presupuesto">$28,000.00</p>
+                <h3>Requerimientos</h3>
+                <ul class="requisitos">
+                    <li>Borrador</li>
+                    <li>Carta</li>
+                    <li>Estimación</li>
+                </ul>
+                <a href="#" class="boton-reg boton-beca">Inscribirme</a>
+            </div>
+            <div class="beca">
+                <!-- <i class="fa-solid fa-file-contract"></i> -->
+                <img src="../../static/img/icons/logodocbeca.png" alt="logo_beca">
+                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
+                <p class="presupuesto">$28,000.00</p>
+                <h3>Requerimientos</h3>
+                <ul class="requisitos">
+                    <li>Borrador</li>
+                    <li>Carta</li>
+                    <li>Estimación</li>
+                </ul>
+                <a href="#" class="boton-reg boton-beca">Inscribirme</a>
+            </div>
+            <div class="beca">
+                <!-- <i class="fa-solid fa-file-contract"></i> -->
+                <img src="../../static/img/icons/logodocbeca.png" alt="logo_beca">
+                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
+                <p class="presupuesto">$28,000.00</p>
+                <h3>Requerimientos</h3>
+                <ul class="requisitos">
+                    <li>Borrador</li>
+                    <li>Carta</li>
+                    <li>Estimación</li>
+                </ul>
+                <a href="#" class="boton-reg boton-beca">Inscribirme</a>
+            </div>
+        </div>
+        <a href="#" class="boton-reg">Ver todos</a>
+    </main>
+    <section class="red-info-box info-programa-cozcyt">
+        <!-- Información de los apoyos de COZCyT -->
+        <div class="desc-programa">
+            <h3 class="white-bold title-48">Apoyos COZCyT</h3>
+            <p class="text-info-white">
+                El programa <b>APOYOS COSZCYT</b> promueve la producción científica de los estudiantes, investigadores e
+                instituciones públicas y organizaciones del estado de Zacatecas, mediante respaldo financiero para
+                la:<br>
+                <b>Presentación de trabajos (publicación de artículos)</b> en revistas indizadas en catálogos
+                internacionales (Journal Citation Reports).<br>
+                <b>Estancias de investigación.</b><br>
+                <b>Proyectos de innovación tecnológica.</b><br>
+                <b>Eventos de difusión</b>, investigación, formación
+            </p>
+        </div>
+        <img id="apoyos-img-definition" src="../../static/img/icons/becas_mex_22.jpg" alt="student-img">
+    </section>
+    <section class="centered-column-container support-sect">
+        <h2>Contactanos</h2>
+        {% include "contact_form.html" %}
+    </section>
+    <section class="contacts-sect">
+        <h4 class="small-info-text">¿A quién contactar para mayor información?</h4>
+        <div class="contact-card">
+            <p class="small-info-text">Mtra. Sahara María del Río Venegas</p>
+            <p class="small-info-text">Directora de Desarrollo de Talento en Ciencia, Tecnología e Innovación</p>
+            <p class="small-info-text">sdelrio@cozcyt.gob.mx</p>
+            <p class="small-info-text">Tel: (492)921 2816 y (492)921 3018 ext:1526</p>
+        </div>
+        <div class="contact-card">
+            <p class="small-info-text">I.S.C. Nayeli Alcalá Aguilar</p>
+            <p class="small-info-text">Jefa del Departamento de Becas</p>
+            <p class="small-info-text">nalcala@cozcyt.gob.mx</p>
+            <p class="small-info-text">Tel: (492)921 2816 y (492)921 3018 ext:1506</p>
+        </div>
+        <div class="contact-card">
+            <p class="small-info-text">José Luis Alfredo Estrada Espino</p>
+            <p class="small-info-text">Encargado de Apoyos</p>
+            <p class="small-info-text">aestrada@cozcyt.gob.mx</p>
+            <p class="small-info-text">Tel: (492)921 2816 y (492)921 3018 ext:1506</p>
+        </div>
+    </section>
+    <footer class="gray-footer">
+        <section>
+            <div>
+                <!-- Imagen del cozcyt (contorno) 50px-->
+                <img id="brand-logo" src="../../static/img/icons/Logocozcyt.jpg" alt="">
+            </div>
+            <div>
+                <h3>
+                    UBICACION
+                </h3>
+                <p><!-- Dirección --></p>
+            </div>
+            <div>
+                <h3>Telefonos</h3>
+                <ul>
+                    <!-- Agregar como lista los telefonos -->
+                </ul>
+            </div>
+        </section>
+        <section>
+            <img width="100" src="../../static/assets/images/faces/1.jpg" alt="logo_cozcyt" title="Logo COZCyT">
+            <h6>Gobierno del Estado de Zacatecas 2021 - 2027</h6>
+            <!-- Insertar logos facebook, twitter, youtube, instagram, correo -->
+        </section>
+    </footer>
 </body>
+
 </html>
