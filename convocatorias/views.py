@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from convocatorias.forms import SolicitudApoyoForm
+from soporte.forms import SolicitudApoyoForm
 # Create your views here.
 
 def index(request):
