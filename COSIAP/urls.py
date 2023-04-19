@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from convocatorias.views import index
+from convocatorias.views import index, solicitud_de_apoyos
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,4 +23,5 @@ urlpatterns = [
     path('usuarios/', include('usuarios.urls')),
     path('administracion/', include('administracion.urls')),
     path('', index, name='index'),
+    path('solicitud_de_apoyos/', solicitud_de_apoyos)
 ]
