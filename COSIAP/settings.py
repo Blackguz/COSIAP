@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+LOGIN_URL = '/usuarios/login/'
 
 # Application definition
 
@@ -87,7 +88,7 @@ DATABASES = {
         'NAME': 'COSIAP',
         'USER': 'cosiap',
         'PASSWORD': 'password123',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '3306',
     }
 }

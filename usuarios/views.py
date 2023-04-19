@@ -3,27 +3,24 @@ from django.contrib.auth import authenticate, login
 from .forms import SolicitanteCreationForm
 from django.contrib import messages
 
-def login(request):
+def login_view(request):
     if request.method == 'POST':
         email = request.POST.get('correo')
         password = request.POST.get('password')
 
         if not email or not password:
-            print("Mande error de que un campo no esta compleo")
             return render(request, 'login.html', {'error': 'Por favor, complete todos los campos'})
 
         user = authenticate(request, email=email, password=password)
         if user is not None:
-            print("Intento hacer login")
             login(request, user)
             if user.is_staff:
-                return redirect('administracion:index')
+                return redirect('administracion:panel')
             else:
-                return redirect('index')
+                return redirect('COSIAP:index')
         else:
             return render(request, 'login.html', {'error': 'Usuario o contraseña incorrectos'})
     else:
-        print("Regreso al formulario de login")
         # mostrar el formulario de inicio de sesión
         return render(request, 'login.html')
 

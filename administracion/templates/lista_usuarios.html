@@ -1,0 +1,196 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %} Lista de usuarios {% endblock %} 
+{% block mainb %}
+<section class="section">
+  <div class="row" id="table-striped">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Striped rows</h4>
+        </div>
+        <div class="card-content">
+          <!-- table striped -->
+          <div class="table-responsive">
+            <table class="table table-striped mb-0">
+              <thead>
+                <tr>
+                  <th>Nombre completo</th>
+                  <th>Correo</th>
+                  <th>Genero</th>
+                  <th>Escolaridad</th>
+                  <th>Domicilio</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                  <td>
+                    {{usuario.first_name}} {{usuario.apellido_paterno}}
+                    {{usuario.apellido_materno}}
+                  </td>
+                  <td>{{usuario.email}}</td>
+                  <td>{{usuario.genero}}</td>
+                  <td>{{usuario.ultimo_grado_estudios}}</td>
+                  <td>{{usuario.domicilio_calle}}</td>
+                  <td>
+                    <button type="button" 
+                      class="btn btn-icon btn-primary" 
+                      data-bs-toggle="modal" 
+                      data-bs-target="#inlineForm"
+                      ><i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <a
+                      href="{% url 'administracion:eliminar_usuario' usuario.id %}"
+                      class="btn btn-icon btn-danger"
+                      ><i class="bi bi-trash-fill"></i
+                    ></a>
+                    <a
+                      href="{% url 'administracion:banear_usuario' usuario.id %}"
+                      class="btn btn-icon btn-warning"
+                      ><i class="bi bi-x-circle-fill"></i
+                    ></a>
+                    <a
+                      href="{% url 'administracion:enviar_correo' usuario.id %}"
+                      class="btn btn-icon btn-info"
+                      ><i class="bi bi-envelope-fill"></i
+                    ></a>
+                  </td>
+                </tr>
+                {% empty %}
+                <h2>No se encontraron usuarios.</h2>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  {% for usuario in usuarios %}
+  <div class="modal fade text-left" id="inlineForm" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel33">
+            Editar usuario
+          </h4>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <form action="#" data-bitwarden-watching="1">
+          <div class="modal-body" style="  max-height: calc(100vh - 210px);
+          overflow-y: auto;">
+            <div class="row">
+              <input id="id" type="text" hidden placeholder="id" class="form-control" value="{{usuario.id}}" disabled>
+              <div class="col-md-6 col-12">
+                <label for="nombre">nombre: </label>
+                <div class="form-group">
+                  <input id="nombre" type="text" placeholder="Nombre" class="form-control" value="{{usuario.first_name}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="apellido_paterno">Apellido Paterno: </label>
+                <div class="form-group">
+                  <input id="apellido_paterno" type="text" placeholder="Apellido paterno" class="form-control" value="{{usuario.apellido_paterno}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="apellido_materno">Apellido Materno: </label>
+                <div class="form-group">
+                  <input id="apellido_materno" type="text" placeholder="Apellido materno" class="form-control" value="{{usuario.apellido_materno}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="telefono_particular">Telefono particular: </label>
+                <div class="form-group">
+                  <input id="telefono_particular" type="tel" placeholder="Telefono particular" class="form-control" value="{{usuario.telefono_particular}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="telefono_celular">telefono celular: </label>
+                <div class="form-group">
+                  <input id="telefono_celular" type="tel" placeholder="Telefono celular" class="form-control" value="{{usuario.telefono_celular}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="genero">genero: </label>
+                <div class="form-group">
+                  <select name="genero" class="form-select" id="genero">
+                    {% if usuario.genero == "M" %}
+                    <option value="{{usuario.genero}}"> Masculino</option>
+                    <option value="F">Femenino</option>
+                    {% else %}
+                    <option value="{{usuario.genero}}">Femenino</option>
+                    <option value="M">Masculino</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="ultimo_grado_estudios">Ultimo grado de estudios: </label>
+                <div class="form-group">
+                  <input id="ultimo_grado_estudios" type="text" placeholder="Ultimo grado de estudios" class="form-control" value="{{usuario.ultimo_grado_estudios}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="institucion">Institución: </label>
+                <div class="form-group">
+                  <input id="institucion" type="text" placeholder="Institucion" class="form-control" value="{{usuario.institucion}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="domicilio_calle">Calle: </label>
+                <div class="form-group">
+                  <input id="domicilio_calle" type="text" placeholder="Calle/Avenida/Camino" class="form-control" value="{{usuario.domicilio_calle}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="domicilio_numero_exterior">Numero Exterior: </label>
+                <div class="form-group">
+                  <input id="domicilio_numero_exterior" type="number" placeholder="Numero Exterior" class="form-control" value="{{usuario.domicilio_numero_exterior}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="domicilio_numero_interior">Numero interior: </label>
+                <div class="form-group">
+                  <input id="domicilio_numero_interior" type="number" placeholder="Numero interior" class="form-control" value="{{usuario.domicilio_numero_interior}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="domicilio_codigo_postal">Codigo postal: </label>
+                <div class="form-group">
+                  <input id="domicilio_codigo_postal" type="number" placeholder="Codigo postal" class="form-control" value="{{usuario.domicilio_codigo_postal}}">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+              <i class="bx bx-x d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Cancelar</span>
+            </button>
+            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarCambios">
+              <i class="bx bx-check d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Guardar</span>
+            </button>            
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  {% endfor %}
+</section>
+{% endblock mainb %} 
+{% block extra_scripts %} 
+<script>
+  const csrf_token = "{{ csrf_token }}";
+</script>
+<script src="{% static 'assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+{% endblock extra_scripts %}
