@@ -1,10 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.core import serializers
-from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 from convocatorias.models import Solicitud
-from usuarios.models import Solicitante
+from usuarios.models import Solicitante, Administrador
+from usuarios.forms import SolicitanteCreationForm
 from django.db.models import Count
 from django.contrib.admin.views.decorators import staff_member_required
 from usuarios.forms import SolicitanteCreationForm
@@ -77,8 +77,31 @@ def editar_usuario(request, id):
 
     return JsonResponse({"status": "error"}, status=405)
 
+@login_required
+@staff_member_required
 def crear_usuario(request):
+    if request.method == 'POST':
+        print(request.POST)
+        form = SolicitanteCreationForm(request.POST)
+        if form.is_valid():
+            solicitante = form.save()
+            messages.success(request, 'Registro exitoso!')
+            return redirect('administracion:usuarios')
+        else:
+            messages.error(request, 'Error en el registro. Por favor, verifica los datos.')
+    else:
+        form = SolicitanteCreationForm()
+    return render(request, 'crear_usuario.html', {'form': form})
+
+def crear_administrador(request):
     pass
+
+def lista_administradores(request):
+    administradores = Administrador.objects.all()
+    context = {
+        "administradores": administradores
+    }
+    return render(request, "lista_administradores.html", context)
 
 def banear_usuario(request, id):
     pass

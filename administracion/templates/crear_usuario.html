@@ -1,0 +1,264 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block mainb %}
+<section id="multiple-column-form">
+    {% if messages %}
+    {% for message in messages %}
+        <script>
+            Swal.fire({
+                title: 'Error',
+                text: '{{ message }}',
+                icon: 'error'
+            });
+        </script>
+    {% endfor %}
+{% endif %}
+{% if form.errors %}
+<div class="alert alert-danger">
+    <ul>
+        {% for field in form %}
+        {% for error in field.errors %}
+        <li>{{ field.label }}: {{ error }}</li>
+        {% endfor %}
+        {% endfor %}
+    </ul>
+    <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+</div>
+{% endif %}
+  <div class="row match-height">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Crear usuario</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form
+              class="form"
+              action="{% url 'administracion:crear_usuario' %}"
+              method="POST"
+            >
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="first-name-column">Nombre(s)</label>
+                    <input
+                      type="text"
+                      id="first-name-column"
+                      class="form-control"
+                      placeholder="Nombre(s)"
+                      name="{{ form.first_name.name }}"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="user-name-column">Nombre de usuario</label>
+                      <input
+                        type="text"
+                        id="user-name-column"
+                        class="form-control"
+                        placeholder="Nombre de usuario"
+                        name="{{ form.username.name }}"
+                      />
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="apellido_paterno">Apellido paterno</label>
+                    <input
+                      type="text"
+                      id="apellido_paterno"
+                      class="form-control"
+                      placeholder="Apellido paterno"
+                      name="{{ form.apellido_paterno.name }}"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="city-column">Apellido materno</label>
+                    <input
+                      type="text"
+                      id="apellido_materno"
+                      class="form-control"
+                      placeholder="Apellido materno"
+                      name="{{ form.apellido_materno.name }}"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input
+                      type="email"
+                      id="country-floating"
+                      class="form-control"
+                      name="{{ form.email.name }}"
+                      placeholder="Correo electrónico"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="telefono_particular">Teléfono particular</label>
+                    <input
+                      type="tel"
+                      id="telefono_particular"
+                      class="form-control"
+                      name="{{ form.telefono_particular.name }}"
+                      placeholder="Teléfono particular"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="telefono_celular">Teléfono celular</label>
+                    <input
+                      type="text"
+                      id="telefono_celular"
+                      class="form-control"
+                      name="{{ form.telefono_celular.name }}"
+                      placeholder="Teléfono celular"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="password-column">Contraseña</label>
+                    <input
+                      type="password"
+                      id="password-column"
+                      class="form-control"
+                      name="{{ form.password1.name }}"
+                      placeholder="Contraseña"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="password2-column">Confirma Contraseña</label>
+                      <input
+                        type="password"
+                        id="password2-column"
+                        class="form-control"
+                        name="{{ form.password2.name }}"
+                        placeholder="Contraseña"
+                      />
+                    </div>
+                </div>               
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="genero">Genero</label>
+                    <select name="{{ form.genero.name }}" class="form-select" id="genero">
+                      <option value="F">Femenino</option>
+                      <option value="M">Masculino</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="ultimo_grado_estudios">Grado de estudios</label>
+                    <select
+                      name="{{ form.ultimo_grado_estudios.name }}"
+                      class="form-select"
+                      id="ultimo_grado_estudios"
+                    >
+                      <option value="Primaria">Primaria</option>
+                      <option value="Secundaria">Secundaria</option>
+                      <option value="Preparatoria">Preparatoria</option>
+                      <option value="Licenciatura">Licenciatura</option>
+                      <option value="Maestria">Maestria</option>
+                      <option value="Doctorado">Doctorado</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <label for="institucion">Institución: </label>
+                  <div class="form-group">
+                    <input
+                      id="institucion"
+                      type="text"
+                      placeholder="Institucion"
+                      class="form-control"
+                      value="{{usuario.institucion}}"
+                      name="{{ form.institucion.name }}"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <label for="domicilio_calle">Calle: </label>
+                  <div class="form-group">
+                    <input
+                      id="domicilio_calle"
+                      type="text"
+                      placeholder="Calle/Avenida/Camino"
+                      class="form-control"
+                      name="{{ form.domicilio_calle.name }}"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <label for="domicilio_numero_exterior"
+                    >Numero Exterior:
+                  </label>
+                  <div class="form-group">
+                    <input
+                      id="domicilio_numero_exterior"
+                      type="number"
+                      placeholder="Numero Exterior"
+                      class="form-control"
+                      name="{{ form.domicilio_numero_exterior.name }}"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <label for="domicilio_numero_interior"
+                    >Numero interior:
+                  </label>
+                  <div class="form-group">
+                    <input
+                      id="domicilio_numero_interior"
+                      type="number"
+                      placeholder="Numero interior"
+                      class="form-control"
+                      name="{{ form.domicilio_numero_interior.name }}"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <label for="domicilio_codigo_postal">Codigo postal: </label>
+                  <div class="form-group">
+                    <input
+                      id="domicilio_codigo_postal"
+                      type="number"
+                      placeholder="Codigo postal"
+                      class="form-control"
+                      name="{{ form.domicilio_codigo_postal.name }}"
+                    />
+                  </div>
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                  <button type="submit" class="btn btn-primary me-1 mb-1">
+                    Registrar
+                  </button>
+                  <button
+                    type="reset"
+                    class="btn btn-light-secondary me-1 mb-1"
+                  >
+                    Limpiar
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock mainb %} 
+{% block extra_scripts %} 
+{% endblock extra_scripts %}

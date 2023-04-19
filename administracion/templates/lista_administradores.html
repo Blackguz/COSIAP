@@ -7,7 +7,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Usuarios del sistema</h4>
+          <h4 class="card-title">Administradores del sistema</h4>
           <a href="{% url 'administracion:crear_usuario' %}" class="btn btn-success float-end">Crear usuario</a>
         </div>
         <div class="card-content">
@@ -18,23 +18,21 @@
                 <tr>
                   <th>Nombre completo</th>
                   <th>Correo</th>
-                  <th>Genero</th>
-                  <th>Escolaridad</th>
-                  <th>Domicilio</th>
+                  <th>Telefono celular</th>
+                  <th>Nivel de acceso</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {% for usuario in usuarios %}
+                {% for admin in administradores %}
                 <tr>
                   <td>
-                    {{usuario.first_name}} {{usuario.apellido_paterno}}
-                    {{usuario.apellido_materno}}
+                    {{admin.first_name}} {{admin.apellido_paterno}}
+                    {{admin.apellido_materno}}
                   </td>
-                  <td>{{usuario.email}}</td>
-                  <td>{{usuario.genero}}</td>
-                  <td>{{usuario.ultimo_grado_estudios}}</td>
-                  <td>{{usuario.domicilio_calle}}</td>
+                  <td>{{admin.email}}</td>
+                  <td>{{admin.telefono_celular}}</td>
+                  <td>{{admin.nivel_acceso}}</td>
                   <td>
                     <button type="button" 
                       class="btn btn-icon btn-primary" 
@@ -43,24 +41,24 @@
                       ><i class="bi bi-pencil-fill"></i>
                     </button>
                     <a
-                      href="{% url 'administracion:eliminar_usuario' usuario.id %}"
+                      href="{% url 'administracion:eliminar_usuario' admin.id %}"
                       class="btn btn-icon btn-danger"
                       ><i class="bi bi-trash-fill"></i
                     ></a>
                     <a
-                      href="{% url 'administracion:banear_usuario' usuario.id %}"
+                      href="{% url 'administracion:banear_usuario' admin.id %}"
                       class="btn btn-icon btn-warning"
                       ><i class="bi bi-x-circle-fill"></i
                     ></a>
                     <a
-                      href="{% url 'administracion:enviar_correo' usuario.id %}"
+                      href="{% url 'administracion:enviar_correo' admin.id %}"
                       class="btn btn-icon btn-info"
                       ><i class="bi bi-envelope-fill"></i
                     ></a>
                   </td>
                 </tr>
                 {% empty %}
-                <h2>No se encontraron usuarios.</h2>
+                <h2>No se encontraron administradores.</h2>
                 {% endfor %}
               </tbody>
             </table>
@@ -72,7 +70,7 @@
 </section>
 
 <section>
-  {% for usuario in usuarios %}
+  {% for admin in administradores %}
   <div class="modal fade text-left" id="inlineForm" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
@@ -88,85 +86,35 @@
           <div class="modal-body" style="  max-height: calc(100vh - 210px);
           overflow-y: auto;">
             <div class="row">
-              <input id="id" type="text" hidden placeholder="id" class="form-control" value="{{usuario.id}}" disabled>
+              <input id="id" type="text" hidden placeholder="id" class="form-control" value="{{admin.id}}" disabled>
               <div class="col-md-6 col-12">
                 <label for="nombre">nombre: </label>
                 <div class="form-group">
-                  <input id="nombre" type="text" placeholder="Nombre" class="form-control" value="{{usuario.first_name}}">
+                  <input id="nombre" type="text" placeholder="Nombre" class="form-control" value="{{admin.first_name}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="apellido_paterno">Apellido Paterno: </label>
                 <div class="form-group">
-                  <input id="apellido_paterno" type="text" placeholder="Apellido paterno" class="form-control" value="{{usuario.apellido_paterno}}">
+                  <input id="apellido_paterno" type="text" placeholder="Apellido paterno" class="form-control" value="{{admin.apellido_paterno}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="apellido_materno">Apellido Materno: </label>
                 <div class="form-group">
-                  <input id="apellido_materno" type="text" placeholder="Apellido materno" class="form-control" value="{{usuario.apellido_materno}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="telefono_particular">Telefono particular: </label>
-                <div class="form-group">
-                  <input id="telefono_particular" type="tel" placeholder="Telefono particular" class="form-control" value="{{usuario.telefono_particular}}">
+                  <input id="apellido_materno" type="text" placeholder="Apellido materno" class="form-control" value="{{admin.apellido_materno}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="telefono_celular">telefono celular: </label>
                 <div class="form-group">
-                  <input id="telefono_celular" type="tel" placeholder="Telefono celular" class="form-control" value="{{usuario.telefono_celular}}">
+                  <input id="telefono_celular" type="tel" placeholder="Telefono celular" class="form-control" value="{{admin.telefono_celular}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
-                <label for="genero">genero: </label>
+                <label for="domicilio_codigo_postal">nivel de acceso: </label>
                 <div class="form-group">
-                  <select name="genero" class="form-select" id="genero">
-                    {% if usuario.genero == "M" %}
-                    <option value="{{usuario.genero}}"> Masculino</option>
-                    <option value="F">Femenino</option>
-                    {% else %}
-                    <option value="{{usuario.genero}}">Femenino</option>
-                    <option value="M">Masculino</option>
-                    {% endif %}
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="ultimo_grado_estudios">Ultimo grado de estudios: </label>
-                <div class="form-group">
-                  <input id="ultimo_grado_estudios" type="text" placeholder="Ultimo grado de estudios" class="form-control" value="{{usuario.ultimo_grado_estudios}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="institucion">Institución: </label>
-                <div class="form-group">
-                  <input id="institucion" type="text" placeholder="Institucion" class="form-control" value="{{usuario.institucion}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="domicilio_calle">Calle: </label>
-                <div class="form-group">
-                  <input id="domicilio_calle" type="text" placeholder="Calle/Avenida/Camino" class="form-control" value="{{usuario.domicilio_calle}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="domicilio_numero_exterior">Numero Exterior: </label>
-                <div class="form-group">
-                  <input id="domicilio_numero_exterior" type="number" placeholder="Numero Exterior" class="form-control" value="{{usuario.domicilio_numero_exterior}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="domicilio_numero_interior">Numero interior: </label>
-                <div class="form-group">
-                  <input id="domicilio_numero_interior" type="number" placeholder="Numero interior" class="form-control" value="{{usuario.domicilio_numero_interior}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="domicilio_codigo_postal">Codigo postal: </label>
-                <div class="form-group">
-                  <input id="domicilio_codigo_postal" type="number" placeholder="Codigo postal" class="form-control" value="{{usuario.domicilio_codigo_postal}}">
+                  <input id="domicilio_codigo_postal" type="number" placeholder="Codigo postal" class="form-control" value="{{admin.nivel_acceso}}">
                 </div>
               </div>
             </div>
