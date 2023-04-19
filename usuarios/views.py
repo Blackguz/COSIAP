@@ -1,5 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
+from .forms import SolicitanteCreationForm
+from django.contrib import messages
 
 def login(request):
     if request.method == 'POST':
@@ -15,7 +17,7 @@ def login(request):
             print("Intento hacer login")
             login(request, user)
             if user.is_staff:
-                return redirect('admin:index')
+                return redirect('administracion:index')
             else:
                 return redirect('index')
         else:
@@ -25,3 +27,16 @@ def login(request):
         # mostrar el formulario de inicio de sesión
         return render(request, 'login.html')
 
+def register_solicitante(request):
+    if request.method == 'POST':
+        form = SolicitanteCreationForm(request.POST)
+        if form.is_valid():
+            solicitante = form.save()
+            login(request)
+            messages.success(request, 'Registro exitoso. Bienvenido/a!')
+            return redirect('index')
+        else:
+            messages.error(request, 'Error en el registro. Por favor, verifica tus datos.')
+    else:
+        form = SolicitanteCreationForm()
+    return render(request, 'register.html', {'form': form})

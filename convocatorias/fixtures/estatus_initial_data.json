@@ -1,0 +1,52 @@
+[
+    {
+      "model": "convocatorias.estatus",
+      "pk": 1,
+      "fields": {
+        "nombre": "Pendiente"
+      }
+    },
+    {
+      "model": "convocatorias.estatus",
+      "pk": 2,
+      "fields": {
+        "nombre": "Documentación completa"
+      }
+    },
+    {
+        "model": "convocatorias.estatus",
+        "pk": 3,
+        "fields": {
+            "nombre": "En proceso de análisis"
+        }
+    },
+    {
+        "model": "convocatorias.estatus",
+        "pk": 4,
+        "fields": {
+            "nombre": "Aceptado"
+        }
+    },
+    {
+        "model": "convocatorias.estatus",
+        "pk": 5,
+        "fields": {
+            "nombre": "Rechazado"
+        }
+    },
+    {
+        "model": "convocatorias.estatus",
+        "pk": 6,
+        "fields": {
+            "nombre": "Autorizado"
+        }
+    },
+    {
+        "model": "convocatorias.estatus",
+        "pk": 7,
+        "fields": {
+            "nombre": "Borrado"
+        }
+    }
+]
+  

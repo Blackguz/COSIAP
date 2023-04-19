@@ -1,0 +1,25 @@
+{% load static %}
+<form action="POST">
+    {% csrf_token %}
+    <div class="contenedor-campo">
+        <i class="fa-solid fa-user"></i>
+        {{form.nombre}}
+    </div>
+    <div class="contenedor-campo">
+        <i class="fa-solid fa-envelope"></i>
+        {{form.correo}}
+    </div>
+    <div class="contenedor-campo">
+        <i class="fa-solid fa-phone"></i>
+        {{form.telefono}}
+    </div>
+    <div class="contenedor-campo">
+        <i class="fa-solid fa-book"></i>
+        {{form.asunto}}
+    </div>
+    <div class="contenedor-campo" id="comentarios">
+        <i class="fa-solid fa-pencil"></i>
+        {{form.comentarios}}
+    </div>
+    <button class="boton-reg"><i class="fa fa-envelope"></i>Enviar</button>
+</form>

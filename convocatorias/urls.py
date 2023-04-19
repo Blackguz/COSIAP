@@ -1,6 +1,5 @@
 from django.urls import path
-from . import views
+from .views import index
 
 urlpatterns = [
-    #path('mi-ruta/', views.mi_vista, name='mi_vista'),
 ]
