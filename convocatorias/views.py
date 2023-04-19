@@ -11,3 +11,6 @@ def index(request):
     else:
         formulario_solicitud = SolicitudApoyoForm()
     return render(request, 'index.html', {'form': formulario_solicitud})
+
+def solicitud_de_apoyos(request):
+    return render(request, 'solicitud_apoyo.html')
