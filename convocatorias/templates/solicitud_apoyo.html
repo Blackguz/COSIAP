@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de apoyo</title>
+    <link rel="stylesheet" href="../../static/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" crossorigin="anonymous">
+</head>
+<body>
+    <header class="header-bar">
+        <nav class="topbar">
+            <div class="brand-bar">
+                <!-- Imagen del cozcyt (Color) 50px-->
+                <img id="brand-logo" src="../../static/img/icons/Logocozcyt.jpg" alt="logo_cozcyt"
+                    title="Logo COZCyT">
+            </div>
+            <a href="{% url 'index' %}" class="link-header">Inicio</a>
+            <a href="#" class="link-header">Apoyos</a>
+            <a href="#" class="link-header">Nosotros</a>
+            <a href="#" class="link-header">Contacto</a>
+            <a class="boton-reg" id="login-btn" href="#">Login/Registro</a>
+        </nav>
+    </header>
+    <main>
+        <section id="info-container">
+            <div>
+                <img src="../../static/img/icons/logodocbeca.png">
+            </div>
+            <div id="info-container-desc">
+                <!-- CAMBIAR TÍTULO DEPENDIENDO DEL APOYO -->
+                <h3 class="info-container-title">Estancias de investigación</h3>
+                <p id="section-p-descripcion">Descripción:</p>
+                <!-- CAMBIAR DESCRIPCIÓN Y PRESUPUESTO DEPENDIENDO DEL APOYO -->
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam porro vero, asperiores sit voluptatum, numquam nemo fugit cupiditate ea quam, ratione similique atque unde eaque at repudiandae voluptatem sed velit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam porro vero, asperiores sit voluptatum, numquam nemo fugit cupiditate ea quam, ratione similique atque unde eaque at repudiandae voluptatem sed velit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam porro vero, asperiores sit voluptatum, numquam nemo fugit cupiditate ea quam, ratione similique atque unde eaque at repudiandae voluptatem sed velit.</p>
+                <br>
+                <h4>Presupuesto máximo: <span>$29,000.00</span></h4>
+                <h4>Requerimientos:</h4>
+                <!-- CAMBIAR REQUERIMIENTOS DEPENDIENDO DEL APOYO -->
+                <ul>
+                    <li>Carta de recepción</li>
+                    <li>Borrador de investigación</li>
+                    <li>Presupuesto de gastos</li>
+                    <li>CURP</li>
+                    <li>Constancia de situación fiscal</li>
+                    <li>Estado de cuenta con número de cuenta visible</li>
+                    <li>INE</li>
+                </ul>
+                <h4>Reglas de operación:</h4>
+                <p>Consulta el archivo con nuestras reglas de operación dando <a href="#">click aquí.</a></p>
+            </div>
+        </section>
+        <section id="form-container">
+            <!-- CAMBIAR ESPACIOS DE FORMULARIO DEPENDIENDO DEL APOYO -->
+            <h3 id="form-container-h3">Solicitud de apoyo</h3>
+            <form>
+                <div id="forms">
+                    <div class="two-container">
+                        <div class="form-input_container">
+                            <i class="icon_container fa-solid fa-user"></i>
+                            <input class="input_container" placeholder="Tu nombre*" required title="Tu nombre">
+                        </div>
+                        <div class="form-input_container">
+                            <i class="icon_container fa-solid fa-envelope"></i>
+                            <input class="input_container" placeholder="Tu E-mail*" required title="Tu E-mail">
+                        </div>
+                    </div>
+                    <div class="two-container">
+                        <div class="form-input_container">
+                            <i class="icon_container fa-solid fa-phone"></i>
+                            <input class="input_container" placeholder="Teléfono*" required title="Teléfono">
+                        </div>
+                        <div class="form-input_container">
+                            <i class="icon_container fa-solid fa-book"></i>
+                            <input class="input_container" placeholder="Carta de recepción" title="Carta de recepción">
+                        </div>
+                    </div>
+                    <div class="two-container">
+                        <div class="form-input_container">
+                            <i class="icon_container fa-solid fa-book"></i>
+                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
+                        </div>
+                        <div class="form-input_container">
+                            <i class="icon_container fa-solid fa-book"></i>
+                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
+                        </div>
+                    </div>
+                    <div class="two-container">
+                        <div class="form-input_container">
+                            <i class="icon_container fa-solid fa-book"></i>
+                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
+                        </div>
+                        <div class="form-input_container">
+                            <i class="icon_container fa-solid fa-book"></i>
+                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
+                        </div>
+                    </div>
+                </div>
+                <div id="text-area-container">
+                    <div id="form-textarea_container">
+                        <i class="icon_container fa-solid fa-pencil"><img href="#"></i>
+                        <textarea placeholder="Notas adicionales*" title="Notas adicionales"></textarea>
+                    </div>
+                </div>
+                <div id="form-footer_container">
+                    <div id="form-footer">
+                        <button type="submit">
+                            <i class="fa-solid fa-envelope"></i>
+                            <p>ENVIAR</p>
+                        </button>
+                        <p id="form-footer_campos">* Campos requeridos</p>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <div><img href="#" title="Icono COZCYT"></div>
+        <div>
+            <h3>UBICACION</h3>
+            <p>Avenida de la juventud #504</p>
+            <p>Colonia Barros Sierra</p>
+            <p>C.P. 98090</p>
+            <p>Zacatecas, Zac.</p>
+        </div>
+        <div>
+            <h3>TELEFONOS</h3>
+            <p>492 921 3228</p>
+            <p>492 921 3018</p>
+            <p>492 921 2816</p>
+            <p>492 921 3308</p>
+        </div>
+        <div>
+            <p>© Gobierno del Estado de Zacatecas 2021 - 2027</p>
+            <div id="redes_container">
+                <a href="#"><img href="#" title="Facebook"></a>
+                <a href="#"><img href="#" title="Twitter"></a>
+                <a href="#"><img href="#" title="YouTube"></a>
+                <a href="#"><img href="#" title="Instagram"></a>
+                <a href="#"><img href="#" title="Correo"></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
