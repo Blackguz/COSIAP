@@ -20,3 +20,8 @@ class SolicitanteCreationForm(UserCreationForm):
             'domicilio_numero_interior',
             'domicilio_codigo_postal',
         )
+        def clean_genero(self):
+            genero = self.cleaned_data['genero']
+            if genero not in ['M', 'F']:
+                raise forms.ValidationError('El género debe ser Masculino o Femenino')
+            return genero
