@@ -2,6 +2,9 @@
 gitmarco.bat
 modenv.bat
 TODO.md
+# Ignorar archivos leo, jorge y marco
+.env
+
 # Ignorar archivos de migración de Django
 # Django #
 *.log
