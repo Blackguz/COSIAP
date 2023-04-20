@@ -17,7 +17,7 @@ def login_view(request):
             if user.is_staff:
                 return redirect('administracion:panel')
             else:
-                return redirect('COSIAP:index')
+                return redirect('index')
         else:
             return render(request, 'login.html', {'error': 'Usuario o contraseña incorrectos'})
     else:

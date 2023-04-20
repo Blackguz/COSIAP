@@ -101,7 +101,9 @@ def crear_administrador(request):
     if request.method == 'POST':
         form = AdministradorForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            user.is_staff = True
+            user.save()
             # Puedes agregar un mensaje de éxito aquí usando el paquete 'messages' de Django
             return redirect('administracion:administradores')
         else:

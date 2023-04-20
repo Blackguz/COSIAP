@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from convocatorias.views import index, solicitud_de_apoyos
 
-APP_NAME = 'COSIAP'
+app_name = 'COSIAP'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
