@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from convocatorias.models import Solicitud
 from usuarios.models import Solicitante, Administrador
-from usuarios.forms import SolicitanteCreationForm
+from usuarios.forms import SolicitanteCreationForm, AdministradorForm
 from django.db.models import Count
 from django.contrib.admin.views.decorators import staff_member_required
 from usuarios.forms import SolicitanteCreationForm
@@ -93,8 +93,21 @@ def crear_usuario(request):
         form = SolicitanteCreationForm()
     return render(request, 'crear_usuario.html', {'form': form})
 
+@login_required
+@staff_member_required
 def crear_administrador(request):
-    pass
+    if request.method == 'POST':
+        form = AdministradorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Puedes agregar un mensaje de éxito aquí usando el paquete 'messages' de Django
+            return redirect('administracion:administradores')
+        else:
+            # Si hay errores en el formulario, se mostrarán en la plantilla
+            return render(request, 'crear_administrador.html', {'form': form})
+    else:
+        form = AdministradorForm()
+        return render(request, 'crear_administrador.html', {'form': form})
 
 def lista_administradores(request):
     administradores = Administrador.objects.all()
@@ -102,6 +115,24 @@ def lista_administradores(request):
         "administradores": administradores
     }
     return render(request, "lista_administradores.html", context)
+
+def editar_administrador(request, id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        usuario = get_object_or_404(Administrador, id=id)
+
+        usuario.first_name = data.get("nombre")
+        usuario.apellido_materno = data.get("apellido_materno")
+        usuario.apellido_paterno = data.get("apellido_paterno")
+        usuario.telefono_celular = data.get("telefono_celular")
+        usuario.nivel_acceso = data.get("nivel_acceso")
+        print(data.get("nivel_acceso"))
+
+        try:
+            usuario.save()
+            return JsonResponse({"status": "success"}, status=200)
+        except:
+            return JsonResponse({"status": "error"}, status=400)
 
 def banear_usuario(request, id):
     pass
