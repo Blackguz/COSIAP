@@ -1,6 +1,8 @@
 {% extends 'base.html' %} 
 {% load static %}
-{% block title %} Lista de usuarios {% endblock %} 
+{% block title %} 
+  <title>Lista de usuarios </title> 
+{% endblock %} 
 {% block mainb %}
 <section class="section">
   <div class="row" id="table-striped">
@@ -39,7 +41,7 @@
                     <button type="button" 
                       class="btn btn-icon btn-primary" 
                       data-bs-toggle="modal" 
-                      data-bs-target="#inlineForm"
+                      data-bs-target="#inlineForm{{usuario.id}}"
                       ><i class="bi bi-pencil-fill"></i>
                     </button>
                     <a
@@ -73,7 +75,7 @@
 
 <section>
   {% for usuario in usuarios %}
-  <div class="modal fade text-left" id="inlineForm" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+  <div class="modal fade text-left" id="inlineForm{{usuario.id}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -88,41 +90,41 @@
           <div class="modal-body" style="  max-height: calc(100vh - 210px);
           overflow-y: auto;">
             <div class="row">
-              <input id="id" type="text" hidden placeholder="id" class="form-control" value="{{usuario.id}}" disabled>
+              <input id="id{{usuario.id}}" type="text" hidden placeholder="id" class="form-control" value="{{usuario.id}}" disabled>
               <div class="col-md-6 col-12">
                 <label for="nombre">nombre: </label>
                 <div class="form-group">
-                  <input id="nombre" type="text" placeholder="Nombre" class="form-control" value="{{usuario.first_name}}">
+                  <input id="nombre{{usuario.id}}" type="text" placeholder="Nombre" class="form-control" value="{{usuario.first_name}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="apellido_paterno">Apellido Paterno: </label>
                 <div class="form-group">
-                  <input id="apellido_paterno" type="text" placeholder="Apellido paterno" class="form-control" value="{{usuario.apellido_paterno}}">
+                  <input id="apellido_paterno{{usuario.id}}" type="text" placeholder="Apellido paterno" class="form-control" value="{{usuario.apellido_paterno}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="apellido_materno">Apellido Materno: </label>
                 <div class="form-group">
-                  <input id="apellido_materno" type="text" placeholder="Apellido materno" class="form-control" value="{{usuario.apellido_materno}}">
+                  <input id="apellido_materno{{usuario.id}}" type="text" placeholder="Apellido materno" class="form-control" value="{{usuario.apellido_materno}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="telefono_particular">Telefono particular: </label>
                 <div class="form-group">
-                  <input id="telefono_particular" type="tel" placeholder="Telefono particular" class="form-control" value="{{usuario.telefono_particular}}">
+                  <input id="telefono_particular{{usuario.id}}" type="tel" placeholder="Telefono particular" class="form-control" value="{{usuario.telefono_particular}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="telefono_celular">telefono celular: </label>
                 <div class="form-group">
-                  <input id="telefono_celular" type="tel" placeholder="Telefono celular" class="form-control" value="{{usuario.telefono_celular}}">
+                  <input id="telefono_celular{{usuario.id}}" type="tel" placeholder="Telefono celular" class="form-control" value="{{usuario.telefono_celular}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="genero">genero: </label>
                 <div class="form-group">
-                  <select name="genero" class="form-select" id="genero">
+                  <select name="genero" class="form-select" id="genero{{usuario.id}}">
                     {% if usuario.genero == "M" %}
                     <option value="{{usuario.genero}}"> Masculino</option>
                     <option value="F">Femenino</option>
@@ -136,37 +138,37 @@
               <div class="col-md-6 col-12">
                 <label for="ultimo_grado_estudios">Ultimo grado de estudios: </label>
                 <div class="form-group">
-                  <input id="ultimo_grado_estudios" type="text" placeholder="Ultimo grado de estudios" class="form-control" value="{{usuario.ultimo_grado_estudios}}">
+                  <input id="ultimo_grado_estudios{{usuario.id}}" type="text" placeholder="Ultimo grado de estudios" class="form-control" value="{{usuario.ultimo_grado_estudios}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="institucion">Institución: </label>
                 <div class="form-group">
-                  <input id="institucion" type="text" placeholder="Institucion" class="form-control" value="{{usuario.institucion}}">
+                  <input id="institucion{{usuario.id}}" type="text" placeholder="Institucion" class="form-control" value="{{usuario.institucion}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="domicilio_calle">Calle: </label>
                 <div class="form-group">
-                  <input id="domicilio_calle" type="text" placeholder="Calle/Avenida/Camino" class="form-control" value="{{usuario.domicilio_calle}}">
+                  <input id="domicilio_calle{{usuario.id}}" type="text" placeholder="Calle/Avenida/Camino" class="form-control" value="{{usuario.domicilio_calle}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="domicilio_numero_exterior">Numero Exterior: </label>
                 <div class="form-group">
-                  <input id="domicilio_numero_exterior" type="number" placeholder="Numero Exterior" class="form-control" value="{{usuario.domicilio_numero_exterior}}">
+                  <input id="domicilio_numero_exterior{{usuario.id}}" type="number" placeholder="Numero Exterior" class="form-control" value="{{usuario.domicilio_numero_exterior}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="domicilio_numero_interior">Numero interior: </label>
                 <div class="form-group">
-                  <input id="domicilio_numero_interior" type="number" placeholder="Numero interior" class="form-control" value="{{usuario.domicilio_numero_interior}}">
+                  <input id="domicilio_numero_interior{{usuario.id}}" type="number" placeholder="Numero interior" class="form-control" value="{{usuario.domicilio_numero_interior}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="domicilio_codigo_postal">Codigo postal: </label>
                 <div class="form-group">
-                  <input id="domicilio_codigo_postal" type="number" placeholder="Codigo postal" class="form-control" value="{{usuario.domicilio_codigo_postal}}">
+                  <input id="domicilio_codigo_postal{{usuario.id}}" type="number" placeholder="Codigo postal" class="form-control" value="{{usuario.domicilio_codigo_postal}}">
                 </div>
               </div>
             </div>
@@ -176,7 +178,7 @@
               <i class="bx bx-x d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Cancelar</span>
             </button>
-            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarCambios">
+            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarCambios{{usuario.id}}">
               <i class="bx bx-check d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Guardar</span>
             </button>            

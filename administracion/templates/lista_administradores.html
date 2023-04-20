@@ -1,6 +1,6 @@
 {% extends 'base.html' %} 
 {% load static %}
-{% block title %} Lista de usuarios {% endblock %} 
+{% block title %} Lista de administradores {% endblock %} 
 {% block mainb %}
 <section class="section">
   <div class="row" id="table-striped">
@@ -8,7 +8,7 @@
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">Administradores del sistema</h4>
-          <a href="{% url 'administracion:crear_usuario' %}" class="btn btn-success float-end">Crear usuario</a>
+          <a href="{% url 'administracion:crear_administrador' %}" class="btn btn-success float-end">Crear administrador</a>
         </div>
         <div class="card-content">
           <!-- table striped -->
@@ -37,7 +37,7 @@
                     <button type="button" 
                       class="btn btn-icon btn-primary" 
                       data-bs-toggle="modal" 
-                      data-bs-target="#inlineForm"
+                      data-bs-target="#inlineForm{{admin.id}}"
                       ><i class="bi bi-pencil-fill"></i>
                     </button>
                     <a
@@ -71,7 +71,7 @@
 
 <section>
   {% for admin in administradores %}
-  <div class="modal fade text-left" id="inlineForm" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+  <div class="modal fade text-left" id="inlineForm{{admin.id}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -86,35 +86,53 @@
           <div class="modal-body" style="  max-height: calc(100vh - 210px);
           overflow-y: auto;">
             <div class="row">
-              <input id="id" type="text" hidden placeholder="id" class="form-control" value="{{admin.id}}" disabled>
+              <input id="id{{admin.id}}" type="text" hidden placeholder="id" class="form-control" value="{{admin.id}}" disabled>
               <div class="col-md-6 col-12">
                 <label for="nombre">nombre: </label>
                 <div class="form-group">
-                  <input id="nombre" type="text" placeholder="Nombre" class="form-control" value="{{admin.first_name}}">
+                  <input id="nombre{{admin.id}}" type="text" placeholder="Nombre" class="form-control" value="{{admin.first_name}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="apellido_paterno">Apellido Paterno: </label>
                 <div class="form-group">
-                  <input id="apellido_paterno" type="text" placeholder="Apellido paterno" class="form-control" value="{{admin.apellido_paterno}}">
+                  <input id="apellido_paterno{{admin.id}}" type="text" placeholder="Apellido paterno" class="form-control" value="{{admin.apellido_paterno}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="apellido_materno">Apellido Materno: </label>
                 <div class="form-group">
-                  <input id="apellido_materno" type="text" placeholder="Apellido materno" class="form-control" value="{{admin.apellido_materno}}">
+                  <input id="apellido_materno{{admin.id}}" type="text" placeholder="Apellido materno" class="form-control" value="{{admin.apellido_materno}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="telefono_celular">telefono celular: </label>
                 <div class="form-group">
-                  <input id="telefono_celular" type="tel" placeholder="Telefono celular" class="form-control" value="{{admin.telefono_celular}}">
+                  <input id="telefono_celular{{admin.id}}" type="tel" placeholder="Telefono celular" class="form-control" value="{{admin.telefono_celular}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
-                <label for="domicilio_codigo_postal">nivel de acceso: </label>
+                <label for="nivel_acceso">nivel de acceso: </label>
                 <div class="form-group">
-                  <input id="domicilio_codigo_postal" type="number" placeholder="Codigo postal" class="form-control" value="{{admin.nivel_acceso}}">
+                  <select name="nivel_acceso" class="form-select" id="nivel_acceso{{admin.id}}">
+                    {% if admin.nivel_acceso == "N1" %}
+                    <option value="{{admin.nivel_acceso}}">Nivel 1</option>
+                    <option value="N2">Nivel 2</option>
+                    <option value="N3">Nivel 3</option>
+                    {% elif admin.nivel_acceso == "N2" %}
+                    <option value="{{admin.nivel_acceso}}">Nivel 2</option>
+                    <option value="N1">Nivel 1</option>
+                    <option value="N3">Nivel 3</option>>
+                    {% elif admin.nivel_acceso == "N3" %}
+                    <option value="{{admin.nivel_acceso}}">Nivel 3</option>
+                    <option value="N1">Nivel 1</option>
+                    <option value="N2">Nivel 2</option>
+                    {% else %}
+                    <option value="N1">Nivel 1</option>
+                    <option value="N2">Nivel 2</option>
+                    <option value="N3">Nivel 3</option>
+                    {% endif %}
+                  </select>
                 </div>
               </div>
             </div>
@@ -124,7 +142,7 @@
               <i class="bx bx-x d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Cancelar</span>
             </button>
-            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarCambios">
+            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarAdmin{{admin.id}}">
               <i class="bx bx-check d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Guardar</span>
             </button>            

@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Crear administradores {% endblock %} 
+{% block mainb %}
+<section id="multiple-column-form">
+  {% if messages %}
+  {% for message in messages %}
+  <script>
+    Swal.fire({
+      title: "Error",
+      text: "{{ message }}",
+      icon: "error",
+    });
+  </script>
+  {% endfor %}
+  {% endif %}
+  {% if form.errors %}
+  <div class="alert alert-danger">
+    <ul>
+      {% for field in form %}
+        {% for error in field.errors %}
+        <li>{{ field.label }}: {{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+    <span class="close-btn" onclick="this.parentElement.style.display='none';"
+      >&times;</span
+    >
+  </div>
+  {% endif %}
+  <div class="row match-height">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Crear administrador</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form
+              class="form"
+              action="{% url 'administracion:crear_administrador' %}"
+              method="POST"
+            >
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">Nombre de usuario</label>
+                    <input type="text" name="{{ form.username.name }}" class="form-control" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default:'' }}" required>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="{{ form.first_name.id_for_label }}">Nombre</label>
+                    <input type="text" name="{{ form.first_name.name }}" class="form-control" id="{{ form.first_name.id_for_label }}" value="{{ form.first_name.value|default:'' }}" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="{{ form.apellido_paterno.id_for_label }}">Apellido paterno</label>
+                      <input type="text" name="{{ form.apellido_paterno.name }}" class="form-control" id="{{ form.apellido_paterno.id_for_label }}" value="{{ form.apellido_paterno.value|default:'' }}" required>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="{{ form.apellido_materno.id_for_label }}">Apellido materno</label>
+                      <input type="text" name="{{ form.apellido_materno.name }}" class="form-control" id="{{ form.apellido_materno.id_for_label }}" value="{{ form.apellido_materno.value|default:'' }}" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Correo electrónico</label>
+                    <input type="email" name="{{ form.email.name }}" class="form-control" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default:'' }}" required>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="{{ form.password1.id_for_label }}">Contraseña</label>
+                    <input type="password" name="{{ form.password1.name }}" class="form-control" id="{{ form.password1.id_for_label }}" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="{{ form.password2.id_for_label }}">Confirma Contraseña</label>
+                    <input type="password" name="{{ form.password2.name }}" class="form-control" id="{{ form.password2.id_for_label }}" required>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="{{ form.telefono_celular.id_for_label }}">Teléfono celular</label>
+                      <input type="text" name="{{ form.telefono_celular.name }}" class="form-control" id="{{ form.telefono_celular.id_for_label }}" value="{{ form.telefono_celular.value|default:'' }}" required>
+                    </div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="{{ form.nivel_acceso.id_for_label }}">Nivel de acceso</label>
+                    <select name="{{ form.nivel_acceso.name }}" class="form-select" id="{{ form.nivel_acceso.id_for_label }}" required>
+                      <option value="N1">Nivel 1</option>
+                      <option value="N2">Nivel 2</option>
+                      <option value="N3">Nivel 3</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- Fin de campos del formulario -->
+              <div class="col-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary me-1 mb-1">
+                  Registrar
+                </button>
+                <button type="reset" class="btn btn-light-secondary me-1 mb-1">
+                  Limpiar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock mainb %}
+{% block extra_scripts %}
+{% endblock extra_scripts %}
