@@ -13,6 +13,8 @@ import json
 
 # Create your views here.
 
+@login_required
+@staff_member_required
 def panel_administracion(request):
     # Obtenemos el número de solicitudes por nivel de estudios
     estudios_nivel = get_solicitudes_por_nivel()
@@ -116,6 +118,8 @@ def lista_administradores(request):
     }
     return render(request, "lista_administradores.html", context)
 
+@login_required
+@staff_member_required
 def editar_administrador(request, id):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -134,11 +138,17 @@ def editar_administrador(request, id):
         except:
             return JsonResponse({"status": "error"}, status=400)
 
+@login_required
+@staff_member_required
 def banear_usuario(request, id):
     pass
 
+@login_required
+@staff_member_required
 def desbanear_usuario(request, id):
     pass
 
+@login_required
+@staff_member_required
 def enviar_correo(request, id):
     pass
