@@ -1,12 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.contrib.auth import get_user_model
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
+from django.http import JsonResponse
 from convocatorias.models import Solicitud
 from usuarios.models import Solicitante, Administrador
 from usuarios.forms import SolicitanteCreationForm, AdministradorForm
+from convocatorias.models import Estatus
 from django.db.models import Count
-from django.contrib.admin.views.decorators import staff_member_required
 from usuarios.forms import SolicitanteCreationForm
 from .utils import get_solicitudes_por_nivel, get_generos_solicitantes
 import json
@@ -41,15 +43,45 @@ def panel_administracion(request):
 
     return render(request, "panel.html", context)
 
+@login_required
+@staff_member_required
 def lista_usuarios(request):
-    usuarios = Solicitante.objects.all()
+    estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+    usuarios = Solicitante.objects.exclude(estatus=estatus_eliminado)
     context = {
         "usuarios": usuarios
     }
     return render(request, "lista_usuarios.html", context)
 
+
+@login_required
+@staff_member_required
 def eliminar_usuario(request, id):
-    pass
+    User = get_user_model()
+    if request.method == 'POST':
+        usuario = get_object_or_404(User, id=id)
+        estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+
+        if usuario.is_staff:
+            admin_user = Administrador.objects.get(pk=usuario.pk)
+            admin_user.estatus = estatus_eliminado
+        else:
+            solicitante_user = Solicitante.objects.get(pk=usuario.pk)
+            solicitante_user.estatus = estatus_eliminado
+
+        usuario.email = usuario.email + '_eliminado'
+        usuario.is_active = False
+        usuario.save()
+
+        if usuario.is_staff:
+            admin_user.save()
+        else:
+            solicitante_user.save()
+
+        return redirect('administracion:usuarios')
+    else:
+        # Renderizar una plantilla de confirmación de eliminación
+        return render(request, 'confirmar_eliminacion.html', {'id': id})
 
 @login_required
 @staff_member_required
@@ -113,8 +145,10 @@ def crear_administrador(request):
         form = AdministradorForm()
         return render(request, 'crear_administrador.html', {'form': form})
 
+@login_required
+@staff_member_required
 def lista_administradores(request):
-    administradores = Administrador.objects.all()
+    administradores = Administrador.objects.exclude(estatus='7')
     context = {
         "administradores": administradores
     }
