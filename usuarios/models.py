@@ -19,6 +19,7 @@ class Solicitante(User):
     domicilio_numero_exterior = models.CharField(max_length=10)
     domicilio_numero_interior = models.CharField(max_length=10, blank=True, null=True)
     domicilio_codigo_postal = models.CharField(max_length=5)
+    estatus = models.ForeignKey('convocatorias.Estatus', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Solicitantes"
@@ -33,6 +34,7 @@ class Administrador(User):
     apellido_paterno = models.CharField(max_length=30)
     telefono_celular = models.CharField(max_length=20)
     nivel_acceso = models.CharField(max_length=2, choices=NIVEL_ACCESO)
+    estatus = models.ForeignKey('convocatorias.Estatus', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Administradores"

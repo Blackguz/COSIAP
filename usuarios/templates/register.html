@@ -40,7 +40,7 @@
             <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
         </div>
         {% endif %}
-        <form class="register-form" method="POST" action="{% url 'registro' %}">
+        <form class="register-form" method="POST" action="{% url 'usuarios:registro' %}">
             {% csrf_token %}
             <h2 class="text-center mb-4">Formulario de registro para solicitantes</h2>
             <div class="form-group">
@@ -83,7 +83,7 @@
             <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
         </div>
         <div class="text-center">
-            <p>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Iniciar sesión</a></p>
+            <p>¿Ya tienes una cuenta? <a href="{% url 'usuarios:login' %}">Iniciar sesión</a></p>
         </div>
         </form>
     </div>
