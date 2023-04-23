@@ -17,6 +17,7 @@ class Modalidad(models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     presupuesto = models.DecimalField(max_digits=10, decimal_places=2)
+    estatus = models.ForeignKey('convocatorias.Estatus', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.nombre
