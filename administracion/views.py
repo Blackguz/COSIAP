@@ -4,8 +4,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.http import JsonResponse
-from convocatorias.models import Solicitud, Modalidad
-from convocatorias.forms import ModalidadForm
+from convocatorias.models import Solicitud, Modalidad, Formulario, AtributosFormulario
+from convocatorias.forms import ModalidadForm, FormularioForm, AtributoFormularioForm
+from django.forms.formsets import formset_factory
 from usuarios.models import Solicitante, Administrador
 from usuarios.forms import SolicitanteCreationForm, AdministradorForm
 from convocatorias.models import Estatus
@@ -233,3 +234,47 @@ def crear_modalidad(request):
     else:
         form = ModalidadForm()
     return render(request, 'crear_modalidad.html', {'form': form})
+
+@login_required
+@staff_member_required
+def lista_formularios(request):
+    formularios = Formulario.objects.exclude(estatus='7')
+    context = {
+        "formularios": formularios
+    }
+    return render(request, "lista_formularios.html", context)
+
+@login_required
+@staff_member_required
+def crear_formulario(request):
+    AtributoFormSet = formset_factory(AtributoFormularioForm, extra=1)
+
+    if request.method == 'POST':
+        form = FormularioForm(request.POST)
+        atributo_formset = AtributoFormSet(request.POST, prefix='atributos')
+
+        if form.is_valid() and atributo_formset.is_valid():
+            formulario = form.save()
+
+            for atributo_form in atributo_formset:
+                atributo = atributo_form.save(commit=False)
+                atributo.id_formulario = formulario
+                atributo.save()
+
+            messages.success(request, 'Formulario creado exitosamente')
+            return redirect('administracion:lista_formularios')
+        else:
+            messages.error(request, 'Error en el registro. Por favor, verifica los datos.')
+
+    else:
+        form = FormularioForm()
+        atributo_formset = AtributoFormSet(prefix='atributos')
+        estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+        modalidades = Modalidad.objects.exclude(estatus=estatus_eliminado)
+
+    context = {
+        'form': form,
+        'atributo_formset': atributo_formset,
+        'modalidades': modalidades,
+    }
+    return render(request, 'crear_formulario.html', context)

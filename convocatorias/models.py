@@ -40,7 +40,8 @@ class Solicitud(models.Model):
 class Formulario(models.Model):
     id_formulario = models.AutoField(primary_key=True)
     id_modalidad = models.ForeignKey(Modalidad, on_delete=models.CASCADE)
-    estado = models.CharField(max_length=255)
+    nombre = models.CharField(max_length=255, default='sin nombre')
+    estatus = models.ForeignKey('convocatorias.Estatus', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f'Formulario {self.id_formulario} - {self.id_modalidad.nombre}'
@@ -50,6 +51,8 @@ class AtributosFormulario(models.Model):
     id_formulario = models.ForeignKey(Formulario, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=255)
     tipo_atributo = models.CharField(max_length=255)
+    es_documento = models.BooleanField(default=False)
+    archivo = models.FileField(upload_to='documentos/', blank=True, null=True)
 
     def __str__(self):
         return f'{self.nombre} - {self.tipo_atributo}'
