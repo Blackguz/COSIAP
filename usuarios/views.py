@@ -1,32 +1,51 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import user_passes_test
 from .forms import SolicitanteCreationForm
 from django.contrib import messages
+from usuarios.models import Solicitante, Administrador
 
-def login(request):
+
+def not_authenticated(user):
+    return not user.is_authenticated
+
+@user_passes_test(not_authenticated, login_url='index', redirect_field_name=None)
+def login_view(request):
     if request.method == 'POST':
         email = request.POST.get('correo')
         password = request.POST.get('password')
 
         if not email or not password:
-            print("Mande error de que un campo no esta compleo")
             return render(request, 'login.html', {'error': 'Por favor, complete todos los campos'})
 
         user = authenticate(request, email=email, password=password)
+        
         if user is not None:
-            print("Intento hacer login")
+            try:
+                if user.is_staff:
+                    admin_user = Administrador.objects.get(pk=user.pk)
+                    user_status = admin_user.estatus
+                else:
+                    solicitante_user = Solicitante.objects.get(pk=user.pk)
+                    user_status = solicitante_user.estatus
+            except (Administrador.DoesNotExist, Solicitante.DoesNotExist):
+                return render(request, 'login.html', {'error': 'Usuario o contraseña incorrectos'})
+            
+            if user_status == "Borrado":
+                return render(request, 'login.html', {'error': 'Usuario o contraseña incorrectos'})
+            
             login(request, user)
             if user.is_staff:
-                return redirect('administracion:index')
+                return redirect('administracion:panel')
             else:
                 return redirect('index')
         else:
             return render(request, 'login.html', {'error': 'Usuario o contraseña incorrectos'})
     else:
-        print("Regreso al formulario de login")
         # mostrar el formulario de inicio de sesión
         return render(request, 'login.html')
 
+@user_passes_test(not_authenticated, login_url='index', redirect_field_name=None)
 def register_solicitante(request):
     if request.method == 'POST':
         form = SolicitanteCreationForm(request.POST)

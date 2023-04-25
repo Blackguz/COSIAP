@@ -2,10 +2,14 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}titulo de la pagina{% endblock %}</title>
+    {% block title %}<title>titulo de la pagina</title>{% endblock %}
     <link rel="stylesheet" href="{% static 'assets/css/main/app.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/main/app-dark.css' %}">
     <link rel="shortcut icon" href="{% static 'assets/images/logo/favicon.svg' %}" type="image/x-icon">
     <link rel="shortcut icon" href="{% static 'assets/images/logo/favicon.png' %}" type="image/png">
-    
-<link rel="stylesheet" href="{% static 'assets/css/shared/iconly.css' %}">
+    <script src="{% static 'assets/extensions/jquery/jquery.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'assets/css/shared/iconly.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+

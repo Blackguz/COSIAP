@@ -1,0 +1,107 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} Crear modalidad {% endblock %} 
+{% block mainb %}
+<section id="multiple-column-form">
+  {% if messages %} 
+  {% for message in messages %}
+  <script>
+    Swal.fire({
+      title: "Error",
+      text: "{{ message }}",
+      icon: "error",
+    });
+  </script>
+  {% endfor %} 
+  {% endif %} 
+  {% if form.errors %}
+  <div class="alert alert-danger">
+    <ul>
+      {% for field in form %} {% for error in field.errors %}
+      <li>{{ field.label }}: {{ error }}</li>
+      {% endfor %} {% endfor %}
+    </ul>
+    <span class="close-btn" onclick="this.parentElement.style.display='none';"
+      >&times;</span
+    >
+  </div>
+  {% endif %}
+  <div class="row match-height">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Crear modalidad</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form
+              class="form"
+              action="{% url 'administracion:crear_modalidad' %}"
+              method="POST"
+            >
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="{{ form.nombre.id_for_label }}">Nombre</label>
+                    {{ form.nombre|add_class:"form-control" }}
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="{{ form.presupuesto.id_for_label }}"
+                        >Presupuesto</label
+                      >
+                      {{ form.presupuesto|add_class:"form-control" }}
+                    </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="{{ form.fecha_inicio.id_for_label }}"
+                      >Fecha de inicio</label
+                    >
+                    {{ form.fecha_inicio|add_class:"form-control" }}
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="{{ form.fecha_fin.id_for_label }}"
+                      >Fecha de fin</label
+                    >
+                    {{ form.fecha_fin|add_class:"form-control" }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="{{ form.descripcion.id_for_label }}"
+                        >Descripción</label
+                      >
+                      {{ form.descripcion|add_class:"form-control" }}
+                    </div>
+                  </div>
+              </div>
+              <!-- Fin de campos del formulario -->
+              <div class="col-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary me-1 mb-1">
+                  Registrar
+                </button>
+                <button type="reset" class="btn btn-light-secondary me-1 mb-1">
+                  Limpiar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock mainb %} 
+{% block extra_scripts %} 
+{% endblock extra_scripts %}

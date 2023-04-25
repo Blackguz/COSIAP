@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+LOGIN_URL = '/usuarios/login/'
 
 # Application definition
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'convocatorias',
     'administracion',
     'soporte',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -87,7 +89,7 @@ DATABASES = {
         'NAME': 'COSIAP',
         'USER': 'cosiap',
         'PASSWORD': 'password123',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '3306',
     }
 }

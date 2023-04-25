@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block title %} Panel principal {% endblock %} 
 {% block mainb %}
 <div class="container">
     <h1>Panel de control</h1>
@@ -16,8 +17,8 @@
                       </div>
                     </div>
                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                      <h6 class="text-muted font-semibold">Solicitudes finalizadas</h6>
-                      <h6 class="font-extrabold mb-0">183.000</h6>
+                      <h6 class="text-muted font-semibold">Solicitudes Autorizadas</h6>
+                      <h6 class="font-extrabold mb-0">{{solicitudes_autorizado}}</h6>
                     </div>
                   </div>
                 </div>
@@ -34,7 +35,7 @@
                     </div>
                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                       <h6 class="text-muted font-semibold">Solicitudes en proceso</h6>
-                      <h6 class="font-extrabold mb-0">80.000</h6>
+                      <h6 class="font-extrabold mb-0">{{solicitudes_en_proceso}}</h6>
                     </div>
                   </div>
                 </div>
@@ -68,10 +69,10 @@
                   <div class="col-12">
                     <div class="card">
                       <div class="card-header">
-                        <h4>Profile Visit</h4>
+                        <h4>Solicitudes por nivel de estudios</h4>
                       </div>
                       <div class="card-body">
-                        <!-- Aquí la grafica -->
+                        <canvas id="solicitudesPorNivelEstudios"></canvas>
                     </div>
                     </div>
                   </div>
@@ -81,6 +82,33 @@
           </div>
     </section>
 
-    <!-- Aquí puedes agregar el contenido específico del panel de control -->
+    <section class="graficas_genero">
+      <div class="page-content">
+          <section class="row">
+              <div class="col-12 col-lg-6">
+                  <div class="card">
+                      <div class="card-header">
+                          <h4>Género de los solicitantes</h4>
+                      </div>
+                      <div class="card-body">
+                          <canvas id="solicitudesPorGenero"></canvas>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      </div>
+  </section>
+  
+
+    {% block extra_scripts %}
+    <script>
+      const niveles_estudios = {{ niveles_estudios|safe }};
+      const solicitudes_por_nivel = {{ solicitudes_por_nivel|safe }};
+      const generos = {{ generos|safe }};
+    </script>
+
+    <script src="{% static 'js/graficas_admin.js' %}"></script>
+    {% endblock extra_scripts %}
+
 </div>
 {% endblock mainb %}

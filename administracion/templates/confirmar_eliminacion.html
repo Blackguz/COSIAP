@@ -1,0 +1,15 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %} 
+  <title>Lista de usuarios </title> 
+{% endblock %} 
+{% block mainb %}
+<h2>¿Está seguro de que desea eliminar al usuario {{ id }}?</h2>
+<form method="POST" action="{% url 'administracion:eliminar_usuario' id%}">
+    {% csrf_token %}
+    <button type="submit">Confirmar eliminación</button>
+</form>
+{% endblock mainb %} 
+{% block extra_scripts %} 
+<script src="{% static 'assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+{% endblock extra_scripts %}
