@@ -2,6 +2,8 @@
 gitmarco.bat
 modenv.bat
 TODO.md
+.env
+pyvenv_info.conf
 # Ignorar archivos de migración de Django
 # Django #
 *.log
