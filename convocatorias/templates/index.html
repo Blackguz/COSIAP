@@ -40,45 +40,7 @@
         </div>
         <!-- Aquí será el display de las becas -->
         <div class="becas">
-            <div class="beca">
-                <!-- <i class="fa-solid fa-file-contract"></i> -->
-                <img src="../../static/img/icons/logodocbeca.png" alt="logo_beca">
-                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
-                <p class="presupuesto">$28,000.00</p>
-                <h3>Requerimientos</h3>
-                <ul class="requisitos">
-                    <li>Borrador</li>
-                    <li>Carta</li>
-                    <li>Estimación</li>
-                </ul>
-                <a href="solicitud_de_apoyoscd " class="boton-reg boton-beca">Inscribirme</a>
-            </div>
-            <div class="beca">
-                <!-- <i class="fa-solid fa-file-contract"></i> -->
-                <img src="../../static/img/icons/logodocbeca.png" alt="logo_beca">
-                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
-                <p class="presupuesto">$28,000.00</p>
-                <h3>Requerimientos</h3>
-                <ul class="requisitos">
-                    <li>Borrador</li>
-                    <li>Carta</li>
-                    <li>Estimación</li>
-                </ul>
-                <a href="solicitud_de_apoyos" class="boton-reg boton-beca">Inscribirme</a>
-            </div>
-            <div class="beca">
-                <!-- <i class="fa-solid fa-file-contract"></i> -->
-                <img src="../../static/img/icons/logodocbeca.png" alt="logo_beca">
-                <h3>ESTANCIAS DE INVESTIGACIÓN</h3>
-                <p class="presupuesto">$28,000.00</p>
-                <h3>Requerimientos</h3>
-                <ul class="requisitos">
-                    <li>Borrador</li>
-                    <li>Carta</li>
-                    <li>Estimación</li>
-                </ul>
-                <a href="solicitud_de_apoyos" class="boton-reg boton-beca">Inscribirme</a>
-            </div>
+            {% include "tarjeta_beca.html" %}
         </div>
         <a href="#" class="boton-reg">Ver todos</a>
     </main>
@@ -99,7 +61,7 @@
         </div>
         <img id="apoyos-img-definition" src="../../static/img/icons/becas_mex_22.jpg" alt="student-img">
     </section>
-    <section class="centered-column-container support-sect">
+    <section class="centered-column-container form-style1">
         <h2>Contactanos</h2>
         {% include "contact_form.html" %}
     </section>

@@ -1,5 +1,5 @@
 from django.forms import ModelForm, EmailInput, TextInput, NumberInput, Textarea
-from convocatorias.models import SolicitudApoyo
+from soporte.models import SolicitudApoyo
 
 input_classes = {'class': 'regular-input'}
 
@@ -14,3 +14,5 @@ class SolicitudApoyoForm(ModelForm):
             'asunto': TextInput(attrs={'placeholder': 'Asunto*', **input_classes}),
             'comentarios': Textarea(attrs={'placeholder': 'Escribe tu comentario aquí*', **input_classes})
         }
+
+
