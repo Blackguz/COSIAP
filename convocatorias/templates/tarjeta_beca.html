@@ -1,0 +1,16 @@
+{% load static %}
+{% for beca in becas %}
+<div class="beca">
+    <!-- <i class="fa-solid fa-file-contract"></i> -->
+    <img src="../../static/img/icons/logodocbeca.png" alt="logo_beca">
+    <h3>{{beca.nombre}}</h3>
+    <p class="presupuesto">${{ beca.presupuesto|floatformat:"2g" }}</p>
+    <h3>Requerimientos</h3>
+    <ul class="requisitos">
+        <li>Borrador</li>
+        <li>Carta</li>
+        <li>Estimación</li>
+    </ul>
+    <a href="solicitud_de_apoyos/{{ beca.id_modalidad }}" class="boton-reg boton-beca">Inscribirme</a>
+</div>
+{% endfor %}
