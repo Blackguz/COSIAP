@@ -52,7 +52,6 @@ class AtributosFormulario(models.Model):
     nombre = models.CharField(max_length=255)
     tipo_atributo = models.CharField(max_length=255)
     es_documento = models.BooleanField(default=False)
-    archivo = models.FileField(upload_to='documentos/', blank=True, null=True)
 
     def __str__(self):
         return f'{self.nombre} - {self.tipo_atributo}'

@@ -66,27 +66,29 @@ def eliminar_usuario(request, id):
     if request.method == 'POST':
         usuario = get_object_or_404(User, id=id)
         estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
-        if usuario.estatus == estatus_eliminado:
-            return redirect('administracion:usuarios')
+        area_enviar = True
         
         if usuario.is_staff:
-            admin_user = Administrador.objects.get(pk=usuario.pk)
-            admin_user.estatus = estatus_eliminado
+            usuario = Administrador.objects.get(pk=usuario.pk)
+            messages.success(request, 'Administrador eliminado exitosamente!')
         else:
-            solicitante_user = Solicitante.objects.get(pk=usuario.pk)
-            solicitante_user.estatus = estatus_eliminado
+            usuario = Solicitante.objects.get(pk=usuario.pk)
+            messages.success(request, 'Usuario eliminado exitosamente!')
+            area_enviar = False
+
+        if usuario.estatus == estatus_eliminado:
+            return redirect('administracion:usuarios')
 
         usuario.email = usuario.email + '_eliminado'
         usuario.is_active = False
         usuario.username = usuario.username + '_eliminado'
+        usuario.estatus = estatus_eliminado
         usuario.save()
 
-        if usuario.is_staff:
-            admin_user.save()
+        if area_enviar:
+            return redirect('administracion:administradores')
         else:
-            solicitante_user.save()
-
-        return redirect('administracion:usuarios')
+            return redirect('administracion:usuarios')
     else:
         # Renderizar una plantilla de confirmación de eliminación
         return render(request, 'confirmar_eliminacion.html', {'id': id})
@@ -131,7 +133,6 @@ para crear un usuario solicitante.
 @staff_member_required
 def crear_usuario(request):
     if request.method == 'POST':
-        print(request.POST)
         form = SolicitanteCreationForm(request.POST)
         if form.is_valid():
             solicitante = form.save()
@@ -248,6 +249,9 @@ def lista_formularios(request):
 @staff_member_required
 def crear_formulario(request):
     AtributoFormSet = formset_factory(AtributoFormularioForm, extra=1)
+    
+    estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+    modalidades = Modalidad.objects.exclude(estatus=estatus_eliminado)
 
     if request.method == 'POST':
         form = FormularioForm(request.POST)
@@ -269,8 +273,6 @@ def crear_formulario(request):
     else:
         form = FormularioForm()
         atributo_formset = AtributoFormSet(prefix='atributos')
-        estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
-        modalidades = Modalidad.objects.exclude(estatus=estatus_eliminado)
 
     context = {
         'form': form,

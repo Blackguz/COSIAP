@@ -48,32 +48,14 @@ class FormularioForm(forms.ModelForm):
 class AtributoFormularioForm(forms.ModelForm):
     class Meta:
         model = AtributosFormulario
-        fields = ['nombre', 'tipo_atributo', 'es_documento', 'archivo']
+        fields = ['nombre', 'tipo_atributo', 'es_documento']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo_atributo': forms.TextInput(attrs={'class': 'form-control'}),
             'es_documento': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'archivo': forms.FileInput(attrs={'class': 'form-control'}),
         }
         labels = {
             'nombre': 'Nombre del atributo',
             'tipo_atributo': 'Tipo de atributo',
             'es_documento': 'Es documento',
-            'archivo': 'Archivo',
         }
-
-    def clean_archivo(self):
-        archivo = self.cleaned_data.get('archivo')
-        if archivo:
-            # Validar que el archivo sea un PDF
-            content_type = archivo.content_type
-            if content_type != 'application/pdf':
-                raise ValidationError('El archivo debe ser un PDF.')
-
-            # Validar que el archivo no sea mayor a 3 MB
-            max_size_mb = 3
-            max_size_bytes = max_size_mb * 1024 * 1024
-            if archivo.size > max_size_bytes:
-                raise ValidationError(f'El archivo no debe ser mayor a {max_size_mb} MB.')
-
-        return archivo
