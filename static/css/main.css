@@ -382,9 +382,17 @@ p {
     max-width: 13rem;
 }
 
-@media (max-width: 768px) {
-    .becas > *:not(:first-child):not(:last-child) {
-        margin: 0.8rem 0;
+.becas > *:not(:first-child):not(:last-child) {
+    margin: 0.8rem 0;
+}
+
+.gdisp2 > .beca:first-child {
+    margin: 0.8rem 0;
+}
+
+@media screen and (min-width: 768px) {
+    .gdisp2 > .beca:first-child {
+        margin: 0;
     }
 }
 
