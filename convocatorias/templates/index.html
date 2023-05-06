@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,44 +7,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
-    <link rel="stylesheet" href="../../static/css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="{%static 'css/main.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+        crossorigin="anonymous">
 </head>
 
 <body>
+
     <div class="topbar-container">
         <div class="topbar-bg">
-            <header class="header-bar">
-                <nav class="topbar">
-                    <div class="brand-bar">
-                        <!-- Imagen del cozcyt (Color) 50px-->
-                        <img id="brand-logo" src="../../static/img/icons/Logocozcyt.jpg" alt="logo_cozcyt"
-                            title="Logo COZCyT">
-                    </div>
-                    <a href="#">Inicio</a>
-                    <a href="#">Apoyos</a>
-                    <a href="#">Nosotros</a>
-                    <a href="#">Contacto</a>
-                    <a class="boton-reg" id="login-btn" href="#">Login/Registro</a>
-                </nav>
-            </header>
+            {% include "navbar.html" %}
+
             <section class="welcome-sect">
                 <h1 class="title-48 white-bold">Sistema de<br>Apoyos<br>COZCyT</h1>
-                <a href="#" class="boton-reg">Crear cuenta</a>
+                {% if not request.user.is_authenticated %}
+                <a href="{%url 'usuarios:registro'%}" class="boton-reg">Crear cuenta</a>
+                {%endif%}
             </section>
+
         </div>
     </div>
+
     <main class="centered-column-container">
         <div class="info-bar">
             <h2 class="bg-text-line">Apoyos disponibles</h2>
             <p class="small-info-text">No dudes en solicitar los apoyos necesarios</p>
         </div>
         <!-- Aquí será el display de las becas -->
-        <div class="becas">
+        <div class="becas {{becas.disposicion}}">
             {% include "tarjeta_beca.html" %}
         </div>
         <a href="#" class="boton-reg">Ver todos</a>
     </main>
+
     <section class="red-info-box info-programa-cozcyt">
         <!-- Información de los apoyos de COZCyT -->
         <div class="desc-programa">
@@ -59,8 +55,9 @@
                 <b>Eventos de difusión</b>, investigación, formación
             </p>
         </div>
-        <img id="apoyos-img-definition" src="../../static/img/icons/becas_mex_22.jpg" alt="student-img">
+        <img id="apoyos-img-definition" src="{%static 'img/icons/becas_mex_22.jpg'%}" alt="student-img">
     </section>
+
     <section class="centered-column-container form-style1">
         <h2>Contactanos</h2>
         {% include "contact_form.html" %}
@@ -86,6 +83,7 @@
             <p class="small-info-text">Tel: (492)921 2816 y (492)921 3018 ext:1506</p>
         </div>
     </section>
+
     <footer class="gray-footer">
         <section>
             <div>
@@ -112,5 +110,6 @@
         </section>
     </footer>
 </body>
+<script src="{%static 'js/barra_index.js'%}"></script>
 
 </html>

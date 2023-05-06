@@ -37,6 +37,14 @@ button {
     font-size: var(--btn-font-size-def);
 }
 
+i {
+    color: white;
+}
+
+.bg-regular {
+    color: var(--bg-regular-color);
+}
+
 .container {
     height: 100vh;
     display: flex;
@@ -49,6 +57,10 @@ p {
 }
 
 /*Utilidades*/
+
+.hidden {
+    display: none;
+}
 
 .title-48 {
     font-size: 3rem;
@@ -77,6 +89,7 @@ p {
     width: 10rem;
     text-align: center;
     display: block;
+    align-items: center;
 }
 
 /*
@@ -120,13 +133,17 @@ p {
     cursor: pointer;
 }
 
+#brand-logo {
+    height: 2.4rem;
+    width: 7rem;
+}
 
 /*
     Index
 */
 
 .topbar-container {
-    /* background-image: url("../img/backgrounds/hero.jpg"); */
+    background-image: url("../img/backgrounds/hero.jpg");
     background-size: 100% 115%;
     background-repeat: no-repeat;
     background-position: center center;
@@ -147,6 +164,12 @@ p {
     font-size: var(--header-font-size-reg);
 }
 
+@media screen and (min-width: 1024px) {
+    .header-bar #brand-logo {
+        margin-left: 3rem;
+    }
+}
+
 .boton-reg #login-btn {
     font-size: var(--header-font-size-reg);
 }
@@ -158,6 +181,105 @@ p {
 .topbar {
     display: flex;
     align-items: center;
+}
+
+.navbar-btns {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    right: -100%;
+    top: 0;
+    z-index: 50;
+    height: 100vh;
+    width: 35vw;
+    background-color: var(--bg-regular-color);
+    padding: 1rem;
+    box-shadow: -0.1rem 0 0.7rem rgba(0, 0, 0, 0.7);
+    transition: right 0.8s linear;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 767px) {
+    .navbar-btns label:first-child {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 100%;
+    }
+  }
+
+.bg-navbar {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background-color: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.8s linear;
+}
+
+@media screen and (max-width: 767px) {
+    .boton-reg.boton-perfil {
+        padding: 0;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .navbar-btns {
+        flex-direction: row;
+        width: fit-content;
+        height: fit-content;
+        background-color: transparent;
+        box-shadow: none;
+        padding: 0;
+        position: static;
+    }
+
+    .bg-navbar {
+        display: none;
+    }
+}
+
+.navbar-btns > a {
+    margin: 0.75rem 0;
+}
+
+@media screen and (min-width: 768px) {
+    .navbar-btns > a {
+        margin: 0 0.8rem;
+    }
+
+    label > .navbar-displayer-btn {
+        display: none;
+    }
+
+    label > .navbar-hider-btn {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .navbar-btns > a {
+        margin: 0 1rem;
+    }
+}
+
+#check-navbar {
+    display: none;
+}
+
+#check-navbar:checked ~ .navbar-btns {
+    right: 0;
+}
+
+#check-navbar:checked ~ .bg-navbar {
+    opacity: 1;
+    z-index: 49;
 }
 
 .welcome-sect {
@@ -173,24 +295,11 @@ p {
     margin-bottom: 2rem;
 }
 
-.topbar a {
-    margin: 0 1rem;
-}
-
 .brand-bar {
     flex: 1;
     display: flex;
     padding: 1rem;
     max-height: 50px;
-}
-
-#brand-logo {
-    height: 2.4rem;
-    width: 7rem;
-}
-
-.header-bar #brand-logo {
-    margin-left: 3rem;
 }
 
 .centered-column-container .info-bar {
@@ -201,7 +310,7 @@ p {
     margin-bottom: 1rem;
 }
 
-@media (min-width: 768px) {
+@media screen and (min-width: 768px) {
     .centered-column-container .info-bar {
         width: calc(65vw + 10rem);
     }
@@ -242,10 +351,6 @@ p {
 
 @media (min-width: 768px) {
     .becas {
-        /* flex-direction: row;
-        margin-block-start: 1rem;
-        margin-inline: auto;
-        max-width: 80rem; */
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
@@ -253,6 +358,14 @@ p {
         padding: 20px;
         align-items: stretch;
         height: 27rem;
+    }
+
+    .gdisp1 {
+        grid-template-columns: 1fr;
+    }
+
+    .gdisp2 {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -287,8 +400,8 @@ p {
     }
 
     .becas .beca:hover {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
     }
 }
 

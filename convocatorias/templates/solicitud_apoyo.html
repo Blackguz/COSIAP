@@ -9,20 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" crossorigin="anonymous">
 </head>
 <body>
-    <header class="header-bar">
-        <nav class="topbar">
-            <div class="brand-bar">
-                <!-- Imagen del cozcyt (Color) 50px-->
-                <img id="brand-logo" src="../../static/img/icons/Logocozcyt.jpg" alt="logo_cozcyt"
-                    title="Logo COZCyT">
-            </div>
-            <a href="{% url 'index' %}" class="link-header">Inicio</a>
-            <a href="#" class="link-header">Apoyos</a>
-            <a href="#" class="link-header">Nosotros</a>
-            <a href="#" class="link-header">Contacto</a>
-            <a class="boton-reg" id="login-btn" href="#">Login/Registro</a>
-        </nav>
-    </header>
+    {% include "navbar.html" with a_style='link-header' displayer_style='True' link_index='True' %}
     <main>
         <section id="info-container">
             <div>
