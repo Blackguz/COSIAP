@@ -1,8 +1,8 @@
 {% load static %}
-{% for beca in becas %}
+{% for beca in becas.becas %}
 <div class="beca">
     <!-- <i class="fa-solid fa-file-contract"></i> -->
-    <img src="../../static/img/icons/logodocbeca.png" alt="logo_beca">
+    <img src="{%static 'img/icons/logodocbeca.png'%}" alt="logo_beca">
     <h3>{{beca.nombre}}</h3>
     <p class="presupuesto">${{ beca.presupuesto|floatformat:"2g" }}</p>
     <h3>Requerimientos</h3>
