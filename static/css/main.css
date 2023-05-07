@@ -92,6 +92,7 @@ p {
     text-align: center;
     display: block;
     align-items: center;
+    overflow: hidden;
 }
 
 /*
@@ -394,6 +395,10 @@ p {
 
 @media screen and (min-width: 768px) {
     .gdisp2 > .beca:first-child {
+        margin: 0;
+    }
+
+    .becas > *:not(:first-child):not(:last-child) {
         margin: 0;
     }
 }
