@@ -4,7 +4,7 @@ modenv.bat
 TODO.md
 # Ignorar archivos leo, jorge y marco
 .env
-
+pyvenv_info.conf
 # Ignorar archivos de migración de Django
 # Django #
 *.log
