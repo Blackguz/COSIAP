@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'convocatorias',
     'administracion',
     'soporte',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

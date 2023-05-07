@@ -17,6 +17,7 @@ class Modalidad(models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     presupuesto = models.DecimalField(max_digits=10, decimal_places=2)
+    estatus = models.ForeignKey('convocatorias.Estatus', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.nombre
@@ -53,13 +54,3 @@ class AtributosFormulario(models.Model):
     def __str__(self):
         return f'{self.nombre} - {self.tipo_atributo}'
 
-class SolicitudApoyo(models.Model):
-    estado_solicitud = models.CharField(max_length=255)
-    nombre = models.CharField(max_length=50)
-    correo = models.CharField(max_length=80)
-    telefono = models.DecimalField(max_digits=10, decimal_places=0)
-    asunto = models.CharField(max_length=80)
-    comentarios = models.CharField(max_length=500)
-
-    def __str__(self):
-        return f'SolicitudApoyo {self.id}: {self.__dict__}'

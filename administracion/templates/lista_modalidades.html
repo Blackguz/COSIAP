@@ -7,7 +7,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Administradores del sistema</h4>
+          <h4 class="card-title">Modalidades actuales</h4>
           <a href="{% url 'administracion:crear_administrador' %}" class="btn btn-success float-end">Crear administrador</a>
         </div>
         <div class="card-content">
@@ -16,44 +16,40 @@
             <table class="table table-striped mb-0">
               <thead>
                 <tr>
-                  <th>Nombre completo</th>
-                  <th>Correo</th>
-                  <th>Telefono celular</th>
-                  <th>Nivel de acceso</th>
+                  <th>Nombre</th>
+                  <th>descripción</th>
+                  <th>Fecha de inicio</th>
+                  <th>Fecha de finalización</th>
+                  <th>Presupuesto</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {% for admin in administradores %}
+                {% for modalidad in modalidades %}
                 <tr>
                   <td>
-                    {{admin.first_name}} {{admin.apellido_paterno}}
-                    {{admin.apellido_materno}}
+                    {{modalidad.nombre}}
                   </td>
-                  <td>{{admin.email}}</td>
-                  <td>{{admin.telefono_celular}}</td>
-                  <td>{{admin.nivel_acceso}}</td>
+                  <td>{{ modalidad.descripcion|slice:":70" }}</td>
+                  <td>{{modalidad.fecha_inicio}}</td>
+                  <td>{{modalidad.fecha_fin}}</td>
+                  <td>{{modalidad.presupuesto}}</td>
                   <td>
                     <button type="button" 
                       class="btn btn-icon btn-primary" 
                       data-bs-toggle="modal" 
-                      data-bs-target="#inlineForm{{admin.id}}"
+                      data-bs-target="#inlineForm{{modalidad.id}}"
                       ><i class="bi bi-pencil-fill"></i>
                     </button>
                     <a
-                      href="{% url 'administracion:eliminar_usuario' admin.id %}"
+                      href="#"
                       class="btn btn-icon btn-danger"
                       ><i class="bi bi-trash-fill"></i
                     ></a>
                     <a
-                      href="{% url 'administracion:banear_usuario' admin.id %}"
+                      href="#"
                       class="btn btn-icon btn-warning"
                       ><i class="bi bi-x-circle-fill"></i
-                    ></a>
-                    <a
-                      href="{% url 'administracion:enviar_correo' admin.id %}"
-                      class="btn btn-icon btn-info"
-                      ><i class="bi bi-envelope-fill"></i
                     ></a>
                   </td>
                 </tr>
@@ -70,13 +66,13 @@
 </section>
 
 <section>
-  {% for admin in administradores %}
-  <div class="modal fade text-left" id="inlineForm{{admin.id}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+  {% for modalidad in modalidades %}
+  <div class="modal fade text-left" id="inlineForm{{modalidad.id}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="myModalLabel33">
-            Editar usuario
+            Editar modalidad
           </h4>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -86,53 +82,35 @@
           <div class="modal-body" style="  max-height: calc(100vh - 210px);
           overflow-y: auto;">
             <div class="row">
-              <input id="id{{admin.id}}" type="text" hidden placeholder="id" class="form-control" value="{{admin.id}}" disabled>
+              <input id="id{{modalidad.id}}" type="text" hidden placeholder="id" class="form-control" value="{{modalidad.id}}" disabled>
               <div class="col-md-6 col-12">
-                <label for="nombre">nombre: </label>
+                <label for="nombre">Nombre: </label>
                 <div class="form-group">
-                  <input id="nombre{{admin.id}}" type="text" placeholder="Nombre" class="form-control" value="{{admin.first_name}}">
+                  <input id="nombre{{modalidad.id}}" type="text" placeholder="Nombre" class="form-control" value="{{modalidad.nombre}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
-                <label for="apellido_paterno">Apellido Paterno: </label>
+                <label for="apellido_paterno">Descripcion: </label>
                 <div class="form-group">
-                  <input id="apellido_paterno{{admin.id}}" type="text" placeholder="Apellido paterno" class="form-control" value="{{admin.apellido_paterno}}">
+                  <textarea id="apellido_paterno{{modalidad.id}}" rows="3" type="text" placeholder="Descripcion" class="form-control">{{modalidad.descripcion}}</textarea>
                 </div>
               </div>
               <div class="col-md-6 col-12">
-                <label for="apellido_materno">Apellido Materno: </label>
+                <label for="apellido_materno">Fecha de inicio: </label>
                 <div class="form-group">
-                  <input id="apellido_materno{{admin.id}}" type="text" placeholder="Apellido materno" class="form-control" value="{{admin.apellido_materno}}">
+                  <input id="apellido_materno{{modalidad.id}}" type="date" placeholder="Fecha de inicio" class="form-control" value="{{modalidad.fecha_inicio}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
-                <label for="telefono_celular">telefono celular: </label>
+                <label for="telefono_celular">Fecha de finalización: </label>
                 <div class="form-group">
-                  <input id="telefono_celular{{admin.id}}" type="tel" placeholder="Telefono celular" class="form-control" value="{{admin.telefono_celular}}">
+                  <input id="telefono_celular{{modalidad.id}}" type="date" placeholder="Fecha de finalización" class="form-control" value="{{modalidad.fecha_fin}}">
                 </div>
               </div>
               <div class="col-md-6 col-12">
-                <label for="nivel_acceso">nivel de acceso: </label>
+                <label for="telefono_celular">Presupuesto: </label>
                 <div class="form-group">
-                  <select name="nivel_acceso" class="form-select" id="nivel_acceso{{admin.id}}">
-                    {% if admin.nivel_acceso == "N1" %}
-                    <option value="{{admin.nivel_acceso}}">Nivel 1</option>
-                    <option value="N2">Nivel 2</option>
-                    <option value="N3">Nivel 3</option>
-                    {% elif admin.nivel_acceso == "N2" %}
-                    <option value="{{admin.nivel_acceso}}">Nivel 2</option>
-                    <option value="N1">Nivel 1</option>
-                    <option value="N3">Nivel 3</option>>
-                    {% elif admin.nivel_acceso == "N3" %}
-                    <option value="{{admin.nivel_acceso}}">Nivel 3</option>
-                    <option value="N1">Nivel 1</option>
-                    <option value="N2">Nivel 2</option>
-                    {% else %}
-                    <option value="N1">Nivel 1</option>
-                    <option value="N2">Nivel 2</option>
-                    <option value="N3">Nivel 3</option>
-                    {% endif %}
-                  </select>
+                  <input id="telefono_celular{{modalidad.id}}" type="number" placeholder="Presupuesto" class="form-control" value="{{modalidad.presupuesto}}">
                 </div>
               </div>
             </div>
@@ -142,7 +120,7 @@
               <i class="bx bx-x d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Cancelar</span>
             </button>
-            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarAdmin{{admin.id}}">
+            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarAdmin{{modalidad.id}}">
               <i class="bx bx-check d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Guardar</span>
             </button>            
