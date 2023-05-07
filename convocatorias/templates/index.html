@@ -13,7 +13,6 @@
 </head>
 
 <body>
-
     <div class="topbar-container">
         <div class="topbar-bg">
             {% include "navbar.html" %}
@@ -83,31 +82,6 @@
             <p class="small-info-text">Tel: (492)921 2816 y (492)921 3018 ext:1506</p>
         </div>
     </section>
-
-    <footer class="gray-footer">
-        <section>
-            <div>
-                <!-- Imagen del cozcyt (contorno) 50px-->
-                <img id="brand-logo" src="../../static/img/icons/Logocozcyt.jpg" alt="">
-            </div>
-            <div>
-                <h3>
-                    UBICACION
-                </h3>
-                <p><!-- Dirección --></p>
-            </div>
-            <div>
-                <h3>Telefonos</h3>
-                <ul>
-                    <!-- Agregar como lista los telefonos -->
-                </ul>
-            </div>
-        </section>
-        <section>
-            <img width="100" src="../../static/assets/images/faces/1.jpg" alt="logo_cozcyt" title="Logo COZCyT">
-            <h6>Gobierno del Estado de Zacatecas 2021 - 2027</h6>
-            <!-- Insertar logos facebook, twitter, youtube, instagram, correo -->
-        </section>
-    </footer>
+    {% include "footer.html" %}
 </body>
 </html>
