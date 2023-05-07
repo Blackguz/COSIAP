@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitud de apoyo</title>
-    <link rel="stylesheet" href="../../static/css/main.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" crossorigin="anonymous">
 </head>
 <body>
@@ -13,7 +14,7 @@
         <nav class="topbar">
             <div class="brand-bar">
                 <!-- Imagen del cozcyt (Color) 50px-->
-                <img id="brand-logo" src="../../static/img/icons/Logocozcyt.jpg" alt="logo_cozcyt"
+                <img id="brand-logo" src="{% static 'img/icons/Logocozcyt.jpg' %}" alt="logo_cozcyt"
                     title="Logo COZCyT">
             </div>
             <a href="{% url 'index' %}" class="link-header">Inicio</a>
@@ -26,7 +27,7 @@
     <main>
         <section id="info-container">
             <div>
-                <img src="../../static/img/icons/logodocbeca.png">
+                <img src="../../static/img/icons/logodocbeca.png" id="logobeca">
             </div>
             <div id="info-container-desc">
                 <!-- CAMBIAR TÍTULO DEPENDIENDO DEL APOYO -->
@@ -35,10 +36,10 @@
                 <!-- CAMBIAR DESCRIPCIÓN Y PRESUPUESTO DEPENDIENDO DEL APOYO -->
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam porro vero, asperiores sit voluptatum, numquam nemo fugit cupiditate ea quam, ratione similique atque unde eaque at repudiandae voluptatem sed velit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam porro vero, asperiores sit voluptatum, numquam nemo fugit cupiditate ea quam, ratione similique atque unde eaque at repudiandae voluptatem sed velit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam porro vero, asperiores sit voluptatum, numquam nemo fugit cupiditate ea quam, ratione similique atque unde eaque at repudiandae voluptatem sed velit.</p>
                 <br>
-                <h4>Presupuesto máximo: <span>$29,000.00</span></h4>
-                <h4>Requerimientos:</h4>
+                <h4 class="info-container-data">Presupuesto máximo: <span>$29,000.00</span></h4>
+                <h4 class="info-container-data">Requerimientos:</h4>
                 <!-- CAMBIAR REQUERIMIENTOS DEPENDIENDO DEL APOYO -->
-                <ul>
+                <ul id="info-container-list">
                     <li>Carta de recepción</li>
                     <li>Borrador de investigación</li>
                     <li>Presupuesto de gastos</li>
@@ -47,8 +48,8 @@
                     <li>Estado de cuenta con número de cuenta visible</li>
                     <li>INE</li>
                 </ul>
-                <h4>Reglas de operación:</h4>
-                <p>Consulta el archivo con nuestras reglas de operación dando <a href="#">click aquí.</a></p>
+                <h4 class="info-container-data">Reglas de operación:</h4>
+                <p>Consulta el archivo con nuestras reglas de operación dando <a id="click-sin-formato" href="#">click aquí.</a></p>
             </div>
         </section>
         <section id="form-container">
@@ -99,7 +100,7 @@
                 </div>
                 <div id="text-area-container">
                     <div id="form-textarea_container">
-                        <i class="icon_container fa-solid fa-pencil"><img href="#"></i>
+                        <i class="icon_container fa-solid fa-pencil"></i>
                         <textarea placeholder="Notas adicionales*" title="Notas adicionales"></textarea>
                     </div>
                 </div>
@@ -116,29 +117,35 @@
         </section>
     </main>
     <footer>
-        <div><img href="#" title="Icono COZCYT"></div>
-        <div>
-            <h3>UBICACION</h3>
-            <p>Avenida de la juventud #504</p>
-            <p>Colonia Barros Sierra</p>
-            <p>C.P. 98090</p>
-            <p>Zacatecas, Zac.</p>
+        <div id="footer-top">
+            <div>
+                <img id="footer-div-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAABHVBMVEX///95GA/74OW8RDPidXD9+/zjcWz73+RxAADt7e3u3tu3Oyb8+PZISEb09PTgbmmVlZW5NyPtx8VQUE7IenLn5+fAWUr67u7et7Da2tq7QS60tLTk2Nb86ezOzs6hoaHlmpRgYF7CwsJWVlRqamqqqqrh4eHV1dWENTGMjIzzq6zMiYKCgoLFxcVCQj/kgoDorKqOjo54EQJ2dnX0wr6YYl6yQC9rAABxcW/Jqqbyq6vBTD2ZLyKCHhN3EgSDPTenLhrPWVLRbWOxUEZ8KiHajYX21tXXfHO9SzvnnZ3kqaXoiYPVZVrWl47He3KqdnGpfnm2kIvJsq6PUUvFqqV6HRfUwr2TV1Tmy8TBa122LRO2gnzmzsrQops3Nzcr7+CAAAAPV0lEQVR4nO2dDX/TthaHVVqnMY0Ut8YDx61dvwYX29RxaX3Dlq7cUcboxtuACxf4/h/jniPZaVra0nSFxFz9GXmRJVmPjnR0JOfHCJGSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkmqsOrePdfOSWj+lm7OGuFA7W8Na97st8ad1sLpygX5tn9K7WUNcqAnCZy2hpaWD3kXaHYzgT6XRwsLgwawhLtTO1tZwW2jzfq1HP12kf9+d1G8NIDwkCkq8CnUur3+1m0D4TyQJZ66draecULmSSAMIN1utNXi7feMqug0l76z2/po1xIXabHU54fIVAJc3iCScA0lCSSgJZ6//e8JlELz8sITLNzY6HaJ0zokHmk+4fHuc7UzGxhMudybyKT8e4fKNzomMZyA2kXD5xtitTAxRoTM6oXmEyxvLw/tLm4e8/V9k3TiBt7FRE640iHBj7X5rCbR9Y4O3/qQ6wsiV/Yabazcwz9rBwePv3uppNEl4+Li7xNV9srZRz8LD7VrD4XDtZmXAnaVuq7vJCbutzdk1/xLa7B5VhMvbS62lWqL1pDptfPr4yZMhfNja2hGmFl3R3SYNILy1snqH4Hq3ff+YD9Ra2gYrdnYA7PGjxZXeyqMtABwOd25sHG5WXdFqBmGPEx7e7y6dUndp5xD4nvze6y2CVh5vbW1xg45N3SjCP74ARILWs0cCD/U7jtKnz1rHpm4U4XbrDMKjh8i3WxH2ngw372PiQffHIGwdieG5uzA2Ik9ehMSHR63GE3YPaq7dhXqc9g7QrvXnbqMJuwc11e7uzws/71YDtXe01HpYk/ceHjVktfiSsDumWFz8ZQE0+qX+OnEFGHt/kiYSHp2gwFG6u3iOVu6R5hEeLfZOYRx7mh+AsPUl349FeHAmxrEvbThh9+HuWSQnfGmjCf9c+WL+7f7MHWmlX37+ErNRhPdWTuKdoDuPsrmEZ+LVkM0nhIl3kd4sHBuykYRf4ROqGZtIeBk+zthQwgvm35mMzSD8a6UiPNt9ni9wrA0hFDZ8PpgKT2jwnDSA8MGg/S94e96+AmEbCQ+fbu3MGuJC/XPCrTknfN5uv4S3F1cifEE44dqsIS7UC0H48kqEWHJt3glftvlYe3UlwlfkGn7c+K31tj14DW/rVyJcJ5xwvn/Jvt4eLTBCjCsALrxRCelsb22dfpY6X2ILC3toiv3pF0Ru/NvD4ZYya4iLtT9o/02u5Gq4ozkczvligWj8N77re1MT7olpOJxvR8N9zB5MRPLbaErAwV0o1RnO+zQEtYXX/3vaYcoHN6z327MG+KpetAf78NaZEnD0Bp/0bw/nfDVE4TD9SKY2Ig9nN8CTzv0gJeTdgPuazt1pZuJgH024M+9ht9BbmIkfxfsUJnxLcDHcGn75u5s51OsBX7yn2WDwbQXOwiaYkM9E7hiVSwc23DeBIx0OGzALUbD/bWP4bLy5HOIAI1Jy+9lwzjdOx+qMRsJzrI8ugzhYwGiGPGstzXtIeix0NrhNJOsLX0ccvOGAT7tL3flfC8eCwJsH0sS4+zV30943MOM2AN6ZbaOn07sakT3Yu2hdHO09wCiW3AHAzZm2eFp19tvVEkBejc43Y3v0iuf5o7vUejbL9l5BtxHxOf9Vqfpi1D7Tju3RS746dP76cNR61rm4wvmTioj74szl5stB+7TLgZSXhrj608ri6pPGAYJlYC6KDT9+efUA/zGBwWAEK8kAPz54WzHdWQHAWw0EJBi2jRb29j/WX9f/fvFuH/T63YtX63Xix59WF3urn2bTwH+ut2/AjHsP1s/NcPOv1d7i6u//+Y5tumapz/cGC+3261fsjIudO+9hgPY+3GvmCK21/hp8DEy8d3+fPOi9eedWD+zXW30/3wfAl9Hb122Yj4P2Xvv1fz/dQX269353FfAWV1fef/x6BQ3Q+os3e7gijn5dFcLfE/VWPvz+Z/PtV6vz8eXdvb32ryv832tZWV398OGnPz82ZidxSSnrrz7du/X+/ftb9z6t3Wy2d5GSkpKSkvpBZGuJ1scPapjEFu4MmIbHtkTDfbkVJ05ESKShLLgEwnTFgwtGVYWX88smfg4tkcagZMjrIaHHq9M0R9NyRhzMG+ONIieJU55F5ZVC9eL+4g45v7UQFnJshV9FOZePkmIaemEGzbJp4lmlD5WzrMArGXAngZdqCVzULVAK7bZCCiTMDSwvzryqk/BiTLFdBvX59kn1eQZsoZHxJCipOxZ0oa9B7hCSrEzzLD/h+JnGS2X4jel4h8C1PC2r+ou4OZRxXRXvEEJ579KEoY9BFWNEpby5jqvAHfwcPtI+YZ/VisEdl+j4cP8y5qmfjXGySm18y8M4xPeAt5hfjqskKMm/+6Yo0ef8PI9KTR3vpOq6A63x4UKSiDxVZpfbWnOR8Kwd6LlSREmQVYgEHbhoX7c4IaEhO03IoIVRJpITZ5zqhoKTmT50r5mN+xiT9KokR/L74kKsjesME8J7QdVt6GjMZ2Sib/N8kpDB+DGoOg2hOs6uVfcrYLJlzIYhioRmQEuEtKnrurpRE9p+1bKirkh0OQnBtgEMhvS4R5wqaUzo+q7rQ9eU3nGnRYR3jKqzNDP4VyouecEkIb4ZOjYlJZcUH/LjhvA6oA+h/0KdUeF/0hIGru2qTFWVmrBf3V+L69Iuv9bRU1UNXeyR49ZDkuVOEPopVAW9loR1Hi8wDAN7QYWx6vgG5Iuyk31YEfo22DCqm3IpxUn1weSOApqmckISF3o1mgj0wolRGsFf3v8wqERaWg0Fyy+DoMQJrPMMSp3EM54apZZfNzPgcgUhSUrM51riZt4koQeDf8p5CHXmkRolUJ3m26rqUYsIQgUbqhYmYx5UabsGimge83AOppmlqn236p6IWipcZdjFRPS7hxnswCDuOGlM6InMShH0VdXJ6zEPhfmkYQG6oH4WGmo/qKeBC3eIwixFT2NiUy5vRDWmlPJlyHMpDXhfcw+qAqESYhr0uZ3pIBdIqZgC/YJSv3blOfXhKrWqpjJ0gHZAKYz4VAxfnsR0JFQwr45LEXF0SpOIBKKesKy8SITrETHxDuHYzFDGTzDdoFhen8rdSM1OLLVn3YRvKxYExtdzNVlm+g3O6MCDZK6lEE+H1SqBtdXFCM4PwBWpLq6+zPEzGhukU+r89snY36A83+Viff4B/UFdACpReUCLlYRuhj4Glgy9jtQhmx5zk6maLj6Gvlgj/IJcmyyqJ5r72QNvD4SFnsQxhlOQisG0iy2kgZZQl3QCihGtSXV3oqPtJA70Io5ZnwZ5HCcqUQMskAUK0fUSYl6sROFpFCPZkApCqLfUCooBiIEf4RYKcURoH+i0f1ZjryLVx2WeQb0eRRvWMR2sBpog1CgGirZRE+a6Rr0TdWjc1/dpFQU6FOMeG+yl+3oOJC5Pg15JsW9qwpznt2iJd3XELSAfVm1TTU/INcmr21UR6qHn4ZYRolLq8e53/QpaEMJ2p0NPjqGcd3ifFp7nwYrqjkMQiCepxQmrCDeBnDVhtekKqKFkbl1CECaZEmfX5XEsWk8qQcgXcqgcVn1f96BxQKlMEjrQSOfkGKoIwWI69Jei+/UF3TVFJYorGDSa1oQKDmMObapid6oliiA0oRaT5tdEmNJ6OFSjFMIqDHJhUqTU9wPs/miCkPl+rBUnx1Btw1jE1wGtux8GpQ2VuDixeLxfwniubagLs6J1KR8mpV/ZMNcLLfavK4ZhLrq2KGen5yF0ekiRMKQFpDm2ILR0F0JmHyBspx5aNWE13kNaYoEUCRkMEiS0RJrO6xOz2KEFQ6sm/AV7piJU4bYQlevhF429mkyf6uDc0Zc66EtxlEI7+NSIKW4wEpr5EHGCP8xguOk8oM1y4tYnGiTPBCGPPm0sRqEALDd8qmkUR20sKlGREGJT5ErqbBCRV7fgvlT4U6b70+0ozpfqJAUeKfVjqDjMUQ5uxxk/AsIcaVwksGAqsKGMxPEEg22ildWHRlaMn6IYi8bmcQGSYyWKqMTOi4QfH6Q8XziRDbssgY9w1Yv7ohRura9twbiiwmDGDfjm8q7axYb5g++D7M/O1zM1WuH8bI+8ApUIVxCWfcIKXAZVPDm1SmxnGPCteRy4CXxViwLzKqJIUlYkVuEG6DtiXHRImpQld0x9vs/3Su+MO38vWdQty7IQhBosAwxjVViucFHT8QQGE2Ed1YNSx8hSnIjzCB7XDhHaFdQvAqrjoq/i0qGXEFZ7GHtCfAMO2Tq/Ad9c1mSArcG2gLk+xCM1ISyYGiz1ho6hO+wO+kCF7lXEsYkf88PrkK/r6JVKILQz3ODaGK/YEORFE0HjLGRRp9+31UlCiKRtJghdsBESWnxfAJbMMSgDzAwDygh2ezweHMd8nDCm4qgeuGzdhYjXmy0hRCjZ56oFnNAPUt3vV6FXQR0RhXNLR7jf8GDflPCtlAYGTPCI0h9vG5CwELwe9IqNxZNZ2zA0oqhqoCB0McwUwWoKEa2rn7Qh8f2U785V3w/DBGft+TaEMLbQXX2+5iHfEOt+FT5HOu6exTyMXB59w+DlDCE+aQh8n1Vxu2dX85AGUT0PgRAm9owJXVgtAmFE4UsxEC/5KEW3mfJTCfClZaFn3JKwLeCbQ91XFaY46CiLzC/KY1+K34QvxeeHkT/TUeqVxTFhGPD1EJ8WFbgeBsfrYRS7flItfk6JLbYD8eAtwPxW6bu40Ypx/0TsxHer9TDkOWe5HkpJNUpMhTmkMvgPXvB/v4XvEIKKJ178dIZNvmKqgbtfBXOC18GzH56b//Jiigdl30uBZymOFzKrCCMSghNMrNABF+NxpxF4jkViy8KAzIIdPfMNoiaWppIwJ5FVWvDFYmZuOQpJPKLm3iwd6NlKzIjEKfQ/OEUWhhCRgqs1cY3HyAy+aIpmm3xnAYlWpBEHHScLLZVfzvsm4Y/HI88hRmxedK/ZKInAVqZmIqHlgPmg1Wkf23xM2OeEGj7p9QrGD+I8zAqXldysCHNLSwlLr+1A+9pU2KkS2o6JpskZ05Q4tTRi5mlu8qthSHIvxScrWmp7KTNDlqSOmjCWo70he8r6WuoYDmOJYdnxV+/4vRVFpsLweEUlCj5OYkaEx7nMZOIqXuEhLASyEX9gThRTFVmJypMZ5mb4QIsY5vx5GikpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpqUvofxgJGNkAX24KAAAAAElFTkSuQmCC" title="Icono COZCYT">                
+            </div>
+            <div id="footer-ubi-cont">
+                <div>
+                    <h3 class="footer-info footer-info-title">UBICACION</h3>
+                    <p class="footer-info">Avenida de la juventud #504</p>
+                    <p class="footer-info">Colonia Barros Sierra</p>
+                    <p class="footer-info">C.P. 98090</p>
+                    <p class="footer-info">Zacatecas, Zac.</p>
+                </div>
+                <div>
+                    <h3 class="footer-info footer-info-title">TELEFONOS</h3>
+                    <p class="footer-info">492 921 3228</p>
+                    <p class="footer-info">492 921 3018</p>
+                    <p class="footer-info">492 921 2816</p>
+                    <p class="footer-info">492 921 3308</p>
+                </div>
+            </div>
         </div>
-        <div>
-            <h3>TELEFONOS</h3>
-            <p>492 921 3228</p>
-            <p>492 921 3018</p>
-            <p>492 921 2816</p>
-            <p>492 921 3308</p>
-        </div>
-        <div>
-            <p>© Gobierno del Estado de Zacatecas 2021 - 2027</p>
-            <div id="redes_container">
-                <a href="#"><img href="#" title="Facebook"></a>
-                <a href="#"><img href="#" title="Twitter"></a>
-                <a href="#"><img href="#" title="YouTube"></a>
-                <a href="#"><img href="#" title="Instagram"></a>
-                <a href="#"><img href="#" title="Correo"></a>
+        <div id="footer-bottom">
+            <p id="copyright-footer">© Gobierno del Estado de Zacatecas 2021 - 2027</p>
+            <div id="redes-container">
+                <i href="#" class="fa-brands fa-facebook icon-footer"></i>
+                <i href="#" class="fa-brands fa-twitter icon-footer"></i>
+                <i href="#" class="fa-brands fa-youtube icon-footer"></i>
+                <i href="#" class="fa-brands fa-instagram icon-footer"></i>
+                <i href="#" class="fa-solid fa-envelope icon-footer"></i>
             </div>
         </div>
     </footer>
