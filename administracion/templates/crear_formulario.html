@@ -80,47 +80,46 @@
                 </div>
               </div>
               <div id="atributos">
-                <div class="row">
-                  <div class="col-md-6 col-12">
-                    <div class="form-group">
-                      <label for="{{ form.nombre.id_for_label }}"
-                        >Nombre del atributo</label
-                      >
-                      <input
-                        type="text"
-                        name="{{ form.nombre.name }}"
-                        class="form-control"
-                        id="{{ form.nombre.id_for_label }}"
-                        value="{{ form.nombre.value|default:'' }}"
-                        required
-                      />
+                {% for atributo_form in atributo_formset %}
+                <div class="formset_row">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="{{ atributo_form.nombre.id_for_label }}">Nombre del atributo</label>
+                        <input
+                          type="text"
+                          name="{{ atributo_form.nombre.name }}"
+                          class="form-control"
+                          id="{{ atributo_form.nombre.id_for_label }}"
+                          value="{{ atributo_form.nombre.value|default:'' }}"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="{{ atributo_form.tipo_atributo.id_for_label }}">Tipo de atributo</label>
+                        <select
+                          name="{{ atributo_form.tipo_atributo.name }}"
+                          class="form-select"
+                          id="{{ atributo_form.tipo_atributo.id_for_label }}"
+                          required
+                        >
+                          <option value="texto">Texto</option>
+                          <option value="numero">Número</option>
+                          <option value="fecha">Fecha</option>
+                          <option value="documento">Documento</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-md-6 col-12">
-                    <div class="form-group">
-                      <label for="{{ form.tipo_atributo.id_for_label }}"
-                        >Tipo de atributo</label
-                      >
-                      <select
-                        name="{{ form.tipo_atributo.name }}"
-                        class="form-select"
-                        id="{{ form.tipo_atributo.id_for_label }}"
-                        required
-                      >
-                      <option value="texto">Texto</option>
-                      <option value="numero">Número</option>
-                      <option value="fecha">Fecha</option>
-                      <option value="documento">Documento</option>
-                    </select>
-                  </div>
+                  <button type="button" class="btn btn-danger formset_delete">Eliminar atributo</button>
                 </div>
+                {% endfor %}
               </div>
-            </div>
-            <div class="col-12 d-flex justify-content-end">
-              <button type="button" class="btn btn-info me-1 mb-1" id="agregar-atributo">
-                Agregar atributo
-              </button>
-            </div>
+              <div class="col-12 d-flex justify-content-end">
+                <button type="button" class="btn btn-info me-1 mb-1 formset_add">Agregar atributo</button>
+              </div>
             <div class="col-12 d-flex justify-content-end">
               <button type="submit" class="btn btn-primary me-1 mb-1">
                 Registrar
@@ -139,51 +138,14 @@
 
 {% endblock mainb %} 
 {% block extra_scripts %}
+<script src="{% static 'js/jquery.formset.js' %}"></script>
 <script>
-function agregarAtributo() {
-  var atributos = document.getElementById("atributos");
-  var newRow = document.createElement("div");
-  newRow.className = "row";
-
-  newRow.innerHTML = `
-    <div class="col-md-6 col-12">
-      <div class="form-group">
-        <label for="{{ form.nombre.id_for_label }}"
-          >Nombre del atributo</label
-        >
-        <input
-          type="text"
-          name="{{ form.nombre.name }}"
-          class="form-control"
-          id="{{ form.nombre.id_for_label }}"
-          value="{{ form.nombre.value|default:'' }}"
-          required
-        />
-      </div>
-    </div>
-    <div class="col-md-6 col-12">
-      <div class="form-group">
-        <label for="{{ form.tipo_atributo.id_for_label }}"
-          >Tipo de atributo</label
-        >
-        <select
-          name="{{ form.tipo_atributo.name }}"
-          class="form-select"
-          id="{{ form.tipo_atributo.id_for_label }}"
-          required
-        >
-          <option value="texto">Texto</option>
-          <option value="numero">Número</option>
-          <option value="fecha">Fecha</option>
-          <option value="documento">Documento</option>
-        </select>
-      </div>
-    </div>
-  `;
-
-  atributos.appendChild(newRow);
-}
-
-document.getElementById("agregar-atributo").addEventListener("click", agregarAtributo);
+$(function() {
+    $('.formset_row').formset({
+        addText: 'Agregar atributo',
+        deleteText: 'Eliminar',
+        prefix: 'atributos'
+    });
+});
 </script>
 {% endblock extra_scripts %}

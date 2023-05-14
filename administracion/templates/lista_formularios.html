@@ -17,21 +17,19 @@
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>ID de la modalidad</th>
                   <th>Nombre</th>
+                  <th>Modalidad</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {% for formulario in formularios %}
                 <tr>
+                  <td>{{formulario.pk}}</td>
                   <td>
                     {{formulario.nombre}}
                   </td>
-                  <td>{{formulario.descripcion|slice:":70" }}</td>
-                  <td>{{formulario.fecha_inicio}}</td>
-                  <td>{{formulario.fecha_fin}}</td>
-                  <td>{{formulario.presupuesto}}</td>
+                  <td>{{formulario.id_modalidad}}</td>
                   <td>
                     <button type="button" 
                       class="btn btn-icon btn-primary" 
@@ -77,8 +75,7 @@
           </button>
         </div>
         <form action="#" data-bitwarden-watching="1">
-          <div class="modal-body" style="  max-height: calc(100vh - 210px);
-          overflow-y: auto;">
+          <div class="modal-body" style="max-height: calc(100vh - 210px); overflow-y: auto;">
             <div class="row">
               <input id="id{{formulario.id}}" type="text" hidden placeholder="id" class="form-control" value="{{formulario.id}}" disabled>
               <div class="col-md-6 col-12">
@@ -88,23 +85,44 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-              <i class="bx bx-x d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Cancelar</span>
-            </button>
-            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarAdmin{{formulario.id}}">
-              <i class="bx bx-check d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Guardar</span>
-            </button>            
-          </div>
-        </form>
+            {% for atributo in formulario.atributosformulario_set.all %}
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <label for="nombre-atributo-{{atributo.id_atributos_formularios}}">Nombre del atributo:</label>
+                <div class="form-group">
+                  <input id="nombre-atributo-{{atributo.id_atributos_formularios}}" type="text" placeholder="Nombre del atributo" class="form-control" value="{{atributo.nombre}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="tipo-atributo-{{atributo.id_atributos_formularios}}">Tipo de atributo:</label>
+                <div class="form-group">
+                  <input id="tipo-atributo-{{atributo.id_atributos_formularios}}" type="text" placeholder="Tipo de atributo" class="form-control" value="{{atributo.tipo_atributo}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="es-documento-{{atributo.id_atributos_formularios}}">Es documento:</label>
+                <div class="form-group">
+                  <input id="es-documento-{{atributo.id_atributos_formularios}}" type="checkbox" class="form-check-input" {% if atributo.es_documento %}checked{% endif %}>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                <i class="bx bx-x d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Cancelar</span>
+              </button>
+              <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarFormulario{{formulario.id}}">
+                <i class="bx bx-check d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Guardar</span>
+              </button>            
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  
-  {% endfor %}
+    {% endfor %}
 </section>
 {% endblock mainb %} 
 {% block extra_scripts %} 

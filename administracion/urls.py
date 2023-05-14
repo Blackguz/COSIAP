@@ -21,4 +21,5 @@ urlpatterns = [
     path('modalidades/crear/', crear_modalidad, name='crear_modalidad'),
     path('crear_formulario/', crear_formulario, name='crear_formulario'),
     path('lista_formularios/', lista_formularios, name='lista_formularios'),
+    path('actualizar_formulario/', actualizar_formulario, name='actualizar_formulario'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

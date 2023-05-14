@@ -240,6 +240,8 @@ def crear_modalidad(request):
 @staff_member_required
 def lista_formularios(request):
     formularios = Formulario.objects.exclude(estatus='7')
+    # trae todos los atributos de los formularios sin el estatus de eliminado
+    atributos = AtributosFormulario.objects.all()
     context = {
         "formularios": formularios
     }
@@ -247,9 +249,37 @@ def lista_formularios(request):
 
 @login_required
 @staff_member_required
+def actualizar_formulario(request):
+    if request.method == 'POST':
+        # Parsear JSON
+        data = json.loads(request.body)
+
+        # Obtener el objeto Formulario
+        formulario_id = data.get('id')
+        formulario = get_object_or_404(Formulario, id_formulario=formulario_id)
+
+        # Actualizar el Formulario
+        formulario.nombre = data.get('nombre')
+        formulario.save()
+
+        # Obtener y actualizar los AtributosFormulario
+        atributos_data = data.get('atributos')
+        for atributo_data in atributos_data:
+            atributo_id = atributo_data.get('id')
+            atributo = get_object_or_404(AtributosFormulario, id_atributos_formularios=atributo_id)
+            atributo.nombre = atributo_data.get('nombre')
+            atributo.tipo_atributo = atributo_data.get('tipo_atributo')
+            atributo.es_documento = atributo_data.get('es_documento')
+            atributo.save()
+
+        return JsonResponse({"status": "success"})
+    else:
+        return JsonResponse({"status": "error", "message": "Método no permitido."})
+
+@login_required
+@staff_member_required
 def crear_formulario(request):
-    AtributoFormSet = formset_factory(AtributoFormularioForm, extra=1)
-    
+    AtributoFormSet = formset_factory(AtributoFormularioForm, extra=1, min_num=0)
     estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
     modalidades = Modalidad.objects.exclude(estatus=estatus_eliminado)
 
@@ -261,9 +291,10 @@ def crear_formulario(request):
             formulario = form.save()
 
             for atributo_form in atributo_formset:
-                atributo = atributo_form.save(commit=False)
-                atributo.id_formulario = formulario
-                atributo.save()
+                if atributo_form.is_valid():
+                    atributo = atributo_form.save(commit=False)
+                    atributo.id_formulario = formulario
+                    atributo.save()
 
             messages.success(request, 'Formulario creado exitosamente')
             return redirect('administracion:lista_formularios')
