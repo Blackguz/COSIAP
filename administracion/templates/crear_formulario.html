@@ -4,15 +4,26 @@
 Crear formulario
 {% endblock %} 
 {% block mainb %}
+
 {% if messages %}
   {% for message in messages %}
-    <script>
-      Swal.fire({
-        title: "Error",
-        text: "{{ message }}",
-        icon: "error",
-      });
-    </script>
+    {% if message.tags == 'success' %}
+      <script>
+        Swal.fire({
+          title: "Error",
+          text: "{{ message }}",
+          icon: "error",
+        });
+      </script>
+    {% else %}
+      <script>
+        Swal.fire({
+          title: "Error",
+          text: "{{ message }}",
+          icon: "error",
+        });
+      </script>
+    {% endif %}
   {% endfor %}
 {% endif %}
 
@@ -29,17 +40,6 @@ Crear formulario
   </div>
 {% endif %}
 
-{% if messages %}
-  {% for message in messages %}
-    <script>
-      Swal.fire({
-        title: "Éxito",
-        text: "{{ message }}",
-        icon: "success",
-      });
-    </script>
-  {% endfor %}
-{% endif %}
 
 <section id="multiple-column-form">
   <div class="row match-height">
@@ -103,6 +103,11 @@ Crear formulario
                           </div>
                         </div>
                       </div>
+                      <div class="form-group col-12">
+                        <button type="button" class="btn btn-outline-danger btn-remove" onclick="removeForm(this)">
+                          Eliminar
+                        </button>
+                      </div>
                     </div>
                   </div>
                 {% endfor %}
@@ -132,40 +137,51 @@ Crear formulario
 {% endblock mainb %} 
 {% block extra_scripts %}
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const formContainer = document.getElementById("formset-container");
-  const addFormBtn = document.getElementById("add-form");
-
-  const TOTAL_FORMS = document.getElementById("id_form-TOTAL_FORMS");
-  const MAX_FORMS = document.getElementById("id_form-MAX_NUM_FORMS");
-
-  let formCount = parseInt(TOTAL_FORMS.value);
-  let maxForms = parseInt(MAX_FORMS.value);
-
-  addFormBtn.addEventListener("click", addForm);
-
-  function addForm(e) {
-    e.preventDefault();
-    if (formCount < maxForms) {
-      const formTemplate = document.querySelector(".atributos-container");
-      const newForm = formTemplate.cloneNode(true);
-      const formRegex = RegExp(`form-(\\d){1}-`, "g");
-      formCount++;
-      newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formCount}-`);
-
-      const parentDiv = formContainer.parentElement;
-      parentDiv.insertBefore(newForm, formContainer.nextSibling);
-
-      TOTAL_FORMS.setAttribute("value", `${formCount}`);
-    } else {
-      Swal.fire({
-        title: "Error",
-        text: "No se pueden agregar más atributos",
-        icon: "error",
-      });
+  document.addEventListener("DOMContentLoaded", function () {
+    const formContainer = document.getElementById("formset-container");
+    const addFormBtn = document.getElementById("add-form");
+  
+    const TOTAL_FORMS = document.getElementById("id_form-TOTAL_FORMS");
+    const MAX_FORMS = document.getElementById("id_form-MAX_NUM_FORMS");
+  
+    let formCount = parseInt(TOTAL_FORMS.value);
+    let maxForms = parseInt(MAX_FORMS.value);
+  
+    addFormBtn.addEventListener("click", addForm);
+  
+    function addForm(e) {
+      e.preventDefault();
+      if (formCount < maxForms) {
+        const formTemplate = document.querySelector(".atributos-container");
+        const newForm = formTemplate.cloneNode(true);
+        const formRegex = RegExp(`form-(\\d){1}-`, "g");
+        formCount++;
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formCount}-`);
+  
+        const removeBtn = newForm.querySelector(".btn-remove");
+        removeBtn.addEventListener("click", function () {
+          removeForm(this);
+        });
+  
+        const parentDiv = formContainer.parentElement;
+        parentDiv.insertBefore(newForm, formContainer.nextSibling);
+  
+        TOTAL_FORMS.setAttribute("value", `${formCount}`);
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "No se pueden agregar más atributos",
+          icon: "error",
+        });
+      }
     }
-  }
-});
-
-</script>
+  
+    function removeForm(btn) {
+      const formContainer = btn.closest(".atributos-container");
+      formContainer.remove();
+      formCount--;
+      TOTAL_FORMS.setAttribute("value", `${formCount}`);
+    }
+  });
+  </script>
 {% endblock extra_scripts %}

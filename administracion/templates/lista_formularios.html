@@ -5,13 +5,23 @@
 
 {% if messages %}
   {% for message in messages %}
-    <script>
-      Swal.fire({
-        title: "Error",
-        text: "{{ message }}",
-        icon: "error",
-      });
-    </script>
+    {% if message.tags == 'success' %}
+      <script>
+        Swal.fire({
+          title: "Error",
+          text: "{{ message }}",
+          icon: "error",
+        });
+      </script>
+    {% else %}
+      <script>
+        Swal.fire({
+          title: "Error",
+          text: "{{ message }}",
+          icon: "error",
+        });
+      </script>
+    {% endif %}
   {% endfor %}
 {% endif %}
 
@@ -26,18 +36,6 @@
     </ul>
     <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
   </div>
-{% endif %}
-
-{% if messages %}
-  {% for message in messages %}
-    <script>
-      Swal.fire({
-        title: "Éxito",
-        text: "{{ message }}",
-        icon: "success",
-      });
-    </script>
-  {% endfor %}
 {% endif %}
 
 
