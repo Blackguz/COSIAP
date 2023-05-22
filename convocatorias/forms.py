@@ -51,7 +51,7 @@ class AtributoFormularioForm(forms.ModelForm):
         fields = ['nombre', 'tipo_atributo', 'es_documento']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-            'tipo_atributo': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo_atributo': forms.Select(attrs={'class': 'form-select'}),
             'es_documento': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         labels = {

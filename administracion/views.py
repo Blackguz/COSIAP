@@ -279,35 +279,34 @@ def actualizar_formulario(request):
 @login_required
 @staff_member_required
 def crear_formulario(request):
-    AtributoFormSet = formset_factory(AtributoFormularioForm, extra=1, min_num=0)
-    estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
-    modalidades = Modalidad.objects.exclude(estatus=estatus_eliminado)
-
+    AtributosFormset = formset_factory(AtributoFormularioForm, extra=1)
+    modalidades = Modalidad.objects.exclude(estatus='7')
     if request.method == 'POST':
-        form = FormularioForm(request.POST)
-        atributo_formset = AtributoFormSet(request.POST, prefix='atributos')
+        formset = AtributosFormset(request.POST)
+        nombre_formulario = request.POST.get('nombre')
+        id_modalidad = request.POST.get('id_modalidad')
+        print("nombre_formulario: ", nombre_formulario, "id_modalidad: ", id_modalidad)
+        print(request.POST)
+        
+        if nombre_formulario and id_modalidad:
+            modalidad = Modalidad.objects.get(pk=id_modalidad)
+            formulario = Formulario.objects.create(nombre=nombre_formulario, id_modalidad=modalidad)
+            formulario.save()
 
-        if form.is_valid() and atributo_formset.is_valid():
-            formulario = form.save()
-
-            for atributo_form in atributo_formset:
-                if atributo_form.is_valid():
-                    atributo = atributo_form.save(commit=False)
-                    atributo.id_formulario = formulario
-                    atributo.save()
-
-            messages.success(request, 'Formulario creado exitosamente')
-            return redirect('administracion:lista_formularios')
+            if formset.is_valid():
+                for form in formset:
+                    if form.is_valid():
+                        atributo = form.save(commit=False)
+                        atributo.id_formulario = formulario  # Asignar el formulario al atributo
+                        atributo.save()
+                
+                messages.success(request, 'Registro exitoso!')
+                return redirect('administracion:lista_formularios')
+            else:
+                messages.error(request, 'Error en el registro. Por favor, verifica los datos.')
         else:
-            messages.error(request, 'Error en el registro. Por favor, verifica los datos.')
-
+            messages.error(request, 'Error en el registro. Por favor, proporciona el nombre del formulario y la modalidad.')
     else:
-        form = FormularioForm()
-        atributo_formset = AtributoFormSet(prefix='atributos')
-
-    context = {
-        'form': form,
-        'atributo_formset': atributo_formset,
-        'modalidades': modalidades,
-    }
-    return render(request, 'crear_formulario.html', context)
+        formset = AtributosFormset()
+    
+    return render(request, 'crear_formulario.html', {'formset': formset, 'modalidades': modalidades})

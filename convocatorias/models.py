@@ -47,10 +47,17 @@ class Formulario(models.Model):
         return f'Formulario {self.id_formulario} - {self.id_modalidad.nombre}'
 
 class AtributosFormulario(models.Model):
+    TIPO_OPCIONES = [
+        ('Texto', 'Texto'),
+        ('Numero', 'Numero'),
+        ('Fecha', 'Fecha'),
+        ('Documento', 'Documento'),
+        ('Telefono', 'Telefono'),
+    ]
     id_atributos_formularios = models.AutoField(primary_key=True)
     id_formulario = models.ForeignKey(Formulario, on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=255)
-    tipo_atributo = models.CharField(max_length=255)
+    nombre = models.CharField(max_length=85)
+    tipo_atributo = models.CharField(max_length=15, choices=TIPO_OPCIONES)
     es_documento = models.BooleanField(default=False)
 
     def __str__(self):

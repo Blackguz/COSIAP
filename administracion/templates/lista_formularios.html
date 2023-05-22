@@ -2,6 +2,46 @@
 {% load static %}
 {% block title %} Lista de administradores {% endblock %} 
 {% block mainb %}
+
+{% if messages %}
+  {% for message in messages %}
+    <script>
+      Swal.fire({
+        title: "Error",
+        text: "{{ message }}",
+        icon: "error",
+      });
+    </script>
+  {% endfor %}
+{% endif %}
+
+{% if form.errors %}
+  <div class="alert alert-danger">
+    <ul>
+      {% for field in form %}
+        {% for error in field.errors %}
+          <li>{{ field.label }}: {{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+    <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+  </div>
+{% endif %}
+
+{% if messages %}
+  {% for message in messages %}
+    <script>
+      Swal.fire({
+        title: "Éxito",
+        text: "{{ message }}",
+        icon: "success",
+      });
+    </script>
+  {% endfor %}
+{% endif %}
+
+
+
 <section class="section">
   <div class="row" id="table-striped">
     <div class="col-12">
