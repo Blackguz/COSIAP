@@ -158,4 +158,81 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
+    /* Apartado para la creación de formularios */
+    // Agregamos eventos al boton para guardar administradores
+    document.querySelectorAll("[id^=GuardarFormulario]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const id = button.id.replace("GuardarFormulario", "");
+            GuardarFormulario(id);
+        });
+    });
+
+    function GuardarFormulario(id) {
+        // Obtener los valores de los campos del formulario
+        const nombre = document.getElementById(`nombre${id}`).value;
+    
+        // Obtener los atributos del formulario
+        const atributos = [];
+        document.querySelectorAll(`[id^=nombre-atributo-]`).forEach((input) => {
+            const atributoId = input.id.replace("nombre-atributo-", "");
+            const nombreAtributo = input.value;
+            const tipoAtributo = document.getElementById(`tipo-atributo-${atributoId}`).value;
+            const esDocumento = document.getElementById(`es-documento-${atributoId}`).checked;
+    
+            atributos.push({
+                id: atributoId,
+                nombre: nombreAtributo,
+                tipo_atributo: tipoAtributo,
+                es_documento: esDocumento,
+            });
+        });
+    
+        // Preparar los datos en un objeto
+        const data = {
+            id: id,
+            nombre: nombre,
+            atributos: atributos,
+            csrfmiddlewaretoken: csrf_token,
+        };
+    
+        // Realizar la solicitud AJAX a la vista de actualización en Django
+        fetch(`/administracion/actualizar_formulario/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    // Mostrar mensaje de éxito y recargar la página
+                    Swal.fire({
+                        title: "Exito",
+                        text: "Formulario actualizado correctamente",
+                        icon: "success",
+                        confirmButtonText: "Aceptar",
+                    });
+                    location.reload();
+                } else {
+                    // Mostrar mensaje de error
+                    Swal.fire({
+                        title: "Error",
+                        text: "Error al actualizar el formulario. Por favor, verifica los datos.",
+                        icon: "error",
+                        confirmButtonText: "Aceptar",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                Swal.fire({
+                    title: "Error",
+                    text: "Error al actualizar el formulario. Por favor, verifica los datos.",
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                });
+            });
+    }
+
 });

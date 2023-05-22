@@ -7,8 +7,8 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Modalidades actuales</h4>
-          <a href="{% url 'administracion:crear_modalidad' %}" class="btn btn-success float-end">Crear modalidad</a>
+          <h4 class="card-title">formularios actuales</h4>
+          <a href="{% url 'administracion:crear_formulario' %}" class="btn btn-success float-end">Crear formulario</a>
         </div>
         <div class="card-content">
           <!-- table striped -->
@@ -16,29 +16,25 @@
             <table class="table table-striped mb-0">
               <thead>
                 <tr>
+                  <th>ID</th>
                   <th>Nombre</th>
-                  <th>descripción</th>
-                  <th>Fecha de inicio</th>
-                  <th>Fecha de finalización</th>
-                  <th>Presupuesto</th>
+                  <th>Modalidad</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {% for modalidad in modalidades %}
+                {% for formulario in formularios %}
                 <tr>
+                  <td>{{formulario.pk}}</td>
                   <td>
-                    {{modalidad.nombre}}
+                    {{formulario.nombre}}
                   </td>
-                  <td>{{ modalidad.descripcion|slice:":70" }}</td>
-                  <td>{{modalidad.fecha_inicio}}</td>
-                  <td>{{modalidad.fecha_fin}}</td>
-                  <td>{{modalidad.presupuesto}}</td>
+                  <td>{{formulario.id_modalidad}}</td>
                   <td>
                     <button type="button" 
                       class="btn btn-icon btn-primary" 
                       data-bs-toggle="modal" 
-                      data-bs-target="#inlineForm{{modalidad.id}}"
+                      data-bs-target="#inlineForm{{formulario.id}}"
                       ><i class="bi bi-pencil-fill"></i>
                     </button>
                     <a
@@ -54,7 +50,7 @@
                   </td>
                 </tr>
                 {% empty %}
-                <h2>No se encontraron administradores.</h2>
+                <h2>No se encontraron formularios.</h2>
                 {% endfor %}
               </tbody>
             </table>
@@ -66,71 +62,67 @@
 </section>
 
 <section>
-  {% for modalidad in modalidades %}
-  <div class="modal fade text-left" id="inlineForm{{modalidad.id}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+  {% for formulario in formularios %}
+  <div class="modal fade text-left" id="inlineForm{{formulario.id}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="myModalLabel33">
-            Editar modalidad
+            Editar formulario
           </h4>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
         <form action="#" data-bitwarden-watching="1">
-          <div class="modal-body" style="  max-height: calc(100vh - 210px);
-          overflow-y: auto;">
+          <div class="modal-body" style="max-height: calc(100vh - 210px); overflow-y: auto;">
             <div class="row">
-              <input id="id{{modalidad.id}}" type="text" hidden placeholder="id" class="form-control" value="{{modalidad.id}}" disabled>
+              <input id="id{{formulario.id}}" type="text" hidden placeholder="id" class="form-control" value="{{formulario.id}}" disabled>
               <div class="col-md-6 col-12">
                 <label for="nombre">Nombre: </label>
                 <div class="form-group">
-                  <input id="nombre{{modalidad.id}}" type="text" placeholder="Nombre" class="form-control" value="{{modalidad.nombre}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="apellido_paterno">Descripcion: </label>
-                <div class="form-group">
-                  <textarea id="apellido_paterno{{modalidad.id}}" rows="3" type="text" placeholder="Descripcion" class="form-control">{{modalidad.descripcion}}</textarea>
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="apellido_materno">Fecha de inicio: </label>
-                <div class="form-group">
-                  <input id="apellido_materno{{modalidad.id}}" type="date" placeholder="Fecha de inicio" class="form-control" value="{{modalidad.fecha_inicio}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="telefono_celular">Fecha de finalización: </label>
-                <div class="form-group">
-                  <input id="telefono_celular{{modalidad.id}}" type="date" placeholder="Fecha de finalización" class="form-control" value="{{modalidad.fecha_fin}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="telefono_celular">Presupuesto: </label>
-                <div class="form-group">
-                  <input id="telefono_celular{{modalidad.id}}" type="number" placeholder="Presupuesto" class="form-control" value="{{modalidad.presupuesto}}">
+                  <input id="nombre{{formulario.id}}" type="text" placeholder="Nombre" class="form-control" value="{{formulario.nombre}}">
                 </div>
               </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-              <i class="bx bx-x d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Cancelar</span>
-            </button>
-            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarAdmin{{modalidad.id}}">
-              <i class="bx bx-check d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Guardar</span>
-            </button>            
-          </div>
-        </form>
+            {% for atributo in formulario.atributosformulario_set.all %}
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <label for="nombre-atributo-{{atributo.id_atributos_formularios}}">Nombre del atributo:</label>
+                <div class="form-group">
+                  <input id="nombre-atributo-{{atributo.id_atributos_formularios}}" type="text" placeholder="Nombre del atributo" class="form-control" value="{{atributo.nombre}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="tipo-atributo-{{atributo.id_atributos_formularios}}">Tipo de atributo:</label>
+                <div class="form-group">
+                  <input id="tipo-atributo-{{atributo.id_atributos_formularios}}" type="text" placeholder="Tipo de atributo" class="form-control" value="{{atributo.tipo_atributo}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="es-documento-{{atributo.id_atributos_formularios}}">Es documento:</label>
+                <div class="form-group">
+                  <input id="es-documento-{{atributo.id_atributos_formularios}}" type="checkbox" class="form-check-input" {% if atributo.es_documento %}checked{% endif %}>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                <i class="bx bx-x d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Cancelar</span>
+              </button>
+              <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarFormulario{{formulario.id}}">
+                <i class="bx bx-check d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Guardar</span>
+              </button>            
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  
-  {% endfor %}
+    {% endfor %}
 </section>
 {% endblock mainb %} 
 {% block extra_scripts %} 
