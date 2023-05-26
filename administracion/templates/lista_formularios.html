@@ -8,9 +8,9 @@
     {% if message.tags == 'success' %}
       <script>
         Swal.fire({
-          title: "Error",
+          title: "Exito",
           text: "{{ message }}",
-          icon: "error",
+          icon: "success",
         });
       </script>
     {% else %}
@@ -72,18 +72,13 @@
                     <button type="button" 
                       class="btn btn-icon btn-primary" 
                       data-bs-toggle="modal" 
-                      data-bs-target="#inlineForm{{formulario.id}}"
+                      data-bs-target="#inlineForm{{formulario.pk}}"
                       ><i class="bi bi-pencil-fill"></i>
                     </button>
                     <a
-                      href="#"
+                      href="{% url 'administracion:eliminar_formulario' formulario.pk %}"
                       class="btn btn-icon btn-danger"
                       ><i class="bi bi-trash-fill"></i
-                    ></a>
-                    <a
-                      href="#"
-                      class="btn btn-icon btn-warning"
-                      ><i class="bi bi-x-circle-fill"></i
                     ></a>
                   </td>
                 </tr>
@@ -101,7 +96,7 @@
 
 <section>
   {% for formulario in formularios %}
-  <div class="modal fade text-left" id="inlineForm{{formulario.id}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+  <div class="modal fade text-left" id="inlineForm{{formulario.pk}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -115,11 +110,11 @@
         <form action="#" data-bitwarden-watching="1">
           <div class="modal-body" style="max-height: calc(100vh - 210px); overflow-y: auto;">
             <div class="row">
-              <input id="id{{formulario.id}}" type="text" hidden placeholder="id" class="form-control" value="{{formulario.id}}" disabled>
+              <input id="id{{formulario.pk}}" type="text" hidden placeholder="id" class="form-control" value="{{formulario.pk}}" disabled>
               <div class="col-md-6 col-12">
                 <label for="nombre">Nombre: </label>
                 <div class="form-group">
-                  <input id="nombre{{formulario.id}}" type="text" placeholder="Nombre" class="form-control" value="{{formulario.nombre}}">
+                  <input id="nombre{{formulario.pk}}" type="text" placeholder="Nombre" class="form-control" value="{{formulario.nombre}}">
                 </div>
               </div>
             </div>

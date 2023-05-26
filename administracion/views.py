@@ -249,6 +249,21 @@ def lista_formularios(request):
 
 @login_required
 @staff_member_required
+def eliminar_modalidad(request, id):
+    modalidad = get_object_or_404(Modalidad, id_modalidad=id)
+    if modalidad.estatus == '7':
+        messages.error(request, 'La modalidad ya se encuentra eliminada.')
+        return redirect('administracion:modalidades')
+    
+    else:
+        estatus = Estatus.objects.get(pk='7')
+        modalidad.estatus = estatus
+        modalidad.save()
+        messages.success(request, 'La modalidad se ha eliminado correctamente.')
+        return redirect('administracion:modalidades')
+
+@login_required
+@staff_member_required
 def actualizar_formulario(request):
     if request.method == 'POST':
         # Parsear JSON
@@ -310,3 +325,18 @@ def crear_formulario(request):
         formset = AtributosFormset()
     
     return render(request, 'crear_formulario.html', {'formset': formset, 'modalidades': modalidades})
+
+@login_required
+@staff_member_required
+def eliminar_formulario(request, id):
+    formulario = get_object_or_404(Formulario, id_formulario=id)
+    if formulario.estatus == '7':
+        messages.error(request, 'El formulario ya ha sido eliminado.')
+        return redirect('administracion:lista_formularios')
+    else:
+        AtributosFormulario.objects.filter(id_formulario=formulario).delete()
+        estatus = Estatus.objects.get(pk='7')
+        formulario.estatus = estatus
+        formulario.save()
+        messages.success(request, 'Formulario eliminado.')
+        return redirect('administracion:lista_formularios')
