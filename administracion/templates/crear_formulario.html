@@ -1,151 +1,187 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block title %} Crear formulario {% endblock %}
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %} 
+Crear formulario
+{% endblock %} 
 {% block mainb %}
-<section id="multiple-column-form">
-  {% if messages %}
+
+{% if messages %}
   {% for message in messages %}
-  <script>
-    Swal.fire({
-      title: "Error",
-      text: "{{ message }}",
-      icon: "error",
-    });
-  </script>
+    {% if message.tags == 'success' %}
+      <script>
+        Swal.fire({
+          title: "Error",
+          text: "{{ message }}",
+          icon: "error",
+        });
+      </script>
+    {% else %}
+      <script>
+        Swal.fire({
+          title: "Error",
+          text: "{{ message }}",
+          icon: "error",
+        });
+      </script>
+    {% endif %}
   {% endfor %}
-  {% endif %}
-  {% if form.errors %}
+{% endif %}
+
+{% if form.errors %}
   <div class="alert alert-danger">
     <ul>
       {% for field in form %}
-      {% for error in field.errors %}
-      <li>{{ field.label }}: {{ error }}</li>
-      {% endfor %}
+        {% for error in field.errors %}
+          <li>{{ field.label }}: {{ error }}</li>
+        {% endfor %}
       {% endfor %}
     </ul>
-    <span class="close-btn" onclick="this.parentElement.style.display='none';"
-      >&times;</span
-    >
+    <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
   </div>
-  {% endif %}
+{% endif %}
+
+
+<section id="multiple-column-form">
   <div class="row match-height">
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Crear formulario</h4>
+          <h4 class="card-title">Crear Formulario</h4>
         </div>
         <div class="card-content">
           <div class="card-body">
-            <form
-              class="form"
-              action="{% url 'administracion:crear_formulario' %}"
-              method="POST"
-              enctype="multipart/form-data"
-            >
-              {% csrf_token %}
-              <div class="row">
-                <div class="col-md-6 col-12">
-                  <div class="form-group">
-                    <label for="{{ form.nombre.id_for_label }}"
-                      >Nombre del formulario</label
-                    >
-                    <input
-                      type="text"
-                      name="{{ form.nombre.name }}"
-                      class="form-control"
-                      id="{{ form.nombre.id_for_label }}"
-                      value="{{ form.nombre.value|default:'' }}"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6 col-12">
-                  <div class="form-group">
-                    <label for="{{ form.id_modalidad.id_for_label }}"
-                      >Modalidad</label
-                    >
-                    <select
-                      name="{{ form.id_modalidad.name }}"
-                      class="form-select"
-                      id="{{ form.id_modalidad.id_for_label }}"
-                      required
-                    >
-                      {% for modalidad in modalidades %}
-                      <option value="{{ modalidad.id_modalidad }}">
-                        {{ modalidad.nombre }}
-                      </option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div id="atributos">
-                {% for atributo_form in atributo_formset %}
-                <div class="formset_row">
-                  <div class="row">
-                    <div class="col-md-6 col-12">
-                      <div class="form-group">
-                        <label for="{{ atributo_form.nombre.id_for_label }}">Nombre del atributo</label>
-                        <input
-                          type="text"
-                          name="{{ atributo_form.nombre.name }}"
-                          class="form-control"
-                          id="{{ atributo_form.nombre.id_for_label }}"
-                          value="{{ atributo_form.nombre.value|default:'' }}"
-                          required
-                        />
-                      </div>
+            <form class="form" id="atributos_formulario" method="post" action="{% url 'administracion:crear_formulario' %}">
+              <div id="formset-container">
+                <div class="row">
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="nombre">Nombre del formulario</label>
+                      <input id="nombre" class="form-control" name="nombre" placeholder="Nombre del formulario">
                     </div>
-                    <div class="col-md-6 col-12">
-                      <div class="form-group">
-                        <label for="{{ atributo_form.tipo_atributo.id_for_label }}">Tipo de atributo</label>
-                        <select
-                          name="{{ atributo_form.tipo_atributo.name }}"
-                          class="form-select"
-                          id="{{ atributo_form.tipo_atributo.id_for_label }}"
-                          required
-                        >
-                          <option value="texto">Texto</option>
-                          <option value="numero">Número</option>
-                          <option value="fecha">Fecha</option>
-                          <option value="documento">Documento</option>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="modalidad">Modalidad</label>
+                      <fieldset class="form-group">
+                        <select class="form-select" id="id_modalidad" name="id_modalidad">
+                          {% for modalidad in modalidades %}
+                            <option value="{{ modalidad.pk }}">{{ modalidad.nombre }}</option>
+                          {% endfor %}
                         </select>
+                      </fieldset>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    {{ form.tipo_atributo.label_tag }}
+                    <fieldset class="form-group">
+                      {{ form.tipo_atributo }}
+                    </fieldset>
+                  </div>
+                </div>
+                {% csrf_token %}
+                {{formset.management_form}}
+                {% for form in formset %}
+                  <div class="atributos-container">
+                    <div class="row">
+                      <div class="col-md-6 col-12">
+                        <div class="form-group">
+                          {{ form.nombre.label_tag }}
+                          {{ form.nombre }}
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        {{ form.tipo_atributo.label_tag }}
+                        <fieldset class="form-group">
+                          {{ form.tipo_atributo }}
+                        </fieldset>
+                      </div>
+                      <div class="form-group col-12">
+                        <div class="form-check">
+                          <div class="checkbox">
+                            {{ form.es_documento.label_tag }}
+                            {{ form.es_documento }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group col-12">
+                        <button type="button" class="btn btn-outline-danger btn-remove" onclick="removeForm(this)">
+                          Eliminar
+                        </button>
                       </div>
                     </div>
                   </div>
-                  <button type="button" class="btn btn-danger formset_delete">Eliminar atributo</button>
-                </div>
                 {% endfor %}
               </div>
-              <div class="col-12 d-flex justify-content-end">
-                <button type="button" class="btn btn-info me-1 mb-1 formset_add">Agregar atributo</button>
+              <div class="form-group col-12">
+                <button type="button" class="btn btn-outline-info" id="add-form">
+                  Agregar atributo
+                </button>
               </div>
-            <div class="col-12 d-flex justify-content-end">
-              <button type="submit" class="btn btn-primary me-1 mb-1">
-                Registrar
-              </button>
-              <button type="reset" class="btn btn-light-secondary me-1 mb-1">
-                Limpiar
-              </button>
-            </div>
-          </form>
+              <div class="col-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary me-1 mb-1">
+                  Enviar
+                </button>
+                <button type="reset" class="btn btn-light-secondary me-1 mb-1">
+                  Limpiar
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </section>
+
 
 {% endblock mainb %} 
 {% block extra_scripts %}
-<script src="{% static 'js/jquery.formset.js' %}"></script>
 <script>
-$(function() {
-    $('.formset_row').formset({
-        addText: 'Agregar atributo',
-        deleteText: 'Eliminar',
-        prefix: 'atributos'
-    });
-});
-</script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const formContainer = document.getElementById("formset-container");
+    const addFormBtn = document.getElementById("add-form");
+  
+    const TOTAL_FORMS = document.getElementById("id_form-TOTAL_FORMS");
+    const MAX_FORMS = document.getElementById("id_form-MAX_NUM_FORMS");
+  
+    let formCount = parseInt(TOTAL_FORMS.value);
+    let maxForms = parseInt(MAX_FORMS.value);
+  
+    addFormBtn.addEventListener("click", addForm);
+  
+    function addForm(e) {
+      e.preventDefault();
+      if (formCount < maxForms) {
+        const formTemplate = document.querySelector(".atributos-container");
+        const newForm = formTemplate.cloneNode(true);
+        const formRegex = RegExp(`form-(\\d){1}-`, "g");
+        formCount++;
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formCount}-`);
+  
+        const removeBtn = newForm.querySelector(".btn-remove");
+        removeBtn.addEventListener("click", function () {
+          removeForm(this);
+        });
+  
+        const parentDiv = formContainer.parentElement;
+        parentDiv.insertBefore(newForm, formContainer.nextSibling);
+  
+        TOTAL_FORMS.setAttribute("value", `${formCount}`);
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "No se pueden agregar más atributos",
+          icon: "error",
+        });
+      }
+    }
+  
+    function removeForm(btn) {
+      const formContainer = btn.closest(".atributos-container");
+      formContainer.remove();
+      formCount--;
+      TOTAL_FORMS.setAttribute("value", `${formCount}`);
+    }
+  });
+  </script>
 {% endblock extra_scripts %}
