@@ -8,6 +8,7 @@ class ModalidadForm(forms.ModelForm):
         fields = [
             'nombre',
             'descripcion',
+            'requisitos',
             'fecha_inicio',
             'fecha_fin',
             'presupuesto',
@@ -16,6 +17,7 @@ class ModalidadForm(forms.ModelForm):
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'requisitos': forms.Textarea(attrs={'class': 'form-control'}),
             'fecha_inicio': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'fecha_fin': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'presupuesto': forms.NumberInput(attrs={'class': 'form-control'}),
