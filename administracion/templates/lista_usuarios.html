@@ -4,6 +4,31 @@
   <title>Lista de usuarios </title> 
 {% endblock %} 
 {% block mainb %}
+
+{% if messages %}
+{% for message in messages %}
+  {% if message.tags == 'error' %}
+    <script>
+      Swal.fire({
+      title: "Error",
+      text: "{{ message }}",
+      icon: "error",
+    });
+    </script>
+  {% endif %}
+  {% if message.tags == 'success' %}
+    <script>
+      Swal.fire({
+      title: "Éxito",
+      text: "{{ message }}",
+      icon: "success",
+    });
+    </script>
+  {% endif %}
+{% endfor %}
+{% endif %}
+
+
 <section class="section">
   <div class="row" id="table-striped">
     <div class="col-12">
@@ -33,7 +58,7 @@
                     {{usuario.first_name}} {{usuario.apellido_paterno}}
                     {{usuario.apellido_materno}}
                   </td>
-                  <td>{{usuario.email}} estatus:{{usuario.estatus.nombre}}</td>
+                  <td>{{usuario.email}}</td>
                   <td>{{usuario.genero}}</td>
                   <td>{{usuario.ultimo_grado_estudios}}</td>
                   <td>{{usuario.domicilio_calle}}</td>

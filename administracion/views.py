@@ -9,6 +9,7 @@ from convocatorias.forms import ModalidadForm, FormularioForm, AtributoFormulari
 from django.forms.formsets import formset_factory
 from usuarios.models import Solicitante, Administrador
 from usuarios.forms import SolicitanteCreationForm, AdministradorForm
+from administracion.models import UsuariosBaneados
 from convocatorias.models import Estatus
 from usuarios.forms import SolicitanteCreationForm
 from .utils import get_solicitudes_por_nivel, get_generos_solicitantes
@@ -48,7 +49,9 @@ def panel_administracion(request):
 @staff_member_required
 def lista_usuarios(request):
     estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+    baneados = UsuariosBaneados.objects.all()
     usuarios = Solicitante.objects.exclude(estatus=estatus_eliminado)
+    usuarios = usuarios.exclude(id__in=baneados.values_list('usuario', flat=True))
     context = {
         "usuarios": usuarios
     }
@@ -199,7 +202,18 @@ def editar_administrador(request, id):
 @login_required
 @staff_member_required
 def banear_usuario(request, id):
-    pass
+    usuario = get_object_or_404(Solicitante, id=id)
+    try:
+        baneado = UsuariosBaneados.objects.get(usuario=usuario)
+        messages.error(request, 'El usuario ya se encuentra baneado!')
+    except UsuariosBaneados.DoesNotExist:
+        baneado = UsuariosBaneados.objects.create(usuario=usuario, curp=usuario.curp)
+        baneado.save()
+        usuario.is_active = False
+        usuario.save()
+        messages.success(request, 'Usuario baneado exitosamente!')
+
+    return redirect('administracion:usuarios')
 
 @login_required
 @staff_member_required
