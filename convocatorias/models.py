@@ -1,4 +1,3 @@
-import os
 from django.db import models
 from usuarios.models import Solicitante
 from django.utils import timezone
