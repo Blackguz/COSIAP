@@ -13,4 +13,4 @@ class UsuariosBaneados(models.Model):
         verbose_name_plural = 'Usuarios Baneados'
         verbose_name = 'Usuario Baneado'
     def __str__(self):
-        return self.usuario
+        return str(self.usuario)

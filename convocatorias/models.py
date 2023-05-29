@@ -13,6 +13,7 @@ class Modalidad(models.Model):
     id_modalidad = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
+    requisitos = models.TextField(null=True, blank=True, default='sin requisitos')
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     presupuesto = models.DecimalField(max_digits=10, decimal_places=2)
