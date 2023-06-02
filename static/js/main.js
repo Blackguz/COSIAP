@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const telefono_particular = document.getElementById("telefono_particular"+id).value;
         const telefono_celular = document.getElementById("telefono_celular"+id).value;
         const genero = document.getElementById("genero"+id).value;
+        const curp = document.getElementById("curp"+id).value
         const ultimo_grado_estudios = document.getElementById("ultimo_grado_estudios"+id).value;
         const institucion = document.getElementById("institucion"+id).value;
         const domicilio_calle = document.getElementById("domicilio_calle"+id).value;
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
             telefono_particular: telefono_particular,
             telefono_celular: telefono_celular,
             genero: genero,
+            curp:curp,
             ultimo_grado_estudios: ultimo_grado_estudios,
             institucion: institucion,
             domicilio_calle: domicilio_calle,

@@ -354,3 +354,66 @@ def eliminar_formulario(request, id):
         formulario.save()
         messages.success(request, 'Formulario eliminado.')
         return redirect('administracion:lista_formularios')
+    
+@login_required
+@staff_member_required
+def papelera_modalidades(request):
+    estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+    modalidades_eliminadas = Modalidad.objects.filter(estatus=estatus_eliminado)
+    data = {
+        'modalidades_eliminadas': modalidades_eliminadas
+    }
+    
+    return render(request, 'papelera_modalidades.html', data)
+
+@login_required
+@staff_member_required
+def restaurar_modalidad(request, id):
+    estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+    modalidad = get_object_or_404(Modalidad, id_modalidad=id)
+    if modalidad.estatus != estatus_eliminado:
+        messages.error(request, 'Esta modalidad no esta eliminado')
+        return redirect('administracion:modalidades_eliminadas')
+    else:
+        modalidad.estatus= None
+        modalidad.save()
+        messages.success(request, 'Modalidad restaurada exitosamente!')
+        return redirect('administracion:modalidades_eliminadas')
+    
+@login_required
+@staff_member_required
+def papelera_usuarios(request):
+    User = get_user_model()
+    estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+    solicitantes_eliminados = Solicitante.objects.filter(estatus=estatus_eliminado)
+    administradores_eliminados = Administrador.objects.filter(estatus=estatus_eliminado)
+    usuarios_eliminados = list(solicitantes_eliminados) + list(administradores_eliminados)
+    data = {
+        'usuarios_eliminados': usuarios_eliminados
+    }
+    return render(request, 'papelera_usuarios.html', data)
+
+@login_required
+@staff_member_required
+def restaurar_usuario(request, id):
+    User = get_user_model()
+    usuario = get_object_or_404(User, id=id)
+    estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+    if usuario.is_staff:
+        usuario = Administrador.objects.get(pk=usuario.pk)
+        messages.success(request, 'Administrador restauraro exitosamente!')
+    else:
+        usuario = Solicitante.objects.get(pk=usuario.pk)
+        messages.success(request, 'Usuario restauraro exitosamente!')
+
+    if usuario.estatus != estatus_eliminado:
+        messages.error(request, 'El usuario no esta eliminado!')
+        return redirect('administracion:papelera_usuarios')
+
+
+    usuario.email = usuario.email.replace("_eliminado", "")
+    usuario.is_active = True
+    usuario.username = usuario.username.replace("_eliminado", "")
+    usuario.estatus = None
+    usuario.save()
+    return redirect('administracion:papelera_usuarios')
