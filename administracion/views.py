@@ -252,6 +252,33 @@ def crear_modalidad(request):
 
 @login_required
 @staff_member_required
+def editar_modalidad(request, id):
+    print("HOLAAAA")
+    if request.method == "POST":
+        data = json.loads(request.body)
+        modalidad = get_object_or_404(Modalidad, id_modalidad=id)
+
+        
+        modalidad.nombre = data.get("nombre")
+        modalidad.presupuesto = data.get("presupuest_asignado")
+        modalidad.fecha_inicio = data.get("fecha_inicio")
+        modalidad.fecha_fin = data.get("fecha_fin")
+        modalidad.descripcion = data.get("descripcion")
+        modalidad.requisitos = data.get("requisitos")
+
+        try:
+            modalidad.save()
+            return JsonResponse({"status": "success"}, status=200)
+        except:
+            return JsonResponse({"status": "error"}, status=400)
+
+    return JsonResponse({"status": "error"}, status=405)
+
+
+
+
+@login_required
+@staff_member_required
 def lista_formularios(request):
     formularios = Formulario.objects.exclude(estatus='7')
     # trae todos los atributos de los formularios sin el estatus de eliminado
@@ -275,6 +302,8 @@ def eliminar_modalidad(request, id):
         modalidad.save()
         messages.success(request, 'La modalidad se ha eliminado correctamente.')
         return redirect('administracion:modalidades')
+    
+
 
 @login_required
 @staff_member_required
@@ -354,3 +383,66 @@ def eliminar_formulario(request, id):
         formulario.save()
         messages.success(request, 'Formulario eliminado.')
         return redirect('administracion:lista_formularios')
+    
+@login_required
+@staff_member_required
+def papelera_modalidades(request):
+    estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+    modalidades_eliminadas = Modalidad.objects.filter(estatus=estatus_eliminado)
+    data = {
+        'modalidades_eliminadas': modalidades_eliminadas
+    }
+    
+    return render(request, 'papelera_modalidades.html', data)
+
+@login_required
+@staff_member_required
+def restaurar_modalidad(request, id):
+    estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+    modalidad = get_object_or_404(Modalidad, id_modalidad=id)
+    if modalidad.estatus != estatus_eliminado:
+        messages.error(request, 'Esta modalidad no esta eliminado')
+        return redirect('administracion:modalidades_eliminadas')
+    else:
+        modalidad.estatus= None
+        modalidad.save()
+        messages.success(request, 'Modalidad restaurada exitosamente!')
+        return redirect('administracion:modalidades_eliminadas')
+    
+@login_required
+@staff_member_required
+def papelera_usuarios(request):
+    User = get_user_model()
+    estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+    solicitantes_eliminados = Solicitante.objects.filter(estatus=estatus_eliminado)
+    administradores_eliminados = Administrador.objects.filter(estatus=estatus_eliminado)
+    usuarios_eliminados = list(solicitantes_eliminados) + list(administradores_eliminados)
+    data = {
+        'usuarios_eliminados': usuarios_eliminados
+    }
+    return render(request, 'papelera_usuarios.html', data)
+
+@login_required
+@staff_member_required
+def restaurar_usuario(request, id):
+    User = get_user_model()
+    usuario = get_object_or_404(User, id=id)
+    estatus_eliminado = get_object_or_404(Estatus, id_estatus=7)
+    if usuario.is_staff:
+        usuario = Administrador.objects.get(pk=usuario.pk)
+        messages.success(request, 'Administrador restauraro exitosamente!')
+    else:
+        usuario = Solicitante.objects.get(pk=usuario.pk)
+        messages.success(request, 'Usuario restauraro exitosamente!')
+
+    if usuario.estatus != estatus_eliminado:
+        messages.error(request, 'El usuario no esta eliminado!')
+        return redirect('administracion:papelera_usuarios')
+
+
+    usuario.email = usuario.email.replace("_eliminado", "")
+    usuario.is_active = True
+    usuario.username = usuario.username.replace("_eliminado", "")
+    usuario.estatus = None
+    usuario.save()
+    return redirect('administracion:papelera_usuarios')
