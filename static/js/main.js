@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const telefono_particular = document.getElementById("telefono_particular"+id).value;
         const telefono_celular = document.getElementById("telefono_celular"+id).value;
         const genero = document.getElementById("genero"+id).value;
+        const curp = document.getElementById("curp"+id).value
         const ultimo_grado_estudios = document.getElementById("ultimo_grado_estudios"+id).value;
         const institucion = document.getElementById("institucion"+id).value;
         const domicilio_calle = document.getElementById("domicilio_calle"+id).value;
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
             telefono_particular: telefono_particular,
             telefono_celular: telefono_celular,
             genero: genero,
+            curp:curp,
             ultimo_grado_estudios: ultimo_grado_estudios,
             institucion: institucion,
             domicilio_calle: domicilio_calle,
@@ -151,6 +153,84 @@ document.addEventListener("DOMContentLoaded", function () {
                 Swal.fire({
                     title: "Error",
                     text: "Error al actualizar el administrador",
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                });
+            });
+    }
+
+
+
+
+
+
+    // Agregamos eventos al boton para guardar administradores
+    document.querySelectorAll("[id^=GuardarModalidad]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const id = button.id.replace("GuardarModalidad", "");
+            guardarModalidad(id);
+        });
+    });
+
+    // Funcion para guardar los cambios de un administrador
+    function guardarModalidad(id) {
+        const modalidadId = document.getElementById("id"+id).value;
+        const nombre = document.getElementById("nombre"+id).value;
+        const presupuest_asignado = document.getElementById("presupuest_asignado"+id).value;
+        const fecha_inicio = document.getElementById("fecha_inicio"+id).value;
+        const fecha_fin = document.getElementById("fecha_fin"+id).value;
+        const descripcion = document.getElementById("descripcion"+id).value;
+        const requisitos = document.getElementById("requisitos"+id).value;
+
+        const data = {
+            id: modalidadId,
+            nombre: nombre,
+            presupuest_asignado: presupuest_asignado,
+            fecha_fin: fecha_fin,
+            fecha_inicio: fecha_inicio,
+            descripcion: descripcion,
+            requisitos: requisitos,
+        };
+
+        fetch(`/administracion/modalidades/editar/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrf_token,
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    throw new Error("Error al actualizar la modalidad");
+                }
+            })
+            .then((jsonData) => {
+                if (jsonData.status === "success") {
+                    Swal.fire({
+                        title: "Éxito",
+                        text: "Modalidad actualizada con éxito",
+                        icon: "success",
+                        confirmButtonText: "Aceptar",
+                    }).then(() => {
+                        location.reload(); // Recarga la página para mostrar los cambios
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Error al actualizar la modalidad",
+                        icon: "error",
+                        confirmButtonText: "Aceptar",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                Swal.fire({
+                    title: "Error",
+                    text: "Error al actualizar la modalidad",
                     icon: "error",
                     confirmButtonText: "Aceptar",
                 });
