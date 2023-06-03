@@ -19,13 +19,24 @@
     <div class="container">
         {% if messages %}
             {% for message in messages %}
-                <script>
-                    Swal.fire({
-                        title: 'Error',
-                        text: '{{ message }}',
-                        icon: 'error'
-                    });
-                </script>
+                {% if message.tags == 'success' %}
+                    <script>
+                        Swal.fire({
+                            title: 'Exito',
+                            text: '{{ message }}',
+                            icon: 'success'
+                        });
+                    </script>
+                {% endif %}
+                {% if message.tags == 'error' %}
+                    <script>
+                        Swal.fire({
+                            title: 'Error',
+                            text: '{{ message }}',
+                            icon: 'error'
+                        });
+                    </script>
+                {% endif %}
             {% endfor %}
         {% endif %}
         {% if form.errors %}
@@ -55,6 +66,9 @@
                 <input type="text" name="{{ form.first_name.name }}" class="form-control" placeholder="Nombre(s)" required>
                 <input type="text" name="{{ form.apellido_paterno.name }}" class="form-control" placeholder="Apellido paterno" required>
                 <input type="text" name="{{ form.apellido_materno.name }}" class="form-control" placeholder="Apellido materno" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="{{ form.curp.name }}" class="form-control" placeholder="CURP" required>
             </div>
             <div class="form-group">
                 <input type="text" name="{{ form.telefono_particular.name }}" class="form-control" placeholder="Telefono particular" required>

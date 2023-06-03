@@ -13,6 +13,7 @@ class Solicitante(User):
     telefono_particular = models.CharField(max_length=20)
     telefono_celular = models.CharField(max_length=20)
     genero = models.CharField(max_length=1, choices=GENERO_CHOICES)
+    curp = models.CharField(max_length=18, null=False, blank=False, default='SIN CURP')
     ultimo_grado_estudios = models.CharField(max_length=20)
     institucion = models.CharField(max_length=100)
     domicilio_calle = models.CharField(max_length=100)
@@ -23,6 +24,8 @@ class Solicitante(User):
 
     class Meta:
         verbose_name_plural = "Solicitantes"
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
 
 class Administrador(User):
     NIVEL_ACCESO = (

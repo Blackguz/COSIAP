@@ -5,16 +5,28 @@
 {% block mainb %}
 <section id="multiple-column-form">
   {% if messages %} 
-  {% for message in messages %}
-  <script>
-    Swal.fire({
-      title: "Error",
-      text: "{{ message }}",
-      icon: "error",
-    });
-  </script>
-  {% endfor %} 
+    {% for message in messages %}
+      {% if message.tags == 'error' %}
+        <script>
+          Swal.fire({
+            title: "Error",
+            text: "{{ message }}",
+            icon: "error",
+          });
+        </script>
+      {% endif %} 
+      {% if message.tags == 'success' %}
+        <script>
+          Swal.fire({
+            title: "Éxito",
+            text: "{{ message }}",
+            icon: "success",
+          });
+        </script>
+      {% endif %}
+    {% endfor %}  
   {% endif %} 
+  
   {% if form.errors %}
   <div class="alert alert-danger">
     <ul>
@@ -83,7 +95,15 @@
                       >
                       {{ form.descripcion|add_class:"form-control" }}
                     </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="{{ form.requisitos.id_for_label }}"
+                      >Requisitos</label
+                    >
+                    {{ form.requisitos|add_class:"form-control" }}
                   </div>
+                </div>
               </div>
               <!-- Fin de campos del formulario -->
               <div class="col-12 d-flex justify-content-end">

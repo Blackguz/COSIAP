@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 from .views import *
 
 app_name = 'administracion'
@@ -17,4 +19,9 @@ urlpatterns = [
     path('enviar_correo/<int:id>', enviar_correo, name='enviar_correo'),
     path('modalidades/', lista_modalidades, name='modalidades'),
     path('modalidades/crear/', crear_modalidad, name='crear_modalidad'),
-]
+    path('modalidades/eliminar/<int:id>', eliminar_modalidad, name='eliminar_modalidad'),
+    path('crear_formulario/', crear_formulario, name='crear_formulario'),
+    path('lista_formularios/', lista_formularios, name='lista_formularios'),
+    path('actualizar_formulario/', actualizar_formulario, name='actualizar_formulario'),
+    path('eliminar_formulario/<int:id>', eliminar_formulario, name='eliminar_formulario'),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

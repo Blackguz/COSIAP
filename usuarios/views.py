@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import user_passes_test
 from .forms import SolicitanteCreationForm
+from administracion.models import UsuariosBaneados
 from django.contrib import messages
 from usuarios.models import Solicitante, Administrador
 
@@ -17,6 +18,10 @@ def login_view(request):
 
         if not email or not password:
             return render(request, 'login.html', {'error': 'Por favor, complete todos los campos'})
+        
+        usuarioBan = Solicitante.objects.filter(email=email)
+        if usuarioBan:
+            return render(request, 'login.html', {'error': 'Lo sentimos, no puedes iniciar sesión en el sistema.'})
 
         user = authenticate(request, email=email, password=password)
         
@@ -45,9 +50,15 @@ def login_view(request):
         # mostrar el formulario de inicio de sesión
         return render(request, 'login.html')
 
+
 @user_passes_test(not_authenticated, login_url='index', redirect_field_name=None)
 def register_solicitante(request):
     if request.method == 'POST':
+        beando = UsuariosBaneados.objects.filter(curp=request.POST.get('curp'))
+        if beando:
+            messages.error(request, 'Lo sentimos, no puedes registrarte en el sistema.')
+            return redirect('usuarios:registro')
+        
         form = SolicitanteCreationForm(request.POST)
         if form.is_valid():
             solicitante = form.save()

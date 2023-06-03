@@ -1,0 +1,166 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %} Lista de administradores {% endblock %} 
+{% block mainb %}
+
+{% if messages %}
+  {% for message in messages %}
+    {% if message.tags == 'success' %}
+      <script>
+        Swal.fire({
+          title: "Exito",
+          text: "{{ message }}",
+          icon: "success",
+        });
+      </script>
+    {% else %}
+      <script>
+        Swal.fire({
+          title: "Error",
+          text: "{{ message }}",
+          icon: "error",
+        });
+      </script>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if form.errors %}
+  <div class="alert alert-danger">
+    <ul>
+      {% for field in form %}
+        {% for error in field.errors %}
+          <li>{{ field.label }}: {{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+    <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+  </div>
+{% endif %}
+
+
+
+<section class="section">
+  <div class="row" id="table-striped">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">formularios actuales</h4>
+          <a href="{% url 'administracion:crear_formulario' %}" class="btn btn-success float-end">Crear formulario</a>
+        </div>
+        <div class="card-content">
+          <!-- table striped -->
+          <div class="table-responsive">
+            <table class="table table-striped mb-0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Modalidad</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for formulario in formularios %}
+                <tr>
+                  <td>{{formulario.pk}}</td>
+                  <td>
+                    {{formulario.nombre}}
+                  </td>
+                  <td>{{formulario.id_modalidad}}</td>
+                  <td>
+                    <button type="button" 
+                      class="btn btn-icon btn-primary" 
+                      data-bs-toggle="modal" 
+                      data-bs-target="#inlineForm{{formulario.pk}}"
+                      ><i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <a
+                      href="{% url 'administracion:eliminar_formulario' formulario.pk %}"
+                      class="btn btn-icon btn-danger"
+                      ><i class="bi bi-trash-fill"></i
+                    ></a>
+                  </td>
+                </tr>
+                {% empty %}
+                <h2>No se encontraron formularios.</h2>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  {% for formulario in formularios %}
+  <div class="modal fade text-left" id="inlineForm{{formulario.pk}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel33">
+            Editar formulario
+          </h4>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <form action="#" data-bitwarden-watching="1">
+          <div class="modal-body" style="max-height: calc(100vh - 210px); overflow-y: auto;">
+            <div class="row">
+              <input id="id{{formulario.pk}}" type="text" hidden placeholder="id" class="form-control" value="{{formulario.pk}}" disabled>
+              <div class="col-md-6 col-12">
+                <label for="nombre">Nombre: </label>
+                <div class="form-group">
+                  <input id="nombre{{formulario.pk}}" type="text" placeholder="Nombre" class="form-control" value="{{formulario.nombre}}">
+                </div>
+              </div>
+            </div>
+            {% for atributo in formulario.atributosformulario_set.all %}
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <label for="nombre-atributo-{{atributo.id_atributos_formularios}}">Nombre del atributo:</label>
+                <div class="form-group">
+                  <input id="nombre-atributo-{{atributo.id_atributos_formularios}}" type="text" placeholder="Nombre del atributo" class="form-control" value="{{atributo.nombre}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="tipo-atributo-{{atributo.id_atributos_formularios}}">Tipo de atributo:</label>
+                <div class="form-group">
+                  <input id="tipo-atributo-{{atributo.id_atributos_formularios}}" type="text" placeholder="Tipo de atributo" class="form-control" value="{{atributo.tipo_atributo}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <label for="es-documento-{{atributo.id_atributos_formularios}}">Es documento:</label>
+                <div class="form-group">
+                  <input id="es-documento-{{atributo.id_atributos_formularios}}" type="checkbox" class="form-check-input" {% if atributo.es_documento %}checked{% endif %}>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                <i class="bx bx-x d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Cancelar</span>
+              </button>
+              <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarFormulario{{formulario.id}}">
+                <i class="bx bx-check d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Guardar</span>
+              </button>            
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</section>
+{% endblock mainb %} 
+{% block extra_scripts %} 
+<script>
+  const csrf_token = "{{ csrf_token }}";
+</script>
+<script src="{% static 'assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+{% endblock extra_scripts %}

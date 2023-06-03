@@ -19,6 +19,7 @@ class SolicitanteCreationForm(UserCreationForm):
             'telefono_particular',
             'telefono_celular',
             'genero',
+            'curp',
             'ultimo_grado_estudios',
             'institucion',
             'domicilio_calle',
