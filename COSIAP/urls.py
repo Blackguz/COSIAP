@@ -25,5 +25,5 @@ urlpatterns = [
     path('usuarios/', include('usuarios.urls')),
     path('administracion/', include('administracion.urls')),
     path('', index, name='index'),
-    path('solicitud_de_apoyos/', solicitud_de_apoyos)
+    path('solicitud_de_apoyos/<int:id>', solicitud_de_apoyos)
 ]

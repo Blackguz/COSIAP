@@ -2,7 +2,7 @@ import os
 from django.db import models
 from usuarios.models import Solicitante
 from django.utils import timezone
-from .utils import user_directory_path
+
 class Estatus(models.Model):
     id_estatus = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=255)
