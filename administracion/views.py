@@ -252,6 +252,33 @@ def crear_modalidad(request):
 
 @login_required
 @staff_member_required
+def editar_modalidad(request, id):
+    print("HOLAAAA")
+    if request.method == "POST":
+        data = json.loads(request.body)
+        modalidad = get_object_or_404(Modalidad, id_modalidad=id)
+
+        
+        modalidad.nombre = data.get("nombre")
+        modalidad.presupuesto = data.get("presupuest_asignado")
+        modalidad.fecha_inicio = data.get("fecha_inicio")
+        modalidad.fecha_fin = data.get("fecha_fin")
+        modalidad.descripcion = data.get("descripcion")
+        modalidad.requisitos = data.get("requisitos")
+
+        try:
+            modalidad.save()
+            return JsonResponse({"status": "success"}, status=200)
+        except:
+            return JsonResponse({"status": "error"}, status=400)
+
+    return JsonResponse({"status": "error"}, status=405)
+
+
+
+
+@login_required
+@staff_member_required
 def lista_formularios(request):
     formularios = Formulario.objects.exclude(estatus='7')
     # trae todos los atributos de los formularios sin el estatus de eliminado
@@ -275,6 +302,8 @@ def eliminar_modalidad(request, id):
         modalidad.save()
         messages.success(request, 'La modalidad se ha eliminado correctamente.')
         return redirect('administracion:modalidades')
+    
+
 
 @login_required
 @staff_member_required

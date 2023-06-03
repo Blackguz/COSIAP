@@ -20,6 +20,7 @@ urlpatterns = [
     path('modalidades/', lista_modalidades, name='modalidades'),
     path('modalidades/crear/', crear_modalidad, name='crear_modalidad'),
     path('modalidades/eliminar/<int:id>', eliminar_modalidad, name='eliminar_modalidad'),
+    path('modalidades/editar/<int:id>', editar_modalidad, name='editar_modalidad'),
     path('crear_formulario/', crear_formulario, name='crear_formulario'),
     path('lista_formularios/', lista_formularios, name='lista_formularios'),
     path('actualizar_formulario/', actualizar_formulario, name='actualizar_formulario'),

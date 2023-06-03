@@ -4,26 +4,26 @@
 {% block mainb %}
 
 {% if messages %}
-{% for message in messages %}
-  {% if message.tags == 'error' %}
-    <script>
-      Swal.fire({
-      title: "Error",
-      text: "{{ message }}",
-      icon: "error",
-    });
-    </script>
+  {% for message in messages %}
+    {% if message.tags == 'error' %}
+      <script>
+          Swal.fire({
+          title: "Error",
+          text: "{{ message }}",
+          icon: "error",
+        });
+      </script>
   {% endif %}
   {% if message.tags == 'success' %}
-    <script>
-      Swal.fire({
-      title: "Éxito",
-      text: "{{ message }}",
-      icon: "success",
-    });
-    </script>
+      <script>
+        Swal.fire({
+        title: "Éxito",
+        text: "{{ message }}",
+        icon: "success",
+      });
+      </script>
   {% endif %}
-{% endfor %}
+  {% endfor %}
 {% endif %}
 
 <section class="section">
@@ -129,13 +129,13 @@
               <div class="col-md-6 col-12">
                 <label for="apellido_paterno">Descripcion: </label>
                 <div class="form-group">
-                  <textarea id="apellido_paterno{{modalidad.pk}}" rows="3" type="text" placeholder="Descripcion" class="form-control">{{modalidad.descripcion}}</textarea>
+                  <textarea id="descripcion{{modalidad.pk}}" rows="3" type="text" placeholder="Descripcion" class="form-control">{{modalidad.descripcion}}</textarea>
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <label for="apellido_paterno">requisitos: </label>
                 <div class="form-group">
-                  <textarea id="apellido_paterno{{modalidad.pk}}" rows="3" type="text" placeholder="Descripcion" class="form-control">{{modalidad.requisitos}}</textarea>
+                  <textarea id="requisitos{{modalidad.pk}}" rows="3" type="text" placeholder="Descripcion" class="form-control">{{modalidad.requisitos}}</textarea>
                 </div>
               </div>
             </div>
@@ -145,7 +145,7 @@
               <i class="bx bx-x d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Cancelar</span>
             </button>
-            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarAdmin{{modalidad.pk}}">
+            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarModalidad{{modalidad.pk}}">
               <i class="bx bx-check d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Guardar</span>
             </button>            
