@@ -218,7 +218,15 @@ def banear_usuario(request, id):
 @login_required
 @staff_member_required
 def desbanear_usuario(request, id):
-    pass
+    usuario = get_object_or_404(UsuariosBaneados, id=id)
+    if usuario:
+        usuario.delete()
+        messages.success(request, 'Usuario desbaneado exitosamente')
+        return redirect('administracion:baneados')
+    else:
+        messages.error(request, 'El usuario no se encuentra en la lista de baneados')
+        return redirect('administracion:baneados')
+        
 
 @login_required
 @staff_member_required
@@ -253,7 +261,6 @@ def crear_modalidad(request):
 @login_required
 @staff_member_required
 def editar_modalidad(request, id):
-    print("HOLAAAA")
     if request.method == "POST":
         data = json.loads(request.body)
         modalidad = get_object_or_404(Modalidad, id_modalidad=id)
@@ -446,3 +453,12 @@ def restaurar_usuario(request, id):
     usuario.estatus = None
     usuario.save()
     return redirect('administracion:papelera_usuarios')
+
+@login_required
+@staff_member_required
+def lista_baneados(request):
+    baneados = UsuariosBaneados.objects.all()
+    data = {
+        'baneados':baneados
+    }
+    return render(request, 'papelera_baneados.html', data)

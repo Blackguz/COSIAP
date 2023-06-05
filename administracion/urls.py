@@ -28,5 +28,6 @@ urlpatterns = [
     path('papelera/modalidades', papelera_modalidades, name='modalidades_eliminadas'),
     path('papelera/restaurar/<int:id>/', restaurar_modalidad, name='restaurar_modalidad'),
     path('papelera/usuarios/', papelera_usuarios, name='papelera_usuarios'),
-    path('papelera/restaurar_usuario/<int:id>/', restaurar_usuario, name='restaurar_usuario')
+    path('papelera/restaurar_usuario/<int:id>/', restaurar_usuario, name='restaurar_usuario'),
+    path('papelera/baneados/', lista_baneados, name='baneados')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
