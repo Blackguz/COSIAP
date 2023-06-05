@@ -1,0 +1,78 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %} Lista de administradores {% endblock %} 
+{% block mainb %}
+
+{% if messages %}
+{% for message in messages %}
+  {% if message.tags == 'error' %}
+    <script>
+      Swal.fire({
+      title: "Error",
+      text: "{{ message }}",
+      icon: "error",
+    });
+    </script>
+  {% endif %}
+  {% if message.tags == 'success' %}
+    <script>
+      Swal.fire({
+      title: "Éxito",
+      text: "{{ message }}",
+      icon: "success",
+    });
+    </script>
+  {% endif %}
+{% endfor %}
+{% endif %}
+
+<section class="section">
+    <div class="row" id="table-striped">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Usuarios baneados del sistema</h4>
+          </div>
+          <div class="card-content">
+            <!-- table striped -->
+            <div class="table-responsive">
+              <table class="table table-striped mb-0">
+                <thead>
+                  <tr>
+                    <th>Usuario</th>
+                    <th>CURP</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for usuario in baneados %}
+                  <tr>
+                    <td>
+                      {{usuario.usuario}}
+                    </td>
+                    <td>{{usuario.curp}}</td>
+                    <td>{{usuario.fecha}} {{usuario.hora}}</td>
+                    <td>
+                        <a 
+                        href="{% url 'administracion:desbanear_usuario' usuario.pk %}" 
+                        class="btn btn-icon btn-success"
+                        ><i class="bi bi-arrow-counterclockwise"></i
+                        ></a>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <h2>No se encontraron usuarios.</h2>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+  
+{% endblock mainb %} 
+{% block extra_scripts %} 
+{% endblock extra_scripts %}
