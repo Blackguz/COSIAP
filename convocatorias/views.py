@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from soporte.forms import SolicitudApoyoForm
 from .utils import procesar_becas
-from .models import Modalidad
+from .models import Modalidad, Formulario
 
 # Create your views here.
 
@@ -17,5 +17,6 @@ def index(request):
 
 def solicitud_de_apoyos(request, id):
     modalidad = get_object_or_404(Modalidad, pk=id)
-    return render(request, 'solicitud_apoyo.html', {'modalidad': modalidad})
+    formulario = get_object_or_404(Formulario, pk=modalidad.nombre)
+    return render(request, 'solicitud_apoyo.html', {'modalidad': modalidad, 'formulario':formulario})
 

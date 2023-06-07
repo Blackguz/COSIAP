@@ -36,6 +36,9 @@
             <h3 id="form-container-h3">Solicitud de apoyo</h3>
             <form>
                 <div id="forms">
+                    {% for form in formulario.nombre %}
+                        {{formulario.id_modalidad.nombre }}
+                    {% endfor %}
                     <div class="two-container">
                         <div class="form-input_container">
                             <i class="icon_container fa-solid fa-user"></i>
@@ -45,8 +48,6 @@
                             <i class="icon_container fa-solid fa-envelope"></i>
                             <input class="input_container" placeholder="Tu E-mail*" required title="Tu E-mail">
                         </div>
-                    </div>
-                    <div class="two-container">
                         <div class="form-input_container">
                             <i class="icon_container fa-solid fa-phone"></i>
                             <input class="input_container" placeholder="Teléfono*" required title="Teléfono">
@@ -55,8 +56,6 @@
                             <i class="icon_container fa-solid fa-book"></i>
                             <input class="input_container" placeholder="Carta de recepción" title="Carta de recepción">
                         </div>
-                    </div>
-                    <div class="two-container">
                         <div class="form-input_container">
                             <i class="icon_container fa-solid fa-book"></i>
                             <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
@@ -65,8 +64,6 @@
                             <i class="icon_container fa-solid fa-book"></i>
                             <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
                         </div>
-                    </div>
-                    <div class="two-container">
                         <div class="form-input_container">
                             <i class="icon_container fa-solid fa-book"></i>
                             <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
