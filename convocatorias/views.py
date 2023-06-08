@@ -1,22 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from soporte.forms import SolicitudApoyoForm
-from .models import Modalidad
+from .utils import procesar_becas
+from .models import Modalidad, Formulario, AtributosFormulario
+from convocatorias.forms import AtributoFormularioForm
 
 # Create your views here.
 
-def obtener_becas(limite: int) -> list[Modalidad]:
-    return Modalidad.objects.all()[:limite]
-
-def obtener_disposicion(tamano_becas: int) -> str:
-    return "" if tamano_becas >= 3 else "gdisp2" if tamano_becas == 2 else "gdisp1"
-def procesar_becas() -> dict:
-    diccionario_becas = {
-        "becas": {
-            "becas": (becas := obtener_becas(3)),
-            "disposicion": obtener_disposicion(len(becas))
-        }
-    }
-    return diccionario_becas
 def index(request):
     if request.method == 'POST':
         formulario_solicitud = SolicitudApoyoForm(request.POST)
@@ -27,5 +16,16 @@ def index(request):
         formulario_solicitud = SolicitudApoyoForm()
     return render(request, 'index.html', {'form': formulario_solicitud, **procesar_becas()})
 
-def solicitud_de_apoyos(request):
-    return render(request, 'solicitud_apoyo.html')
+def solicitud_de_apoyos(request, id):
+    if request.method == 'POST':
+        atributo = "Añadir documento"
+        id_formulario = request.POST["id_formulario"]
+        atributosFormulario = AtributosFormulario.objects.filter(id_formulario=id_formulario)
+        arregloAtributos = []
+        return redirect("/solicitud_de_apoyos/6")
+    else:
+        modalidad = get_object_or_404(Modalidad, pk=id)
+        formulario = get_object_or_404(Formulario, pk=id)
+        atributosFormulario = AtributosFormulario.objects.filter(id_formulario=formulario.pk)
+
+        return render(request, 'solicitud_apoyo.html', {'modalidad': modalidad, 'formulario':formulario, 'atributos':atributosFormulario})

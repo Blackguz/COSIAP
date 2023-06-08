@@ -1,11 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitud de apoyo</title>
-    <link rel="stylesheet" href="../../static/css/main.css">
+    <title>{{modalidad.nombre}}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" crossorigin="anonymous">
 </head>
 <body>
@@ -13,80 +14,64 @@
     <main>
         <section id="info-container">
             <div>
-                <img src="../../static/img/icons/logodocbeca.png">
+                <img src="../../static/img/icons/logodocbeca.png" id="logobeca">
             </div>
             <div id="info-container-desc">
-                <!-- CAMBIAR TÍTULO DEPENDIENDO DEL APOYO -->
-                <h3 class="info-container-title">Estancias de investigación</h3>
+                <h3 class="info-container-title">{{modalidad.nombre}}</h3>
                 <p id="section-p-descripcion">Descripción:</p>
-                <!-- CAMBIAR DESCRIPCIÓN Y PRESUPUESTO DEPENDIENDO DEL APOYO -->
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam porro vero, asperiores sit voluptatum, numquam nemo fugit cupiditate ea quam, ratione similique atque unde eaque at repudiandae voluptatem sed velit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam porro vero, asperiores sit voluptatum, numquam nemo fugit cupiditate ea quam, ratione similique atque unde eaque at repudiandae voluptatem sed velit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam porro vero, asperiores sit voluptatum, numquam nemo fugit cupiditate ea quam, ratione similique atque unde eaque at repudiandae voluptatem sed velit.</p>
+                <p>{{modalidad.descripcion}}</p>
                 <br>
-                <h4>Presupuesto máximo: <span>$29,000.00</span></h4>
-                <h4>Requerimientos:</h4>
-                <!-- CAMBIAR REQUERIMIENTOS DEPENDIENDO DEL APOYO -->
-                <ul>
-                    <li>Carta de recepción</li>
-                    <li>Borrador de investigación</li>
-                    <li>Presupuesto de gastos</li>
-                    <li>CURP</li>
-                    <li>Constancia de situación fiscal</li>
-                    <li>Estado de cuenta con número de cuenta visible</li>
-                    <li>INE</li>
+                <h4 class="info-container-data">Presupuesto máximo: <span>${{modalidad.presupuesto|floatformat:"2g"}}</span></h4>
+                <h4 class="info-container-data">Requerimientos:</h4>
+                <ul id="info-container-list">
+                    <li>{{modalidad.requisitos}}</li>
                 </ul>
-                <h4>Reglas de operación:</h4>
-                <p>Consulta el archivo con nuestras reglas de operación dando <a href="#">click aquí.</a></p>
+                <h4 class="info-container-data">Reglas de operación:</h4>
+                <p>Consulta el archivo con nuestras reglas de operación dando <a id="click-sin-formato" href="#">click aquí.</a></p>
             </div>
         </section>
         <section id="form-container">
-            <!-- CAMBIAR ESPACIOS DE FORMULARIO DEPENDIENDO DEL APOYO -->
             <h3 id="form-container-h3">Solicitud de apoyo</h3>
-            <form>
+            <form method="POST">
+                {% csrf_token %}
                 <div id="forms">
                     <div class="two-container">
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-user"></i>
-                            <input class="input_container" placeholder="Tu nombre*" required title="Tu nombre">
+                        {% for atributo in atributos %}
+                        <div id="label-input-container">
+                            <label id="input-label" for="{{atributo.nombre}}">{{atributo.nombre}}</label>
+                            <div class="form-input_container">
+                                {% if atributo.tipo_atributo == 'Texto' %}
+                                    <i class="icon_container fa-solid fa-pencil"></i>
+                                {% elif atributo.tipo_atributo == 'Numero' %}
+                                    <i class="icon_container fa-solid fa-pencil"></i>
+                                {% elif atributo.tipo_atributo == 'Fecha' %}
+                                    <i class="icon_container fa-solid fa-calendar-day"></i>
+                                {% elif atributo.tipo_atributo == 'Documento' %}
+                                    <i class="icon_container fa-solid fa-book"></i>
+                                {% elif atributo.tipo_atributo == 'Telefono' %}
+                                    <i class="icon_container fa-solid fa-phone"></i>
+                                {% endif %}
+                                <input name="{{atributo.nombre}}" class="input_container" placeholder="{{atributo.nombre}}*" required title="{{atributo.nombre}}"
+                                        {% if atributo.tipo_atributo == 'Texto' %}
+                                            type="text"
+                                        {% elif atributo.tipo_atributo == 'Numero' %}
+                                            type="number"
+                                        {% elif atributo.tipo_atributo == 'Fecha' %}
+                                            type="date"
+                                        {% elif atributo.tipo_atributo == 'Documento' %}
+                                            type="file"
+                                        {% elif atributo.tipo_atributo == 'Telefono' %}
+                                            type="phone"
+                                        {% endif %}>
+                            </div>
                         </div>
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-envelope"></i>
-                            <input class="input_container" placeholder="Tu E-mail*" required title="Tu E-mail">
-                        </div>
-                    </div>
-                    <div class="two-container">
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-phone"></i>
-                            <input class="input_container" placeholder="Teléfono*" required title="Teléfono">
-                        </div>
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-book"></i>
-                            <input class="input_container" placeholder="Carta de recepción" title="Carta de recepción">
-                        </div>
-                    </div>
-                    <div class="two-container">
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-book"></i>
-                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
-                        </div>
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-book"></i>
-                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
-                        </div>
-                    </div>
-                    <div class="two-container">
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-book"></i>
-                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
-                        </div>
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-book"></i>
-                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
-                        </div>
+                        {% endfor %}
+                        <input name="id_formulario" style="display:none;" value="{{formulario.pk}}">
                     </div>
                 </div>
                 <div id="text-area-container">
                     <div id="form-textarea_container">
-                        <i class="icon_container fa-solid fa-pencil"><img href="#"></i>
+                        <i class="icon_container fa-solid fa-pencil"></i>
                         <textarea placeholder="Notas adicionales*" title="Notas adicionales"></textarea>
                     </div>
                 </div>
@@ -102,32 +87,6 @@
             </form>
         </section>
     </main>
-    <footer>
-        <div><img href="#" title="Icono COZCYT"></div>
-        <div>
-            <h3>UBICACION</h3>
-            <p>Avenida de la juventud #504</p>
-            <p>Colonia Barros Sierra</p>
-            <p>C.P. 98090</p>
-            <p>Zacatecas, Zac.</p>
-        </div>
-        <div>
-            <h3>TELEFONOS</h3>
-            <p>492 921 3228</p>
-            <p>492 921 3018</p>
-            <p>492 921 2816</p>
-            <p>492 921 3308</p>
-        </div>
-        <div>
-            <p>© Gobierno del Estado de Zacatecas 2021 - 2027</p>
-            <div id="redes_container">
-                <a href="#"><img href="#" title="Facebook"></a>
-                <a href="#"><img href="#" title="Twitter"></a>
-                <a href="#"><img href="#" title="YouTube"></a>
-                <a href="#"><img href="#" title="Instagram"></a>
-                <a href="#"><img href="#" title="Correo"></a>
-            </div>
-        </div>
-    </footer>
+    {% include "footer.html" %}
 </body>
 </html>
