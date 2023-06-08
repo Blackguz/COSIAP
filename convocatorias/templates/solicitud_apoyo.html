@@ -17,7 +17,6 @@
                 <img src="../../static/img/icons/logodocbeca.png" id="logobeca">
             </div>
             <div id="info-container-desc">
-                <!-- CAMBIAR TÍTULO DEPENDIENDO DEL APOYO -->
                 <h3 class="info-container-title">{{modalidad.nombre}}</h3>
                 <p id="section-p-descripcion">Descripción:</p>
                 <p>{{modalidad.descripcion}}</p>
@@ -32,46 +31,42 @@
             </div>
         </section>
         <section id="form-container">
-            <!-- CAMBIAR ESPACIOS DE FORMULARIO DEPENDIENDO DEL APOYO -->
             <h3 id="form-container-h3">Solicitud de apoyo</h3>
-            <form>
+            <form method="POST">
+                {% csrf_token %}
                 <div id="forms">
-                    {% for form in formulario.nombre %}
-                        {{formulario.id_modalidad.nombre }}
-                    {% endfor %}
                     <div class="two-container">
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-user"></i>
-                            <input class="input_container" placeholder="Tu nombre*" required title="Tu nombre">
+                        {% for atributo in atributos %}
+                        <div id="label-input-container">
+                            <label id="input-label" for="{{atributo.nombre}}">{{atributo.nombre}}</label>
+                            <div class="form-input_container">
+                                {% if atributo.tipo_atributo == 'Texto' %}
+                                    <i class="icon_container fa-solid fa-pencil"></i>
+                                {% elif atributo.tipo_atributo == 'Numero' %}
+                                    <i class="icon_container fa-solid fa-pencil"></i>
+                                {% elif atributo.tipo_atributo == 'Fecha' %}
+                                    <i class="icon_container fa-solid fa-calendar-day"></i>
+                                {% elif atributo.tipo_atributo == 'Documento' %}
+                                    <i class="icon_container fa-solid fa-book"></i>
+                                {% elif atributo.tipo_atributo == 'Telefono' %}
+                                    <i class="icon_container fa-solid fa-phone"></i>
+                                {% endif %}
+                                <input name="{{atributo.nombre}}" class="input_container" placeholder="{{atributo.nombre}}*" required title="{{atributo.nombre}}"
+                                        {% if atributo.tipo_atributo == 'Texto' %}
+                                            type="text"
+                                        {% elif atributo.tipo_atributo == 'Numero' %}
+                                            type="number"
+                                        {% elif atributo.tipo_atributo == 'Fecha' %}
+                                            type="date"
+                                        {% elif atributo.tipo_atributo == 'Documento' %}
+                                            type="file"
+                                        {% elif atributo.tipo_atributo == 'Telefono' %}
+                                            type="phone"
+                                        {% endif %}>
+                            </div>
                         </div>
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-envelope"></i>
-                            <input class="input_container" placeholder="Tu E-mail*" required title="Tu E-mail">
-                        </div>
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-phone"></i>
-                            <input class="input_container" placeholder="Teléfono*" required title="Teléfono">
-                        </div>
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-book"></i>
-                            <input class="input_container" placeholder="Carta de recepción" title="Carta de recepción">
-                        </div>
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-book"></i>
-                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
-                        </div>
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-book"></i>
-                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
-                        </div>
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-book"></i>
-                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
-                        </div>
-                        <div class="form-input_container">
-                            <i class="icon_container fa-solid fa-book"></i>
-                            <input class="input_container file_container" type="file" placeholder="Ningún archivo seleccionado*" title="Archivo X">
-                        </div>
+                        {% endfor %}
+                        <input name="id_formulario" style="display:none;" value="{{formulario.pk}}">
                     </div>
                 </div>
                 <div id="text-area-container">
