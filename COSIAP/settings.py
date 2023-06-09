@@ -13,8 +13,8 @@ import os
 from pathlib import Path
 import dotenv
 
+#Iniciar el entorno .env
 dotenv.load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -92,7 +92,7 @@ DATABASES = {
         'NAME': 'COSIAP',
         'USER': 'cosiap',
         'PASSWORD': 'password123',
-        'HOST': os.getenv('HOST_BD'),
+        'HOST': os.getenv("HOST_BD"),
         'PORT': '3306',
     }
 }
