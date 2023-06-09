@@ -24,7 +24,7 @@ class Modalidad(models.Model):
 
 class Solicitud(models.Model):
     monto_solicitado = models.DecimalField(max_digits=10, decimal_places=2)
-    documentos = models.FileField(blank=True, null=True)
+    documentos = models.CharField(max_length=255, blank=True, null=True)
     estado = models.CharField(max_length=255)
     monto_aprobado = models.DecimalField(max_digits=10, decimal_places=2)
     fecha_solicitud = models.DateField()

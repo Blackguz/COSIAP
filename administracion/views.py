@@ -350,8 +350,6 @@ def crear_formulario(request):
         formset = AtributosFormset(request.POST)
         nombre_formulario = request.POST.get('nombre')
         id_modalidad = request.POST.get('id_modalidad')
-        print("nombre_formulario: ", nombre_formulario, "id_modalidad: ", id_modalidad)
-        print(request.POST)
         
         if nombre_formulario and id_modalidad:
             modalidad = Modalidad.objects.get(pk=id_modalidad)
