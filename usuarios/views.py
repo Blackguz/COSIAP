@@ -62,7 +62,8 @@ def register_solicitante(request):
         form = SolicitanteCreationForm(request.POST)
         if form.is_valid():
             solicitante = form.save()
-            login(request)
+            solicitante.backend = 'COSIAP.authentication.EmailBackend'
+            login(request, solicitante)
             messages.success(request, 'Registro exitoso. Bienvenido/a!')
             return redirect('index')
         else:
