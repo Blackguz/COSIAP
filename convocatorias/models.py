@@ -36,7 +36,6 @@ class Modalidad(models.Model):
 
 class Solicitud(models.Model):
     monto_solicitado = models.DecimalField(max_digits=10, decimal_places=2)
-    documentos = documentos = models.CharField(max_length=255, blank=True, null=True, default=solicitud_directory_path)
     estado = models.CharField(max_length=255)
     monto_aprobado = models.DecimalField(max_digits=10, decimal_places=2)
     fecha_solicitud = models.DateField()
@@ -48,6 +47,13 @@ class Solicitud(models.Model):
 
     def __str__(self):
         return f'Solicitud {self.id_solicitud} - {self.id_solicitante.username}'
+
+class DocumentoSolicitud(models.Model):
+    solicitud = models.ForeignKey(Solicitud, on_delete=models.CASCADE, related_name='documentos')
+    documento = models.FileField(upload_to=solicitud_directory_path)
+
+    def __str__(self):
+        return f'Documento {self.id} - {self.documento.name}'
 
 class Formulario(models.Model):
     id_formulario = models.AutoField(primary_key=True)
