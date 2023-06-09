@@ -36,13 +36,12 @@ class Modalidad(models.Model):
 
 class Solicitud(models.Model):
     monto_solicitado = models.DecimalField(max_digits=10, decimal_places=2)
-    estado = models.CharField(max_length=255)
     monto_aprobado = models.DecimalField(max_digits=10, decimal_places=2)
     fecha_solicitud = models.DateField()
     id_estatus = models.ForeignKey(Estatus, on_delete=models.CASCADE)
     id_modalidad = models.ForeignKey(Modalidad, on_delete=models.CASCADE)
     id_solicitante = models.ForeignKey(Solicitante, on_delete=models.CASCADE) # Modelo personalizado 'Solicitante'
-    observaciones = models.TextField()
+    observaciones = models.TextField(null=True, blank=True)
     id_solicitud = models.AutoField(primary_key=True)
 
     def __str__(self):

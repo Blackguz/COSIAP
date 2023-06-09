@@ -32,7 +32,7 @@
         </section>
         <section id="form-container">
             <h3 id="form-container-h3">Solicitud de apoyo</h3>
-            <form method="POST">
+            <form method="POST" action="">
                 {% csrf_token %}
                 <div id="forms">
                     <div class="two-container">
@@ -59,7 +59,7 @@
                                         {% elif atributo.tipo_atributo == 'Fecha' %}
                                             type="date"
                                         {% elif atributo.tipo_atributo == 'Documento' %}
-                                            type="file"
+                                            type="file" id="form-document"
                                         {% elif atributo.tipo_atributo == 'Telefono' %}
                                             type="phone"
                                         {% endif %}>
