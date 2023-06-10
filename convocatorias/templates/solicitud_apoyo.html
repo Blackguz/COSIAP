@@ -32,13 +32,13 @@
         </section>
         <section id="form-container">
             <h3 id="form-container-h3">Solicitud de apoyo</h3>
-            <form method="POST">
+            <form method="POST" action="">
                 {% csrf_token %}
                 <div id="forms">
                     <div class="two-container">
                         {% for atributo in atributos %}
                         <div id="label-input-container">
-                            <label id="input-label" for="{{atributo.nombre}}">{{atributo.nombre}}</label>
+                            <label id="input-label" for="{{atributo.nombre}}">{{atributo.nombre}}*</label>
                             <div class="form-input_container">
                                 {% if atributo.tipo_atributo == 'Texto' %}
                                     <i class="icon_container fa-solid fa-pencil"></i>
@@ -51,7 +51,7 @@
                                 {% elif atributo.tipo_atributo == 'Telefono' %}
                                     <i class="icon_container fa-solid fa-phone"></i>
                                 {% endif %}
-                                <input name="{{atributo.nombre}}" class="input_container" placeholder="{{atributo.nombre}}*" required title="{{atributo.nombre}}"
+                                <input name="{{atributo.nombre}}" class="input_container" placeholder="{{atributo.nombre}}" required title="{{atributo.nombre}}"
                                         {% if atributo.tipo_atributo == 'Texto' %}
                                             type="text"
                                         {% elif atributo.tipo_atributo == 'Numero' %}
@@ -59,7 +59,7 @@
                                         {% elif atributo.tipo_atributo == 'Fecha' %}
                                             type="date"
                                         {% elif atributo.tipo_atributo == 'Documento' %}
-                                            type="file"
+                                            type="file" id="form-document"
                                         {% elif atributo.tipo_atributo == 'Telefono' %}
                                             type="phone"
                                         {% endif %}>

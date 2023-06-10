@@ -1,11 +1,11 @@
 from django.forms import ModelForm, EmailInput, TextInput, NumberInput, Textarea
-from soporte.models import SolicitudApoyo
+from soporte.models import SolicitudSoporte
 
 input_classes = {'class': 'regular-input'}
 
-class SolicitudApoyoForm(ModelForm):
+class SolicitudSoporteForm(ModelForm):
     class Meta:
-        model = SolicitudApoyo
+        model = SolicitudSoporte
         exclude = ['estado_solicitud']
         widgets = {
             'nombre': TextInput(attrs={'placeholder': 'Tu nombre*', **input_classes}),
