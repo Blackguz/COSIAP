@@ -33,23 +33,21 @@ def solicitud_de_apoyos(request, idModalidad):
             if valor:
                 if atributoFormulario.es_documento:
                     try:
-                        print("--------------------")
-                        print(request.FILES[atributoFormulario.nombre].content_type == "application/pdf" and request.FILES[atributoFormulario.nombre].size <= (1024*2*1024))
                         if request.FILES[atributoFormulario.nombre].content_type == "application/pdf" and request.FILES[atributoFormulario.nombre].size <= (1024*2*1024):
                             request.FILES[atributoFormulario.nombre].name = atributoFormulario.nombre+".pdf"
 
                             DocumentoSolicitud.objects.create(solicitud=solicitud, documento=request.FILES[atributoFormulario.nombre])
                         else:
                             messages.error(request, "Error al guardar los datos")
-                            return redirect('index')
+                            return redirect(f'/solicitud_de_apoyos/{idModalidad}')
                     except Exception:
                         messages.error(request, "Error al cargar los archivos")
-                        return redirect('index')
+                        return redirect(f'/solicitud_de_apoyos/{idModalidad}')
                 else: #si no es documento
                     pass
             else:
                 messages.error(request, "No puedes enviar campos vacios")
-                return redirect('index')
+                return redirect(f'/solicitud_de_apoyos/{idModalidad}')
         messages.success(request, "Solicitud enviada con éxito")
         return redirect('solicitudes_realizadas')
     else:

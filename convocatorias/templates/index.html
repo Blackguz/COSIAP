@@ -11,6 +11,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
         crossorigin="anonymous">
 </head>
+    {% if messages %}
+        {% for message in messages %}
+          {% if message.tags == 'error' %}
+            <script>
+              Swal.fire({
+              title: "Error",
+              text: "{{ message }}",
+              icon: "error",
+            });
+            </script>
+          {% endif %}
+          {% if message.tags == 'success' %}
+            <script>
+              Swal.fire({
+              title: "Éxito",
+              text: "{{ message }}",
+              icon: "success",
+            });
+            </script>
+          {% endif %}
+        {% endfor %}
+    {% endif %}
 
 <body>
     <div class="topbar-container">
