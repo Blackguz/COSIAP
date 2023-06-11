@@ -22,6 +22,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    entrypoint: ["/app/entrypoint.sh"]
 
 volumes:
   db_data:

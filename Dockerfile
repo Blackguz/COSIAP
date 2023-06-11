@@ -12,6 +12,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-RUN python manage.py loaddata convocatorias/fixtures/estatus_initial_data
+# Copia el script de entrada
+COPY ./entrypoint.sh /app/entrypoint.sh
+
+# Comando de entrada
+ENTRYPOINT ["/app/entrypoint.sh"]
+
 # Copiar el proyecto
 COPY . .
