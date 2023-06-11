@@ -27,8 +27,8 @@ def panel_administracion(request):
     generos = get_generos_solicitantes()
     
     # Contamos todas las solicitudes
-    solicitudes_autorizado = Solicitud.objects.filter(estado='Autorizado').count()
-    solicitudes_en_proceso = Solicitud.objects.filter(estado='Documentación completa').count() + Solicitud.objects.filter(estado='Pendiente').count() + Solicitud.objects.filter(estado='En proceso de análisis').count() + Solicitud.objects.filter(estado='Aceptado').count()
+    solicitudes_autorizado = Solicitud.objects.filter(pk=6).count()
+    solicitudes_en_proceso = Solicitud.objects.filter(pk=2).count() + Solicitud.objects.filter(pk=1).count() + Solicitud.objects.filter(pk=1).count() + Solicitud.objects.filter(pk=4).count()
     
     # Obtenemos el numero de solicitudes de soporte tecnico pendientes
     #solicitudes_soporte_tecnico = SolicitudSoporte.objects.filter(estado='Pendiente').count()

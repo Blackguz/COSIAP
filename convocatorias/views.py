@@ -21,7 +21,6 @@ def index(request):
 
 def solicitud_de_apoyos(request, idModalidad):
     if request.method == 'POST':
-        atributo = "Añadir documento"
         id_formulario = request.POST["id_formulario"]
         atributosFormulario = AtributosFormulario.objects.filter(id_formulario=id_formulario)
         solicitante = Solicitante.objects.get(id=request.user.pk)
@@ -33,7 +32,6 @@ def solicitud_de_apoyos(request, idModalidad):
             if valor:
                 if atributoFormulario.es_documento:
                     try:
-                        print("--------------------")
                         print(request.FILES[atributoFormulario.nombre].content_type == "application/pdf" and request.FILES[atributoFormulario.nombre].size <= (1024*2*1024))
                         if request.FILES[atributoFormulario.nombre].content_type == "application/pdf" and request.FILES[atributoFormulario.nombre].size <= (1024*2*1024):
                             request.FILES[atributoFormulario.nombre].name = atributoFormulario.nombre+".pdf"

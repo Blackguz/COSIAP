@@ -12,5 +12,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+RUN python manage.py loaddata convocatorias/fixtures/estatus_initial_data
 # Copiar el proyecto
 COPY . .
