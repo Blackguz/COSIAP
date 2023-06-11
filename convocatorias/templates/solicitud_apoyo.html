@@ -8,7 +8,32 @@
     <title>{{modalidad.nombre}}</title>
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
+{% if messages %}
+  {% for message in messages %}
+    {% if message.tags == 'error' %}
+      <script>
+          Swal.fire({
+          title: "Error",
+          text: "{{ message }}",
+          icon: "error",
+        });
+      </script>
+  {% endif %}
+  {% if message.tags == 'success' %}
+      <script>
+        Swal.fire({
+        title: "Éxito",
+        text: "{{ message }}",
+        icon: "success",
+      });
+      </script>
+  {% endif %}
+  {% endfor %}
+{% endif %}
+
 <body>
     {% include "navbar.html" with a_style='link-header' displayer_style='True' link_index='True' %}
     <main>
@@ -72,7 +97,7 @@
                 <div id="text-area-container">
                     <div id="form-textarea_container">
                         <i class="icon_container fa-solid fa-pencil"></i>
-                        <textarea placeholder="Notas adicionales*" title="Notas adicionales"></textarea>
+                        <textarea name="notas_adicionales" placeholder="Notas adicionales*" value=" " title="Notas adicionales"></textarea>
                     </div>
                 </div>
                 <div id="form-footer_container">
@@ -88,5 +113,30 @@
         </section>
     </main>
     {% include "footer.html" %}
+
+{% if messages %}
+        {% for message in messages %}
+          {% if message.tags == 'error' %}
+            <script>
+              Swal.fire({
+              title: "Error",
+              text: "{{ message }}",
+              icon: "error",
+            });
+            </script>
+          {% endif %}
+          {% if message.tags == 'success' %}
+            <script>
+              Swal.fire({
+              title: "Éxito",
+              text: "{{ message }}",
+              icon: "success",
+            });
+            </script>
+          {% endif %}
+        {% endfor %}
+    {% endif %}
+
+
 </body>
 </html>
