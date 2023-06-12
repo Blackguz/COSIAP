@@ -3,17 +3,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
-from django.http import JsonResponse
-from convocatorias.models import Solicitud, Modalidad, Formulario, AtributosFormulario
+from django.http import JsonResponse, FileResponse, Http404
+from convocatorias.models import Solicitud, Modalidad, Formulario, AtributosFormulario, DocumentoSolicitud
 from convocatorias.forms import ModalidadForm, FormularioForm, AtributoFormularioForm
 from django.forms.formsets import formset_factory
 from usuarios.models import Solicitante, Administrador
 from usuarios.forms import SolicitanteCreationForm, AdministradorForm
 from administracion.models import UsuariosBaneados
 from convocatorias.models import Estatus
+from django.db.models import Q
 from usuarios.forms import SolicitanteCreationForm
 from .utils import get_solicitudes_por_nivel, get_generos_solicitantes
 import json
+import os
 
 # Create your views here.
 
@@ -460,3 +462,33 @@ def lista_baneados(request):
         'baneados':baneados
     }
     return render(request, 'papelera_baneados.html', data)
+
+@login_required
+@staff_member_required
+def solicitudes_apoyos_nuevas(request):
+    pendiente_status = Estatus.objects.get(nombre='Pendiente')
+    documentacion_completa_status = Estatus.objects.get(nombre='Documentación completa')
+
+    solicitudes_apoyos = Solicitud.objects.filter(Q(id_estatus=pendiente_status) | Q(id_estatus=documentacion_completa_status))
+
+    solicitudes_data = []
+    for solicitud in solicitudes_apoyos:
+        documentos = solicitud.documentos.all()
+        solicitudes_data.append({
+            'solicitud': solicitud,
+            'documentos': documentos
+        })
+
+    data = {
+        'solicitudes_data': solicitudes_data
+    }
+
+    return render(request, 'solicitudes_apoyos_nuevas.html', data)
+
+@login_required
+@staff_member_required
+def download_documento(request, pk):
+    documento = get_object_or_404(DocumentoSolicitud, pk=pk)
+    if os.path.exists(documento.documento.path):
+        return FileResponse(open(documento.documento.path, 'rb'), content_type='application/force-download')
+    raise Http404
