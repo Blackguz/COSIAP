@@ -360,7 +360,6 @@ p {
         margin: 10px 0;
         padding: 20px;
         align-items: stretch;
-        height: 27rem;
     }
 
     .gdisp1 {
@@ -966,4 +965,68 @@ footer{
     #form-footer{
         width: 84%;
     }
+}
+/********************************************************/
+/********************************************************/
+/********************************************************/
+.contenedor_items{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 10%;
+    margin-right:10%;
+    row-gap:2rem;
+    margin-top:2rem;
+}
+
+.una_beca img{
+    width:3rem;
+    height:3rem;
+}
+
+.una_beca{
+    display: grid;
+    justify-items: center;
+    row-gap: 1rem;
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 15px;
+    transition:transform .3s ease-in-out;
+
+    margin-left:12%;
+    max-width:210px;
+    min-width:210px;
+    padding-top:40px;
+    padding-bottom:40px;
+
+}
+
+.una_beca:hover{
+    transform: scale(1.1);
+}
+/*----------------------BARRA DE PAGINAS------------*/
+.pagination{
+    display: flex;
+    justify-content: center;
+    margin: 3rem 0 2rem;
+    column-gap: 0rem;
+}
+.page-link{
+    border: 1px solid #bbb3b3;
+    width: 2rem;
+    text-align: center;
+    height: 2.3rem;
+    line-height: 2.3rem;
+    color: rgb(171 71 64);
+    text-decoration: none;
+}
+
+.desactivar {
+    color: rgb(10,10,10);
+    pointer-events: none;
+}
+
+.link_activo {
+    color: #1813de;
+    background-color: #8e8a8a2b;
+    pointer-events: none;
 }

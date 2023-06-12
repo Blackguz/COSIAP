@@ -35,3 +35,15 @@ def procesar_becas() -> dict:
         }
     }
     return diccionario_becas
+#----------------------------------
+def numero_becas() -> list[Modalidad]:
+    return Modalidad.objects.all().order_by()
+
+def obtener_todas() -> dict:
+    todas_becas = {
+        "becas": {
+            "becas": (becas := numero_becas()),
+            "disposicion": obtener_disposicion(len(becas))
+        }
+    }
+    return todas_becas
