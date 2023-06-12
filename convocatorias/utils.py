@@ -1,6 +1,7 @@
 import os
 from django.utils import timezone
-from .models import Modalidad
+from .models import Modalidad, AtributosFormulario, Formulario
+import itertools
 
 def user_directory_path(instance, filename):
     user = instance.id_solicitante
@@ -23,15 +24,33 @@ def user_directory_path(instance, filename):
     return os.path.join(f"{user.id}/documentos/{folder}/", file_name)
 
 def obtener_becas(limite: int) -> list[Modalidad]:
-    return Modalidad.objects.all()[:limite]
+    modalidades = Modalidad.objects.all()[:limite]
+    resultado = {}
+    becas = []
+
+    for modalidad in modalidades:
+        resultado["beca"]=modalidad
+        resultado["requisitos"]=obtener_requisitos(modalidad)
+        becas.append(resultado)
+        resultado = {}
+    print("+++++++++++++++")
+    print(becas)
+    print("arriba esta becas")
+    return becas
 
 def obtener_disposicion(tamano_becas: int) -> str:
     return "" if tamano_becas >= 3 else "gdisp2" if tamano_becas == 2 else "gdisp1"
+
+def obtener_requisitos(modalidad: Modalidad) -> list[AtributosFormulario]:
+    formulario = Formulario.objects.filter(id_modalidad=modalidad)
+    atributos = AtributosFormulario.objects.filter(id_formulario=formulario[0])
+    return [*atributos]
+
+
 def procesar_becas() -> dict:
     diccionario_becas = {
-        "becas": {
-            "becas": (becas := obtener_becas(3)),
-            "disposicion": obtener_disposicion(len(becas))
-        }
+        "becas": (becas := obtener_becas(3)),
+        "disposicion": obtener_disposicion(len(becas)),
     }
+    print(diccionario_becas)
     return diccionario_becas
