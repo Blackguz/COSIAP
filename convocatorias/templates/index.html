@@ -35,7 +35,7 @@
         {% endfor %}
     {% endif %}
 
-<body>
+<body class="preload">
     <div class="topbar-container">
         <div class="topbar-bg">
             {% include "navbar.html" %}
@@ -54,7 +54,6 @@
             <h2 class="bg-text-line">Apoyos disponibles</h2>
             <p class="small-info-text">No dudes en solicitar los apoyos necesarios</p>
         </div>
-        <!-- Aquí será el display de las becas -->
 
         {% include "tarjeta_beca.html" %}
 
@@ -106,4 +105,5 @@
     </section>
     {% include "footer.html" %}
 </body>
+<script src="{% static 'js/navbar_utils.js' %}"></script>
 </html>
