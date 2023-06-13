@@ -55,9 +55,9 @@
             <p class="small-info-text">No dudes en solicitar los apoyos necesarios</p>
         </div>
         <!-- Aquí será el display de las becas -->
-        <div class="becas {{becas.disposicion}}">
-            {% include "tarjeta_beca.html" %}
-        </div>
+
+        {% include "tarjeta_beca.html" %}
+
         <a href="{% url 'lista_apoyos' %}" class="boton-reg">Ver todos</a>
     </main>
 
@@ -79,8 +79,8 @@
         <img id="apoyos-img-definition" src="{%static 'img/icons/becas_mex_22.jpg'%}" alt="student-img">
     </section>
 
-    <section class="centered-column-container form-style1">
-        <h2>Contactanos</h2>
+    <section id="form-container">
+        <h3 id="form-container-h3">Contáctanos</h3>
         {% include "contact_form.html" %}
     </section>
     <section class="contacts-sect">
