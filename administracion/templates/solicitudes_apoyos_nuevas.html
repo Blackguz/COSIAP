@@ -44,50 +44,38 @@
               <thead>
                 <tr>
                   <th>Nombre completo</th>
-                  <th>Correo</th>
-                  <th>Genero</th>
-                  <th>Escolaridad</th>
-                  <th>Domicilio</th>
+                  <th>Modalidad</th>
+                  <th>fecha</th>
+                  <th>Monto solicitado</th>
+                  <th>Monto aprobado</th>
+                  <th>Estatus</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {% for usuario in usuarios %}
+                {% for solicitud_data in solicitudes_data %}
                 <tr>
                   <td>
-                    {{usuario.first_name}} {{usuario.apellido_paterno}}
-                    {{usuario.apellido_materno}}
+                    {{solicitud_data.solicitud.id_solicitante.first_name}} 
+                    {{solicitud_data.solicitud.id_solicitante.apellido_paterno}}
+                    {{solicitud_data.solicitud.id_solicitante.apellido_materno}}
                   </td>
-                  <td>{{usuario.email}}</td>
-                  <td>{{usuario.genero}}</td>
-                  <td>{{usuario.ultimo_grado_estudios}}</td>
-                  <td>{{usuario.domicilio_calle}}</td>
+                  <td>{{solicitud_data.solicitud.id_modalidad.nombre}}</td>
+                  <td>{{solicitud_data.solicitud.fecha_solicitud}}</td>
+                  <td>{{solicitud_data.solicitud.monto_solicitado}}</td>
+                  <td>{{solicitud_data.solicitud.monto_aprobado}}</td>
+                  <td>{{solicitud_data.solicitud.id_estatus.nombre}}</td>
                   <td>
                     <button type="button" 
                       class="btn btn-icon btn-primary" 
                       data-bs-toggle="modal" 
-                      data-bs-target="#inlineForm{{usuario.id}}"
+                      data-bs-target="#inlineForm{{solicitud_data.solicitud.pk}}"
                       ><i class="bi bi-pencil-fill"></i>
                     </button>
-                    <a
-                      href="{% url 'administracion:eliminar_usuario' usuario.id %}"
-                      class="btn btn-icon btn-danger"
-                      ><i class="bi bi-trash-fill"></i
-                    ></a>
-                    <a
-                      href="{% url 'administracion:banear_usuario' usuario.id %}"
-                      class="btn btn-icon btn-warning"
-                      ><i class="bi bi-x-circle-fill"></i
-                    ></a>
-                    <a
-                      href="{% url 'administracion:enviar_correo' usuario.id %}"
-                      class="btn btn-icon btn-info"
-                      ><i class="bi bi-envelope-fill"></i
-                    ></a>
                   </td>
                 </tr>
                 {% empty %}
-                <h2>No se encontraron usuarios.</h2>
+                <h2>No se encontraron solicitudes realizadas.</h2>
                 {% endfor %}
               </tbody>
             </table>
@@ -98,14 +86,15 @@
   </div>
 </section>
 
+
 <section>
-  {% for usuario in usuarios %}
-  <div class="modal fade text-left" id="inlineForm{{usuario.id}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+  {% for solicitud_data in solicitudes_data %}
+  <div class="modal fade text-left" id="inlineForm{{solicitud_data.solicitud.pk}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="myModalLabel33">
-            Editar usuario
+            Solicitud Entrante
           </h4>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -115,112 +104,114 @@
           <div class="modal-body" style="  max-height: calc(100vh - 210px);
           overflow-y: auto;">
             <div class="row">
-              <input id="id{{usuario.id}}" type="text" hidden placeholder="id" class="form-control" value="{{usuario.id}}" disabled>
+              <input id="id{{solicitud_data.solicitud.pk}}" type="text" hidden placeholder="id" class="form-control" value="{{solicitud_data.solicitud.pk}}" disabled>
+              
               <div class="col-md-6 col-12">
-                <label for="nombre">nombre: </label>
+                <label for="curp">Nombre: </label>
                 <div class="form-group">
-                  <input id="nombre{{usuario.id}}" type="text" placeholder="Nombre" class="form-control" value="{{usuario.first_name}}">
+                  <input disabled id="nombre{{solicitud_data.solicitud.pk}}" type="text" placeholder="Nombre" class="form-control" value="{{solicitud_data.solicitud.id_solicitante.first_name}}">
+                </div>
+                <label for="fecha_solicitud">Apellidos: </label>
+                <div class="form-group">
+                  <input disabled id="apellidos{{solicitud_data.solicitud.id_solicitante.pk}}" type="text" placeholder="Apellidos" class="form-control" 
+                        value="{{solicitud_data.solicitud.id_solicitante.apellido_paterno}} {{solicitud_data.solicitud.id_solicitante.apellido_materno}}"
+                  >
                 </div>
               </div>
-              <div class="col-md-6 col-12">
-                <label for="apellido_paterno">Apellido Paterno: </label>
-                <div class="form-group">
-                  <input id="apellido_paterno{{usuario.id}}" type="text" placeholder="Apellido paterno" class="form-control" value="{{usuario.apellido_paterno}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="apellido_materno">Apellido Materno: </label>
-                <div class="form-group">
-                  <input id="apellido_materno{{usuario.id}}" type="text" placeholder="Apellido materno" class="form-control" value="{{usuario.apellido_materno}}">
-                </div>
-              </div>
+
               <div class="col-md-6 col-12">
                 <label for="curp">CURP: </label>
                 <div class="form-group">
-                  <input id="curp{{usuario.id}}" type="text" placeholder="CURP" class="form-control" value="{{usuario.curp}}">
+                  <input disabled id="curp{{solicitud_data.solicitud.pk}}" type="text" placeholder="Monto solicitado" class="form-control" value="{{solicitud_data.solicitud.id_solicitante.curp}}">
                 </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="telefono_particular">Telefono particular: </label>
+                <label for="fecha_solicitud">Genero: </label>
                 <div class="form-group">
-                  <input id="telefono_particular{{usuario.id}}" type="tel" placeholder="Telefono particular" class="form-control" value="{{usuario.telefono_particular}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="telefono_celular">telefono celular: </label>
-                <div class="form-group">
-                  <input id="telefono_celular{{usuario.id}}" type="tel" placeholder="Telefono celular" class="form-control" value="{{usuario.telefono_celular}}">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <label for="genero">genero: </label>
-                <div class="form-group">
-                  <select name="genero" class="form-select" id="genero{{usuario.id}}">
-                    {% if usuario.genero == "M" %}
-                    <option value="{{usuario.genero}}"> Masculino</option>
-                    <option value="F">Femenino</option>
+                  <input disabled id="fecha_solicitud{{solicitud_data.solicitud.id_solicitante.pk}}" type="text" placeholder="Fecha de Solicitud" class="form-control" 
+                    {% if solicitud_data.solicitud.id_solicitante.genero == "M" %}
+                        value="Masculino"
                     {% else %}
-                    <option value="{{usuario.genero}}">Femenino</option>
-                    <option value="M">Masculino</option>
+                        value="Femenino"
                     {% endif %}
-                  </select>
+                  >
                 </div>
               </div>
+
               <div class="col-md-6 col-12">
-                <label for="ultimo_grado_estudios">Ultimo grado de estudios: </label>
+                <label for="curp">Telefono particular: </label>
                 <div class="form-group">
-                  <input id="ultimo_grado_estudios{{usuario.id}}" type="text" placeholder="Ultimo grado de estudios" class="form-control" value="{{usuario.ultimo_grado_estudios}}">
+                  <input disabled id="telefono_particular{{solicitud_data.solicitud.pk}}" type="text" placeholder="Telefono particular" class="form-control" value="{{solicitud_data.solicitud.id_solicitante.telefono_particular}}">
+                </div>
+                <label for="fecha_solicitud">Telefono celular: </label>
+                <div class="form-group">
+                  <input disabled id="telefono_celular{{solicitud_data.solicitud.id_solicitante.pk}}" type="text" placeholder="Telefono Celular" class="form-control" 
+                        value="{{solicitud_data.solicitud.id_solicitante.telefono_celular}}"
+                  >
                 </div>
               </div>
+              
               <div class="col-md-6 col-12">
-                <label for="institucion">Institución: </label>
+                <label for="monto_solicitado">Monto solicitado: </label>
                 <div class="form-group">
-                  <input id="institucion{{usuario.id}}" type="text" placeholder="Institucion" class="form-control" value="{{usuario.institucion}}">
+                  <input disabled id="monto_solicitado{{solicitud_data.solicitud.pk}}" type="number" placeholder="Monto solicitado" class="form-control" value="{{solicitud_data.solicitud.monto_solicitado}}">
+                </div>
+                <label for="monto_aprobado">Monto aprobado: </label>
+                <div class="form-group">
+                  <input id="monto_aprobado{{solicitud_data.solicitud.pk}}" type="number" placeholder="Monto aprobado" class="form-control" value="{{solicitud_data.solicitud.monto_aprobado}}">
                 </div>
               </div>
+
               <div class="col-md-6 col-12">
-                <label for="domicilio_calle">Calle: </label>
+                <label for="fecha_solicitud">Fecha de Solicitud: </label>
                 <div class="form-group">
-                  <input id="domicilio_calle{{usuario.id}}" type="text" placeholder="Calle/Avenida/Camino" class="form-control" value="{{usuario.domicilio_calle}}">
+                  <input disabled id="fecha_solicitud{{solicitud_data.solicitud.pk}}" type="date" placeholder="Fecha de Solicitud" class="form-control" value="{{solicitud_data.solicitud.fecha_solicitud|date:'Y-m-d'}}">
+                </div>
+                <label for="fecha_solicitud">Grado de estudios: </label>
+                <div class="form-group">
+                  <input disabled id="grado_estudio{{solicitud_data.solicitud.pk}}" type="text" placeholder="Fecha de Solicitud" class="form-control" value="{{solicitud_data.solicitud.id_solicitante.ultimo_grado_estudios}}">
                 </div>
               </div>
+
               <div class="col-md-6 col-12">
-                <label for="domicilio_numero_exterior">Numero Exterior: </label>
+                <label for="curp">Estatus: </label>
                 <div class="form-group">
-                  <input id="domicilio_numero_exterior{{usuario.id}}" type="number" placeholder="Numero Exterior" class="form-control" value="{{usuario.domicilio_numero_exterior}}">
+                  <input disabled id="estatus{{solicitud_data.solicitud.pk}}" type="text" placeholder="Estatus" class="form-control" value="{{solicitud_data.solicitud.id_estatus}}">
                 </div>
               </div>
-              <div class="col-md-6 col-12">
-                <label for="domicilio_numero_interior">Numero interior: </label>
-                <div class="form-group">
-                  <input id="domicilio_numero_interior{{usuario.id}}" type="number" placeholder="Numero interior" class="form-control" value="{{usuario.domicilio_numero_interior}}">
-                </div>
+
+
+              {% for documento in solicitud_data.documentos %}
+                <a href="{% url 'administracion:download_documento' pk=documento.pk %}" 
+                class="btn btn-sm btn-outline-primary">{{ documento}}
+                </a><br>
+              {% endfor %}
+
+              <label for="observaciones">Observaciones: </label>
+              <div class="form-group">
+                <textarea id="observaciones{{solicitud_data.solicitud.pk}}" placeholder="Observaciones" class="form-control" rows="4">{{solicitud_data.solicitud.observaciones}}</textarea>
               </div>
-              <div class="col-md-6 col-12">
-                <label for="domicilio_codigo_postal">Codigo postal: </label>
-                <div class="form-group">
-                  <input id="domicilio_codigo_postal{{usuario.id}}" type="number" placeholder="Codigo postal" class="form-control" value="{{usuario.domicilio_codigo_postal}}">
-                </div>
-              </div>
+
+
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-              <i class="bx bx-x d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Cancelar</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x d-block d-sm-none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <span class="d-none d-sm-block">Cerrar</span>
             </button>
-            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal" id="GuardarCambios{{usuario.id}}">
-              <i class="bx bx-check d-block d-sm-none"></i>
+            <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x d-block d-sm-none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
               <span class="d-none d-sm-block">Guardar</span>
-            </button>            
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
-  
   {% endfor %}
 </section>
+
+
+
 {% endblock mainb %} 
 {% block extra_scripts %} 
 <script>

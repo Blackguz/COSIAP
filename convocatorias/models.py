@@ -5,14 +5,13 @@ from django.utils import timezone
 def solicitud_directory_path(instance, filename):
     # Formato: idSolicitud_username_mes_año_modalidad
     folder_name = '{0}_{1}_{2}_{3}_{4}'.format(
-        instance.id_solicitud, 
-        instance.id_solicitante.username, 
+        instance.solicitud.pk,
+        instance.solicitud.id_solicitante.username,
         timezone.now().month, 
         timezone.now().year, 
-        instance.id_modalidad.nombre
+        instance.solicitud.id_modalidad.nombre
     )
-    return 'usuarios/{0}/solicitudes/{1}'.format(instance.id_solicitante.username, folder_name)
-
+    return 'usuarios/{0}/solicitudes/{1}/{2}'.format(instance.solicitud.id_solicitante.username, folder_name, filename)
 
 class Estatus(models.Model):
     id_estatus = models.AutoField(primary_key=True)
@@ -52,7 +51,8 @@ class DocumentoSolicitud(models.Model):
     documento = models.FileField(upload_to=solicitud_directory_path)
 
     def __str__(self):
-        return f'Documento {self.id} - {self.documento.name}'
+        nombre = self.documento.name.split('/')[-1]
+        return f'Documento {self.id} - {nombre}'
 
 class Formulario(models.Model):
     id_formulario = models.AutoField(primary_key=True)
