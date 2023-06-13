@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class SolicitudApoyo(models.Model):
+class SolicitudSoporte(models.Model):
     estado_solicitud = models.CharField(max_length=255)
     nombre = models.CharField(max_length=50)
     correo = models.CharField(max_length=80)

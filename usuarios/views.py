@@ -20,6 +20,7 @@ def login_view(request):
             return render(request, 'login.html', {'error': 'Por favor, complete todos los campos'})
         
         usuarioBan = Solicitante.objects.filter(email=email)
+        usuarioBan = UsuariosBaneados.objects.filter(usuario__in=usuarioBan)
         if usuarioBan:
             return render(request, 'login.html', {'error': 'Lo sentimos, no puedes iniciar sesión en el sistema.'})
 

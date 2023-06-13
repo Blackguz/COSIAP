@@ -724,27 +724,28 @@ section div .info-container-title{
     display:flex;
     flex-wrap: wrap;
     width:46%;
+    padding-left: 2.7%;
 }
 #input-label{
     width:100%;
 }
+#form-document{
+    padding-top: 7.5px;
+}
 .input_container{
     padding-left: 10px;
+    padding-right: 10px;
     border-width: 0;
     background-color: rgba(0,0,0,0);
     width: 100%;
     height: 100%;
     font-size: 17px;
 }
-.file_container{
-    padding-top: 7.5px;
-}
-
 .two-container{
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    justify-content: space-evenly;
+    justify-content: left;
 }
 #text-area-container{
     width: 100%;
@@ -764,7 +765,7 @@ section div .info-container-title{
     border-color: rgba(0,0,0,0.4);
     border-style: solid;
     border-radius: 4px;
-    width:94.7%;
+    width:94.4%;
     background-color: rgb(255,255,255);
 }
 #form-textarea_container i{
@@ -773,10 +774,10 @@ section div .info-container-title{
 #form-textarea_container textarea{
     overflow: hidden;
     width: 100%;
-    height: 80px;
+    height: 86%;
     resize: none;
     border-width: 0;
-    padding: 0px 10px 0px 10px;
+    padding: 10px 10px 0px 10px;
     font-size: 17px;
     background-color: rgba(255,255,255,0);
 }
@@ -846,13 +847,14 @@ footer{
     padding: 30px;
 }
 #footer-top h3{
-    font-family: Arial;
+    font-family: 'Roboto';
     font-weight: 100;
     line-height: 2.2;
     font-size: 25px;
 }
 #footer-top p{
-    font-family: Arial;
+    font-family: 'Roboto';
+    font-weight: 100;
     line-height: 1.4;
     font-size: 16px;
 }
@@ -903,6 +905,9 @@ footer{
 
 
 @media (max-width: 700px) {
+    .two-container{
+        justify-content: space-evenly;
+    }
     .footer-info{
         text-align: center;
     }
@@ -943,6 +948,7 @@ footer{
     }
     #label-input-container{
         width:88%;
+        padding-left: 0;
     }
     #footer-div-img{
         width: 220px;
