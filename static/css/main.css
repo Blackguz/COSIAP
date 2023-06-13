@@ -402,6 +402,12 @@ p {
     height: 5px;
 }
 
+@media screen and (max-width: 384px) {
+    .bg-text-line {
+        width: 213px;
+    }
+}
+
 .centered-column-container .bg-text-line {
     text-align: left;
 }
