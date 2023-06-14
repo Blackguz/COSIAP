@@ -1,13 +1,12 @@
 import os
 from django.utils import timezone
 from .models import Modalidad, AtributosFormulario, Formulario
-import itertools
 
 def user_directory_path(instance, filename):
     user = instance.id_solicitante
     solicitud = instance.id
     solicitud_nombre = instance.nombre
-    
+
     # Obtener la instancia de la modalidad asociada con la solicitud
     modalidad = instance.id_modalidad
 
@@ -33,9 +32,6 @@ def obtener_becas(limite: int) -> list[Modalidad]:
         resultado["requisitos"]=obtener_requisitos(modalidad)
         becas.append(resultado)
         resultado = {}
-    print("+++++++++++++++")
-    print(becas)
-    print("arriba esta becas")
     return becas
 
 def obtener_disposicion(tamano_becas: int) -> str:
@@ -52,5 +48,4 @@ def procesar_becas() -> dict:
         "becas": (becas := obtener_becas(3)),
         "disposicion": obtener_disposicion(len(becas)),
     }
-    print(diccionario_becas)
     return diccionario_becas

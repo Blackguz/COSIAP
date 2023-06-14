@@ -28,8 +28,9 @@ def solicitud_de_apoyos(request, idModalidad):
         atributosFormulario = AtributosFormulario.objects.filter(id_formulario=id_formulario)
         solicitante = Solicitante.objects.get(id=request.user.pk)
         estatus = get_object_or_404(Estatus, pk=1)
+        monto_solicitud = request.POST["monto_solicitado"]
         modalidad = get_object_or_404(Modalidad, pk=idModalidad)
-        solicitud = Solicitud.objects.create(monto_solicitado=0, monto_aprobado=0 ,fecha_solicitud=datetime.now(), id_estatus=estatus, id_modalidad=modalidad, id_solicitante=solicitante, observaciones=request.POST['notas_adicionales'])
+        solicitud = Solicitud.objects.create(monto_solicitado=monto_solicitud, monto_aprobado=0 ,fecha_solicitud=datetime.now(), id_estatus=estatus, id_modalidad=modalidad, id_solicitante=solicitante, observaciones=request.POST['notas_adicionales'])
         non_document_data = {}
         for atributoFormulario in atributosFormulario:
             if atributoFormulario.es_documento:

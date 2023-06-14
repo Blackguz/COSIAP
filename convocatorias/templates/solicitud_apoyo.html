@@ -50,7 +50,9 @@
                 <h4 class="info-container-data">Presupuesto máximo: <span>${{modalidad.presupuesto|floatformat:"2g"}}</span></h4>
                 <h4 class="info-container-data">Requerimientos:</h4>
                 <ul id="info-container-list">
-                    <li>{{modalidad.requisitos}}</li>
+                    {% for atributo in atributos %}
+                        <li>{{atributo.nombre}}</li>
+                    {% endfor %}
                 </ul>
                 <h4 class="info-container-data">Reglas de operación:</h4>
                 <p>Consulta el archivo con nuestras reglas de operación dando <a id="click-sin-formato" href="#">click aquí.</a></p>
@@ -92,6 +94,16 @@
                             </div>
                         </div>
                         {% endfor %}
+
+                        <div id="label-input-container">
+                            <label id="input-label">Monto Solicitado*</label>
+                            <div class="form-input_container">
+                                <i class="icon_container fa-solid fa-money-bill"></i>
+                                <input name="monto_solicitado" class="input_container" placeholder="Monto solicitado" required title="Monto solicitado" type="number">
+                            </div>
+                        </div>
+
+
                         <input name="id_formulario" style="display:none;" value="{{formulario.pk}}">
                     </div>
                 </div>

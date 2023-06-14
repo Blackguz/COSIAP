@@ -89,7 +89,8 @@ p {
 .text-info-white {
     font-family: 'Roboto';
     color: white;
-    font-weight: 100;
+    text-align: justify;
+    font-weight: 300;
 }
 
 .boton-reg {
