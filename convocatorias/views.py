@@ -57,8 +57,14 @@ def solicitud_de_apoyos(request, idModalidad):
         return redirect('solicitudes_realizadas')
     else:
         modalidad = get_object_or_404(Modalidad, pk=idModalidad)
-        formulario = get_object_or_404(Formulario, pk=idModalidad)
-        atributosFormulario = AtributosFormulario.objects.filter(id_formulario=formulario.pk)
+        formulario = Formulario.objects.get(id_modalidad=modalidad)
+        if formulario is None:
+            formulario = []
+            atributosFormulario =[]
+            return render(request, 'solicitud_apoyo.html',
+                          {'modalidad': modalidad, 'formulario': formulario, 'atributos': atributosFormulario})
+
+        atributosFormulario = AtributosFormulario.objects.filter(id_formulario=formulario)
         return render(request, 'solicitud_apoyo.html', {'modalidad': modalidad, 'formulario':formulario, 'atributos':atributosFormulario})
 
 
