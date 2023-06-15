@@ -39,9 +39,10 @@ def obtener_disposicion(tamano_becas: int) -> str:
 
 def obtener_requisitos(modalidad: Modalidad) -> list[AtributosFormulario]:
     formulario = Formulario.objects.filter(id_modalidad=modalidad)
+    if len(formulario)==0:
+        return []
     atributos = AtributosFormulario.objects.filter(id_formulario=formulario[0])
     return [*atributos]
-
 
 def procesar_becas() -> dict:
     diccionario_becas = {
@@ -49,3 +50,16 @@ def procesar_becas() -> dict:
         "disposicion": obtener_disposicion(len(becas)),
     }
     return diccionario_becas
+
+#----------------------------------
+def numero_becas() -> list[Modalidad]:
+    return Modalidad.objects.all().order_by()
+
+def obtener_todas() -> dict:
+    todas_becas = {
+        "becas": {
+            "becas": (becas := numero_becas()),
+            "disposicion": obtener_disposicion(len(becas))
+        }
+    }
+    return todas_becas

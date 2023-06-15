@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from soporte.forms import SolicitudSoporteForm
 from usuarios.models import Solicitante
-from .utils import procesar_becas
+from .utils import procesar_becas, obtener_todas, numero_becas
 from .models import Modalidad, Formulario, AtributosFormulario, Solicitud, Estatus, DocumentoSolicitud
 from convocatorias.forms import AtributoFormularioForm
 from datetime import datetime
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.shortcuts import render
+
 import os
 from django.core.files.base import ContentFile
 from django.conf import settings
-
 # Create your views here.
 
 def index(request):
@@ -55,18 +57,21 @@ def solicitud_de_apoyos(request, idModalidad):
         return redirect('solicitudes_realizadas')
     else:
         modalidad = get_object_or_404(Modalidad, pk=idModalidad)
-        formulario = get_object_or_404(Formulario, pk=idModalidad)
-        atributosFormulario = AtributosFormulario.objects.filter(id_formulario=formulario.pk)
-        return render(request, 'solicitud_apoyo.html', {'modalidad': modalidad, 'formulario':formulario, 'atributos':atributosFormulario})
+        formulario = Formulario.objects.get(id_modalidad=modalidad)
+        if formulario is None:
+            formulario = []
+            atributosFormulario =[]
+            return render(request, 'solicitud_apoyo.html',
+                          {'modalidad': modalidad, 'formulario': formulario, 'atributos': atributosFormulario})
 
+        atributosFormulario = AtributosFormulario.objects.filter(id_formulario=formulario)
+        return render(request, 'solicitud_apoyo.html', {'modalidad': modalidad, 'formulario':formulario, 'atributos':atributosFormulario})
 
 
 def solicitudes_realizadas(request):
     return render(request, 'solicitudes_realizadas.html')
 
-
-
-
+"""
 def lista_apoyos(request):
     if request.method == 'POST':
         formulario_solicitud = SolicitudSoporteForm(request.POST)
@@ -75,4 +80,13 @@ def lista_apoyos(request):
             return redirect('lista_apoyos')
     else:
         formulario_solicitud = SolicitudSoporteForm()
-    return render(request, 'lista_apoyos.html', {'form': formulario_solicitud, **procesar_becas()})
+    return render(request, 'lista_apoyos.html', {'form': formulario_solicitud, **obtener_todas()})
+"""
+def lista_apoyos(request):
+    contact_list = numero_becas()
+    paginator = Paginator(contact_list, 6)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "lista_apoyos.html", {"page_obj": page_obj})
