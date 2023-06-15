@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    // Agregamos eventos al boton para guardar administradores
+    // Agregamos eventos al boton para guardar modalidades
     document.querySelectorAll("[id^=GuardarModalidad]").forEach((button) => {
         button.addEventListener("click", () => {
             const id = button.id.replace("GuardarModalidad", "");
@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Funcion para guardar los cambios de un administrador
+    // Funcion para guardar los cambios de una modalidad
     function guardarModalidad(id) {
         const modalidadId = document.getElementById("id"+id).value;
         const nombre = document.getElementById("nombre"+id).value;
@@ -236,5 +236,4 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             });
     }
-
 });

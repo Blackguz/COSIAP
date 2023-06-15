@@ -492,3 +492,23 @@ def download_documento(request, pk):
     if os.path.exists(documento.documento.path):
         return FileResponse(open(documento.documento.path, 'rb'), content_type='application/force-download')
     raise Http404
+
+@login_required
+@staff_member_required
+def cambiar_estado(request, estado, solicitud):
+    estado_solicitud = get_object_or_404(Estatus, pk=estado)
+    solicitud_obj = get_object_or_404(Solicitud, pk=solicitud)
+
+    print("HOLAAAAAAA")
+    print("=============")
+    if solicitud_obj.id_estatus == estado_solicitud:
+        messages.error(request, f'La solicitud ya tiene el estado de {estado_solicitud}')
+        return redirect('administracion:solicitudes_apoyos_nuevas')
+    
+    print(request.POST)
+    #solicitud_obj.id_estatus = estado_solicitud
+    #solicitud_obj.observaciones = request.POST[f'observaciones{solicitud}']
+    #solicitud_obj.monto_aprobado = request.POST[f'monto_aprobado{solicitud}']
+    #messages.success(request, f'Solicitud cambiada a {estado_solicitud}')
+    
+    return redirect('administracion:solicitudes_apoyos_nuevas')

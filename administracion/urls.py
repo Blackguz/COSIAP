@@ -31,5 +31,6 @@ urlpatterns = [
     path('papelera/restaurar_usuario/<int:id>/', restaurar_usuario, name='restaurar_usuario'),
     path('papelera/baneados/', lista_baneados, name='baneados'),
     path('solicitudes/nuevas/', solicitudes_apoyos_nuevas, name='solicitudes_apoyos_nuevas'),
-    path('descarga/documento/<int:pk>', download_documento, name='download_documento')
+    path('descarga/documento/<int:pk>', download_documento, name='download_documento'),
+    path('solicitud/cambiar_estado/<int:estado>/<int:solicitud>/', cambiar_estado, name='cambiar_estado')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
