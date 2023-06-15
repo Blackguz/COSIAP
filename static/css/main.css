@@ -6,6 +6,7 @@
 :root {
     /* Colores de fondo*/
     --bg-regular-color: rgb(118, 21, 14);
+    --bg-dark-color: rgb(82, 9, 4);
     --beca-card-border-1: #e1e1e1;
     --footer-regular-color: rgb(66, 66, 66);
     --footer-bottom-regular-color: rgb(49, 49, 49);
@@ -24,6 +25,14 @@
     padding: 0;
     margin: 0;
     font-family: 'Roboto', sans-serif;
+}
+
+.preload * {
+    transition: none !important;
+    -o-transition: none !important;
+    -moz-transition: none !important;
+    -webkit-transition: none;
+    -ms-transition: none !important;
 }
 
 body {
@@ -80,7 +89,8 @@ p {
 .text-info-white {
     font-family: 'Roboto';
     color: white;
-    font-weight: 100;
+    text-align: justify;
+    font-weight: 300;
 }
 
 .boton-reg {
@@ -93,6 +103,42 @@ p {
     display: block;
     align-items: center;
     overflow: hidden;
+    cursor: pointer;
+}
+
+.perfil-container {
+    position: relative;
+}
+
+.dropdown-menu {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    list-style: none;
+    width: 100%;
+    transform: scaleY(0);
+    transform-origin: top center;
+    overflow: hidden;
+    background-color: var(--bg-regular-color);
+    transition: transform 0.2s ease-in-out;
+    box-shadow: 1px 1px 1px black;
+}
+
+.dropdown-menu > li {
+    padding: 1rem;
+    border-bottom: 1px solid var(--bg-dark-color);
+}
+
+.dropdown-menu > li * {
+    width: 100%;
+}
+
+.dropdown-menu > li:not(:first-child):not(:last-child) {
+    margin: 1rem 0;
+}
+
+.dropdown-ic-expand {
+    transition: transform 0.2s ease-in-out;
 }
 
 /*
@@ -153,12 +199,15 @@ p {
 }
 
 .topbar-bg {
-    background-color: rgba(136, 136, 136, 0.6);
+    background-color: rgba(65, 65, 65, 0.6);
 }
 
 .header-bar {
     padding: 1rem 2rem;
     background-color: transparent;
+    color: white;
+    font-size: var(--header-font-size-reg);
+    user-select: none;
 }
 
 .header-bar a {
@@ -200,7 +249,7 @@ p {
     padding: 1rem;
     box-shadow: -0.1rem 0 0.7rem rgba(0, 0, 0, 0.7);
     transition: right 0.8s linear;
-    overflow: hidden;
+    overflow: auto;
 }
 
 @media screen and (max-width: 767px) {
@@ -226,10 +275,8 @@ p {
     transition: opacity 0.8s linear;
 }
 
-@media screen and (max-width: 767px) {
-    .boton-reg.boton-perfil {
-        padding: 0;
-    }
+.boton-perfil {
+    box-shadow: 1px 1px 1px black;
 }
 
 @media screen and (min-width: 768px) {
@@ -241,6 +288,7 @@ p {
         box-shadow: none;
         padding: 0;
         position: static;
+        overflow: visible;
     }
 
     .bg-navbar {
@@ -272,10 +320,6 @@ p {
     }
 }
 
-#check-navbar {
-    display: none;
-}
-
 #check-navbar:checked ~ .navbar-btns {
     right: 0;
 }
@@ -283,6 +327,31 @@ p {
 #check-navbar:checked ~ .bg-navbar {
     opacity: 1;
     z-index: 49;
+}
+
+#check-profile-menu:checked ~ .dropdown-menu {
+    transform: scaleY(1);
+}
+
+#check-profile-menu:checked ~ * .dropdown-ic-expand {
+    transform: rotate(-180deg);
+}
+
+@media screen and (max-width: 767px) {
+    #profile-btn {
+        display: none;
+    }
+
+    .dropdown-menu {
+        position: static;
+        transform: scaleY(1);
+        box-shadow: none;
+    }
+
+    .dropdown-menu > li {
+        padding: 0;
+        text-align: center;
+    }
 }
 
 .welcome-sect {
@@ -332,6 +401,12 @@ p {
     background-color: var(--bg-regular-color);
     width: 100%;
     height: 5px;
+}
+
+@media screen and (max-width: 384px) {
+    .bg-text-line {
+        width: 213px;
+    }
 }
 
 .centered-column-container .bg-text-line {

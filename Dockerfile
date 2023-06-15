@@ -12,5 +12,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+# Copia el script de entrada
+COPY ./entrypoint.sh /app/entrypoint.sh
+
+# Comando de entrada
+ENTRYPOINT ["/app/entrypoint.sh"]
+
 # Copiar el proyecto
 COPY . .

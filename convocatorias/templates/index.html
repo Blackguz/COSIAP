@@ -10,9 +10,32 @@
     <link rel="stylesheet" href="{%static 'css/main.css'%}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
         crossorigin="anonymous">
-</head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    {% if messages %}
+        {% for message in messages %}
+          {% if message.tags == 'error' %}
+            <script>
+              Swal.fire({
+              title: "Error",
+              text: "{{ message }}",
+              icon: "error",
+            });
+            </script>
+          {% endif %}
+          {% if message.tags == 'success' %}
+            <script>
+              Swal.fire({
+              title: "Éxito",
+              text: "{{ message }}",
+              icon: "success",
+            });
+            </script>
+          {% endif %}
+        {% endfor %}
+    {% endif %}
 
-<body>
+<body class="preload">
     <div class="topbar-container">
         <div class="topbar-bg">
             {% include "navbar.html" %}
@@ -31,10 +54,9 @@
             <h2 class="bg-text-line">Apoyos disponibles</h2>
             <p class="small-info-text">No dudes en solicitar los apoyos necesarios</p>
         </div>
-        <!-- Aquí será el display de las becas -->
-        <div class="becas {{becas.disposicion}}">
-            {% include "tarjeta_beca.html" %}
-        </div>
+
+        {% include "tarjeta_beca.html" %}
+
         <a href="{% url 'lista_apoyos' %}" class="boton-reg">Ver todos</a>
     </main>
 
@@ -43,7 +65,7 @@
         <div class="desc-programa">
             <h3 class="white-bold title-48">Apoyos COZCyT</h3>
             <p class="text-info-white">
-                El programa <b>APOYOS COSZCYT</b> promueve la producción científica de los estudiantes, investigadores e
+                El programa <b>APOYOS COZCYT</b> promueve la producción científica de los estudiantes, investigadores e
                 instituciones públicas y organizaciones del estado de Zacatecas, mediante respaldo financiero para
                 la:<br>
                 <b>Presentación de trabajos (publicación de artículos)</b> en revistas indizadas en catálogos
@@ -56,8 +78,8 @@
         <img id="apoyos-img-definition" src="{%static 'img/icons/becas_mex_22.jpg'%}" alt="student-img">
     </section>
 
-    <section class="centered-column-container form-style1">
-        <h2>Contactanos</h2>
+    <section id="form-container">
+        <h3 id="form-container-h3">Contáctanos</h3>
         {% include "contact_form.html" %}
     </section>
     <section class="contacts-sect">
@@ -83,4 +105,5 @@
     </section>
     {% include "footer.html" %}
 </body>
+<script src="{% static 'js/navbar_utils.js' %}"></script>
 </html>
