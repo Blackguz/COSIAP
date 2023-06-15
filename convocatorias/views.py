@@ -68,11 +68,8 @@ def solicitud_de_apoyos(request, idModalidad):
         return render(request, 'solicitud_apoyo.html', {'modalidad': modalidad, 'formulario':formulario, 'atributos':atributosFormulario})
 
 
-
 def solicitudes_realizadas(request):
     return render(request, 'solicitudes_realizadas.html')
-
-
 
 """
 def lista_apoyos(request):
