@@ -47,6 +47,13 @@
         "fields": {
             "nombre": "Borrado"
         }
+    },
+    {
+        "model": "convocatorias.estatus",
+        "pk": 8,
+        "fields": {
+            "nombre": "Documentación incompleta"
+        }
     }
 ]
   
