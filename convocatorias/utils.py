@@ -34,6 +34,17 @@ def obtener_becas(limite: int) -> list[Modalidad]:
         resultado = {}
     return becas
 
+def incluir_becas(lista_modalidades):
+    resultado = {}
+    becas = []
+
+    for modalidad in lista_modalidades:
+        resultado["beca"] = modalidad
+        resultado["requisitos"] = obtener_requisitos(modalidad)
+        becas.append(resultado)
+        resultado = {}
+    return becas
+
 def obtener_disposicion(tamano_becas: int) -> str:
     return "" if tamano_becas >= 3 else "gdisp2" if tamano_becas == 2 else "gdisp1"
 
@@ -44,22 +55,22 @@ def obtener_requisitos(modalidad: Modalidad) -> list[AtributosFormulario]:
     atributos = AtributosFormulario.objects.filter(id_formulario=formulario[0])
     return [*atributos]
 
-def procesar_becas() -> dict:
-    diccionario_becas = {
-        "becas": (becas := obtener_becas(3)),
-        "disposicion": obtener_disposicion(len(becas)),
-    }
+def procesar_becas(becas: list[Modalidad]=None) -> list[dict]:
+    if becas is  None:
+        diccionario_becas = [{
+            "becas": (becas := obtener_becas(3)),
+            "disposicion": obtener_disposicion(len(becas)),
+        }]
+    else:
+        diccionario_becas = [{
+            "becas":(particion := incluir_becas(becas[:3])),
+            "disposicion" : obtener_disposicion(len(particion)),
+        }, {
+            "becas": (particion2 := incluir_becas(becas[3:])),
+            "disposicion": obtener_disposicion(len(particion2)),
+        }]
     return diccionario_becas
 
 #----------------------------------
 def numero_becas() -> list[Modalidad]:
     return Modalidad.objects.all().order_by()
-
-def obtener_todas() -> dict:
-    todas_becas = {
-        "becas": {
-            "becas": (becas := numero_becas()),
-            "disposicion": obtener_disposicion(len(becas))
-        }
-    }
-    return todas_becas

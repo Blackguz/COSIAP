@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from soporte.forms import SolicitudSoporteForm
 from usuarios.models import Solicitante
-from .utils import procesar_becas, obtener_todas, numero_becas
+from .utils import procesar_becas, numero_becas
 from .models import Modalidad, Formulario, AtributosFormulario, Solicitud, Estatus, DocumentoSolicitud
 from convocatorias.forms import AtributoFormularioForm
 from datetime import datetime
@@ -22,7 +22,7 @@ def index(request):
             return redirect('index')
     else:
         formulario_solicitud = SolicitudSoporteForm()
-    return render(request, 'index.html', {'form': formulario_solicitud, **procesar_becas()})
+    return render(request, 'index.html', {'form': formulario_solicitud, "modalidades":procesar_becas()})
 
 def solicitud_de_apoyos(request, idModalidad):
     if request.method == 'POST':
@@ -82,6 +82,8 @@ def lista_apoyos(request):
         formulario_solicitud = SolicitudSoporteForm()
     return render(request, 'lista_apoyos.html', {'form': formulario_solicitud, **obtener_todas()})
 """
+
+
 def lista_apoyos(request):
     contact_list = numero_becas()
     paginator = Paginator(contact_list, 6)
@@ -89,4 +91,6 @@ def lista_apoyos(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    return render(request, "lista_apoyos.html", {"page_obj": page_obj})
+    lista_modalidaes=list(page_obj)
+
+    return render(request, "lista_apoyos.html", {"page_obj": page_obj, "modalidades":procesar_becas(lista_modalidaes)})

@@ -7,54 +7,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de apoyos</title>
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+          crossorigin="anonymous">
 </head>
 <body>
 <!------------------------CABECERA--------------------------------------------------->
-    {% include "navbar.html" with a_style='link-header' displayer_style='True' link_index='True' %}
+{% include "navbar.html" with a_style='link-header' displayer_style='True' link_index='True' %}
 <!--------------------------------------------------------------------------->
-        <div class="info-bar">
-            <h2 class="bg-text-line">Apoyos disponibles</h2>
-            <p class="small-info-text">No dudes en solicitar los apoyos necesarios</p>
-        </div>
-<!----------BECAS--------------------->
-<div class="contenedor_items">
-{% for becas in page_obj %}
-    {% include "tarjeta_beca_v2.html" %}
+<div class="centered-column-container">
+    <div class="info-bar">
+        <h2 class="bg-text-line">Apoyos disponibles</h2>
+        <p class="small-info-text">No dudes en solicitar los apoyos necesarios</p>
+    </div>
+    <!----------BECAS--------------------->
+    <div>
+        {% include "tarjeta_beca.html" %}
+    </div>
+    <!---------PAGINACION-------------------------->
 
-    <br>
-{% endfor %}
-</div>
-<!---------PAGINACION-------------------------->
+    <div class="pagination">
 
-<div class="pagination">
-
-    {% if page_obj.has_previous %}
-    <a href="?page={{page_obj.previous_page_number}}" class="page-link">&laquo;</a>
-    {% else %}
-    <a href="#" class="page-link desactivar">&laquo;</a>
-    {% endif %}
+        {% if page_obj.has_previous %}
+        <a href="?page={{page_obj.previous_page_number}}" class="page-link">&laquo;</a>
+        {% else %}
+        <a href="#" class="page-link desactivar">&laquo;</a>
+        {% endif %}
 
 
-    {% for var1 in page_obj.paginator.page_range %}
+        {% for var1 in page_obj.paginator.page_range %}
 
         <a href="?page={{ var1 }}" class="page-link {% if page_obj.number == var1 %} link_activo {% endif %}">{{ var1 }}</a>
 
-    {% endfor %}
+        {% endfor %}
 
 
+        {% if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number}}" class="page-link">&raquo;</a>
+        {% else %}
+        <a href="#" class="page-link desactivar">&raquo;</a>
+        {% endif %}
 
-
-    {% if page_obj.has_next %}
-    <a href="?page={{page_obj.next_page_number}}" class="page-link">&raquo;</a>
-    {% else %}
-    <a href="#" class="page-link desactivar">&raquo;</a>
-    {% endif %}
-
+    </div>
 </div>
 <!------------------FOOTER---------------------------------------------------->
 
-    {% include "footer.html" %}
+{% include "footer.html" %}
 
 
 </body>
