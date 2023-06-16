@@ -14,9 +14,9 @@
                 <i class="fa-solid fa-arrow-left navbar-hider-btn"></i>
             </label>
             <a href="{%if link_index%}{% url 'index' %}{% else %}#{% endif %}" {% if a_style %}class="{{a_style}}"{% endif %}>Inicio</a>
-            <a href="#" {% if a_style %}class="{{a_style}}"{% endif %}>Apoyos</a>
-            <a href="#" {% if a_style %}class="{{a_style}}"{% endif %}>Nosotros</a>
-            <a href="#" {% if a_style %}class="{{a_style}}"{% endif %}>Contacto</a>
+            <a href="{% url 'index'%}#apoyos-disponibles" {% if a_style %}class="{{a_style}}"{% endif %}>Apoyos</a>
+            <a href="{% url 'index'%}#Nosotros" {% if a_style %}class="{{a_style}}"{% endif %}>Nosotros</a>
+            <a href="{% url 'index'%}#form-container" {% if a_style %}class="{{a_style}}"{% endif %}>Contacto</a>
             {% if request.user.is_authenticated %}
             <div class="perfil-container">
                 <input type="checkbox" id="check-profile-menu" class="hidden">
@@ -34,10 +34,10 @@
                         <a href="#">Mi perfil</a>
                     </li>
                     <li>
-                        <a href="#">Solicitudes realizadas</a>
+                        <a href="{% url 'solicitudes_realizadas'%}">Solicitudes realizadas</a>
                     </li>
                     <li>
-                        <a href="#">Cerrar sesión</a>
+                        <a href="{% url 'usuarios:cerrar_sesion' %}">Cerrar sesión</a>
                     </li>
                 </ul>
             </div>

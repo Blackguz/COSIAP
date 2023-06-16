@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from soporte.forms import SolicitudSoporteForm
 from usuarios.models import Solicitante
-from .utils import procesar_becas
+from .utils import procesar_becas, numero_becas
 from .models import Modalidad, Formulario, AtributosFormulario, Solicitud, Estatus, DocumentoSolicitud
 from convocatorias.forms import AtributoFormularioForm
 from datetime import datetime
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from django.http import JsonResponse
+
 import os
 from django.core.files.base import ContentFile
 from django.conf import settings
-
 # Create your views here.
 
 def index(request):
@@ -20,7 +23,7 @@ def index(request):
             return redirect('index')
     else:
         formulario_solicitud = SolicitudSoporteForm()
-    return render(request, 'index.html', {'form': formulario_solicitud, **procesar_becas()})
+    return render(request, 'index.html', {'form': formulario_solicitud, "modalidades":procesar_becas()})
 
 def solicitud_de_apoyos(request, idModalidad):
     if request.method == 'POST':
@@ -54,19 +57,39 @@ def solicitud_de_apoyos(request, idModalidad):
         messages.success(request, "Solicitud enviada con éxito")
         return redirect('solicitudes_realizadas')
     else:
-        modalidad = get_object_or_404(Modalidad, pk=idModalidad)
-        formulario = get_object_or_404(Formulario, pk=idModalidad)
-        atributosFormulario = AtributosFormulario.objects.filter(id_formulario=formulario.pk)
+        modalidad = Modalidad.objects.get(pk=idModalidad)
+        try:
+            formulario = Formulario.objects.get(id_modalidad=modalidad)
+            atributosFormulario = AtributosFormulario.objects.filter(id_formulario=formulario)
+        except Formulario.DoesNotExist:
+            formulario = []
+            atributosFormulario = []
+
         return render(request, 'solicitud_apoyo.html', {'modalidad': modalidad, 'formulario':formulario, 'atributos':atributosFormulario})
 
 
-
 def solicitudes_realizadas(request):
-    return render(request, 'solicitudes_realizadas.html')
+    solicitudes_list = Solicitud.objects.all()
+    paginator = Paginator(solicitudes_list, 6)  # Mostrar 6 solicitudes por página.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'solicitudes_realizadas.html', {'page_obj': page_obj})
 
 
+def detalle_solicitud(request, id_solicitud):
+    solicitud = Solicitud.objects.get(pk=id_solicitud)
 
+    data = {
+        'nombre': solicitud.id_modalidad.nombre,
+        'descripcion': solicitud.id_modalidad.descripcion,
+        'monto': str(solicitud.monto_solicitado),  # Convertimos Decimal a string para la serialización
+    }
 
+    return JsonResponse(data)
+
+"""
 def lista_apoyos(request):
     if request.method == 'POST':
         formulario_solicitud = SolicitudSoporteForm(request.POST)
@@ -75,4 +98,22 @@ def lista_apoyos(request):
             return redirect('lista_apoyos')
     else:
         formulario_solicitud = SolicitudSoporteForm()
-    return render(request, 'lista_apoyos.html', {'form': formulario_solicitud, **procesar_becas()})
+    return render(request, 'lista_apoyos.html', {'form': formulario_solicitud, **obtener_todas()})
+"""
+
+
+def lista_apoyos(request):
+    contact_list = numero_becas()
+    paginator = Paginator(contact_list, 6)
+
+    page_number = request.GET.get("page",1)
+    page_obj = paginator.get_page(page_number)
+
+    page_numero = request.GET.get('page')
+    pag_actual = int(page_numero) if page_numero else 1
+
+    page_range = paginator.get_elided_page_range(number=pag_actual,on_each_side=2,on_ends=1)
+
+    lista_modalidaes=list(page_obj)
+
+    return render(request, "lista_apoyos.html", {"page_obj": page_obj, "modalidades":procesar_becas(lista_modalidaes),"page_range":page_range})

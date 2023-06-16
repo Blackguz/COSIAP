@@ -1,0 +1,211 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %} 
+  <title>Lista de usuarios </title> 
+{% endblock %} 
+{% block mainb %}
+
+{% if messages %}
+{% for message in messages %}
+  {% if message.tags == 'error' %}
+    <script>
+      Swal.fire({
+      title: "Error",
+      text: "{{ message }}",
+      icon: "error",
+    });
+    </script>
+  {% endif %}
+  {% if message.tags == 'success' %}
+    <script>
+      Swal.fire({
+      title: "Éxito",
+      text: "{{ message }}",
+      icon: "success",
+    });
+    </script>
+  {% endif %}
+{% endfor %}
+{% endif %}
+
+
+<section class="section">
+  <div class="row" id="table-striped">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Solicitudes de apoyo finalizadas</h4>
+        </div>
+        <div class="card-content">
+          <!-- table striped -->
+          <div class="table-responsive">
+            <table class="table table-striped mb-0">
+              <thead>
+                <tr>
+                  <th>Nombre completo</th>
+                  <th>Modalidad</th>
+                  <th>fecha</th>
+                  <th>Monto solicitado</th>
+                  <th>Monto aprobado</th>
+                  <th>Estatus</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for solicitud_data in solicitudes_data %}
+                <tr>
+                  <td>
+                    {{solicitud_data.solicitud.id_solicitante.first_name}} 
+                    {{solicitud_data.solicitud.id_solicitante.apellido_paterno}}
+                    {{solicitud_data.solicitud.id_solicitante.apellido_materno}}
+                  </td>
+                  <td>{{solicitud_data.solicitud.id_modalidad.nombre}}</td>
+                  <td>{{solicitud_data.solicitud.fecha_solicitud}}</td>
+                  <td>{{solicitud_data.solicitud.monto_solicitado}}</td>
+                  <td>{{solicitud_data.solicitud.monto_aprobado}}</td>
+                  <td>{{solicitud_data.solicitud.id_estatus.nombre}}</td>
+                  <td>
+                    <button type="button" 
+                      class="btn btn-icon btn-primary" 
+                      data-bs-toggle="modal" 
+                      data-bs-target="#inlineForm{{solicitud_data.solicitud.pk}}"
+                      ><i class="bi bi-pencil-fill"></i>
+                    </button>
+                  </td>
+                </tr>
+                {% empty %}
+                <h2>No se encontraron solicitudes realizadas.</h2>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section>
+  {% for solicitud_data in solicitudes_data %}
+  <div class="modal fade text-left" id="inlineForm{{solicitud_data.solicitud.pk}}" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel33">
+            Solicitud Entrante
+          </h4>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <form method="POST" action="{% url 'administracion:actualizar_solicitud' solicitud_data.solicitud.pk%}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="modal-body" style="  max-height: calc(100vh - 210px);
+          overflow-y: auto;">
+            <div class="row">
+              <input id="id{{solicitud_data.solicitud.pk}}" type="text" hidden placeholder="id" class="form-control" value="{{solicitud_data.solicitud.pk}}">
+              
+              <div class="col-md-6 col-12">
+                <label for="curp">Nombre: </label>
+                <div class="form-group">
+                  <input disabled id="nombre{{solicitud_data.solicitud.pk}}" type="text" placeholder="Nombre" class="form-control" value="{{solicitud_data.solicitud.id_solicitante.first_name}}">
+                </div>
+                <label for="fecha_solicitud">Apellidos: </label>
+                <div class="form-group">
+                  <input disabled id="apellidos{{solicitud_data.solicitud.id_solicitante.pk}}" type="text" placeholder="Apellidos" class="form-control" 
+                        value="{{solicitud_data.solicitud.id_solicitante.apellido_paterno}} {{solicitud_data.solicitud.id_solicitante.apellido_materno}}"
+                  >
+                </div>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <label for="curp">CURP: </label>
+                <div class="form-group">
+                  <input disabled id="curp{{solicitud_data.solicitud.pk}}" type="text" placeholder="Monto solicitado" class="form-control" value="{{solicitud_data.solicitud.id_solicitante.curp}}">
+                </div>
+                <label for="fecha_solicitud">Genero: </label>
+                <div class="form-group">
+                  <input disabled id="fecha_solicitud{{solicitud_data.solicitud.id_solicitante.pk}}" type="text" placeholder="Fecha de Solicitud" class="form-control" 
+                    {% if solicitud_data.solicitud.id_solicitante.genero == "M" %}
+                        value="Masculino"
+                    {% else %}
+                        value="Femenino"
+                    {% endif %}
+                  >
+                </div>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <label for="curp">Telefono particular: </label>
+                <div class="form-group">
+                  <input disabled id="telefono_particular{{solicitud_data.solicitud.pk}}" type="text" placeholder="Telefono particular" class="form-control" value="{{solicitud_data.solicitud.id_solicitante.telefono_particular}}">
+                </div>
+                <label for="fecha_solicitud">Telefono celular: </label>
+                <div class="form-group">
+                  <input disabled id="telefono_celular{{solicitud_data.solicitud.id_solicitante.pk}}" type="text" placeholder="Telefono Celular" class="form-control" 
+                        value="{{solicitud_data.solicitud.id_solicitante.telefono_celular}}"
+                  >
+                </div>
+              </div>
+              
+              <div class="col-md-6 col-12">
+                <label for="monto_solicitado">Monto solicitado: </label>
+                <div class="form-group">
+                  <input disabled id="monto_solicitado{{solicitud_data.solicitud.pk}}" type="number" placeholder="Monto solicitado" class="form-control" value="{{solicitud_data.solicitud.monto_solicitado}}">
+                </div>
+                <label for="monto_aprobado">Monto aprobado: </label>
+                <div class="form-group">
+                  <input id="monto_aprobado{{solicitud_data.solicitud.pk}}" name="monto_aprobado{{solicitud_data.solicitud.pk}}" type="number" placeholder="Monto aprobado" class="form-control" value="{{solicitud_data.solicitud.monto_aprobado}}">
+                </div>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <label for="fecha_solicitud">Fecha de Solicitud: </label>
+                <div class="form-group">
+                  <input disabled id="fecha_solicitud{{solicitud_data.solicitud.pk}}" type="date" placeholder="Fecha de Solicitud" class="form-control" value="{{solicitud_data.solicitud.fecha_solicitud|date:'Y-m-d'}}">
+                </div>
+                <label for="fecha_solicitud">Grado de estudios: </label>
+                <div class="form-group">
+                  <input disabled id="grado_estudio{{solicitud_data.solicitud.pk}}" type="text" placeholder="Fecha de Solicitud" class="form-control" value="{{solicitud_data.solicitud.id_solicitante.ultimo_grado_estudios}}">
+                </div>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <label for="curp">Estatus: </label>
+                <div class="form-group">
+                  <input disabled id="estatus{{solicitud_data.solicitud.pk}}" type="text" placeholder="Estatus" class="form-control" value="{{solicitud_data.solicitud.id_estatus}}">
+                </div>
+              </div>
+
+
+              {% for documento in solicitud_data.documentos %}
+                <a href="{% url 'administracion:download_documento' pk=documento.pk %}" 
+                class="btn btn-sm btn-outline-primary">{{ documento}}
+                </a><br>
+              {% endfor %}
+
+              <label for="observaciones">Observaciones: </label>
+              <div class="form-group">
+                <textarea id="observaciones{{solicitud_data.solicitud.pk}}" name="observaciones{{solicitud_data.solicitud.pk}}" placeholder="Observaciones" class="form-control" rows="4">{{solicitud_data.solicitud.observaciones}}</textarea>
+              </div>
+
+
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+
+
+{% endblock mainb %} 
+{% block extra_scripts %} 
+<script>
+  const csrf_token = "{{ csrf_token }}";
+</script>
+<script src="{% static 'assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+{% endblock extra_scripts %}

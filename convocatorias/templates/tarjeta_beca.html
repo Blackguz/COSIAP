@@ -1,6 +1,7 @@
 {% load static %}
+{% for modalidad in modalidades %}
 <div class="becas {{disposicion}}">
-    {% for beca in becas %}
+    {% for beca in modalidad.becas %}
     <div class="beca">
         <!-- <i class="fa-solid fa-file-contract"></i> -->
         <img src="{%static 'img/icons/logodocbeca.png'%}" alt="logo_beca">
@@ -8,13 +9,20 @@
         <p class="presupuesto">${{ beca.beca.presupuesto|floatformat:"2g" }}</p>
         <h3>Requerimientos</h3>
         <ul class="requisitos">
+            {% if beca.requisitos %}
             {% for requisito in beca.requisitos %}
                 {% if forloop.counter <= 3 %}
                     <li>{{ requisito.nombre }}</li>
                 {% endif %}
             {% endfor %}
+            {% else %}
+            <li>
+                Sin requisitos
+            </li>
+            {% endif %}
         </ul>
-        <a href="solicitud_de_apoyos/{{ beca.beca.id_modalidad }}" class="boton-reg boton-beca">Inscribirme</a>
+        <a href="/solicitud_de_apoyos/{{ beca.beca.id_modalidad }}" class="boton-reg boton-beca">Inscribirme</a>
     </div>
     {% endfor %}
 </div>
+{% endfor %}

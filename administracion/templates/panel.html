@@ -2,6 +2,28 @@
 {% load static %}
 {% block title %} Panel principal {% endblock %} 
 {% block mainb %}
+{% if messages %}
+{% for message in messages %}
+  {% if message.tags == 'error' %}
+    <script>
+      Swal.fire({
+      title: "Error",
+      text: "{{ message }}",
+      icon: "error",
+    });
+    </script>
+  {% endif %}
+  {% if message.tags == 'success' %}
+    <script>
+      Swal.fire({
+      title: "Éxito",
+      text: "{{ message }}",
+      icon: "success",
+    });
+    </script>
+  {% endif %}
+{% endfor %}
+{% endif %}
 <div class="container">
     <h1>Panel de control</h1>
 

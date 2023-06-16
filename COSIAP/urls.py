@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from convocatorias.views import index, solicitud_de_apoyos, solicitudes_realizadas, lista_apoyos
+from convocatorias.views import index, solicitud_de_apoyos, solicitudes_realizadas, lista_apoyos, detalle_solicitud
 
 app_name = 'COSIAP'
 
@@ -27,5 +27,6 @@ urlpatterns = [
     path('', index, name='index'),
     path('solicitud_de_apoyos/<int:idModalidad>', solicitud_de_apoyos, name="solicitud_de_apoyos"),
     path('solicitudes_realizadas/', solicitudes_realizadas, name="solicitudes_realizadas"),
+    path('detalle_solicitud/<int:id_solicitud>', detalle_solicitud, name='detalle_solicitud'),
     path('lista_apoyos/', lista_apoyos, name="lista_apoyos")
 ]

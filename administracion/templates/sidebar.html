@@ -107,7 +107,7 @@
         
         <li
             class="sidebar-item  ">
-            <a href="form-layout.html" class='sidebar-link'>
+            <a href="{% url 'administracion:solicitudes_en_proceso' %}" class='sidebar-link'>
                 <i class="bi bi-clock-history"></i>
                 <span>Solicitudes de apoyo en proceso</span>
             </a>
@@ -116,7 +116,7 @@
         
         <li
             class="sidebar-item  ">
-            <a href="form-layout.html" class='sidebar-link'>
+            <a href="{% url 'administracion:solicitudes_aprovadas' %}" class='sidebar-link'>
                 <i class="bi bi-check-circle-fill"></i>
                 <span>Aprovadas</span>
             </a>
@@ -125,7 +125,7 @@
         
         <li
             class="sidebar-item  ">
-            <a href="form-layout.html" class='sidebar-link'>
+            <a href="{% url 'administracion:solicitudes_finalizadas' %}" class='sidebar-link'>
                 <i class="bi bi-folder-fill"></i>
                 <span>Finalizadas</span>
             </a>

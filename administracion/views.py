@@ -16,6 +16,7 @@ from usuarios.forms import SolicitanteCreationForm
 from .utils import get_solicitudes_por_nivel, get_generos_solicitantes
 import json
 import os
+from decimal import Decimal
 
 # Create your views here.
 
@@ -29,8 +30,9 @@ def panel_administracion(request):
     generos = get_generos_solicitantes()
     
     # Contamos todas las solicitudes
-    solicitudes_autorizado = Solicitud.objects.filter(pk=6).count()
-    solicitudes_en_proceso = Solicitud.objects.filter(pk=2).count() + Solicitud.objects.filter(pk=1).count() + Solicitud.objects.filter(pk=1).count() + Solicitud.objects.filter(pk=4).count()
+    solicitudes_autorizado = Solicitud.objects.filter(id_estatus=6).count()
+    print(solicitudes_autorizado)
+    solicitudes_en_proceso = Solicitud.objects.filter(id_estatus=2).count() + Solicitud.objects.filter(id_estatus=1).count() + Solicitud.objects.filter(id_estatus=3).count() + Solicitud.objects.filter(id_estatus=4).count()
     
     # Obtenemos el numero de solicitudes de soporte tecnico pendientes
     #solicitudes_soporte_tecnico = SolicitudSoporte.objects.filter(estado='Pendiente').count()
@@ -380,16 +382,15 @@ def crear_formulario(request):
 @staff_member_required
 def eliminar_formulario(request, id):
     formulario = get_object_or_404(Formulario, id_formulario=id)
-    if formulario.estatus == '7':
-        messages.error(request, 'El formulario ya ha sido eliminado.')
-        return redirect('administracion:lista_formularios')
-    else:
+    if formulario:
         AtributosFormulario.objects.filter(id_formulario=formulario).delete()
-        estatus = Estatus.objects.get(pk='7')
-        formulario.estatus = estatus
-        formulario.save()
+        formulario.delete()
         messages.success(request, 'Formulario eliminado.')
         return redirect('administracion:lista_formularios')
+    else:
+        messages.error(request, 'El formulario ya ha sido eliminado.')
+        return redirect('administracion:lista_formularios')
+       
     
 @login_required
 @staff_member_required
@@ -467,9 +468,10 @@ def lista_baneados(request):
 @staff_member_required
 def solicitudes_apoyos_nuevas(request):
     pendiente_status = Estatus.objects.get(nombre='Pendiente')
-    documentacion_completa_status = Estatus.objects.get(nombre='Documentación completa')
+    documentacion_incompleta_status = Estatus.objects.get(nombre='Documentación incompleta')
+    documentacion_completa_status = Estatus.objects.get(pk=2)
 
-    solicitudes_apoyos = Solicitud.objects.filter(Q(id_estatus=pendiente_status) | Q(id_estatus=documentacion_completa_status))
+    solicitudes_apoyos = Solicitud.objects.filter(Q(id_estatus=documentacion_completa_status) |Q(id_estatus=pendiente_status) | Q(id_estatus=documentacion_incompleta_status))
 
     solicitudes_data = []
     for solicitud in solicitudes_apoyos:
@@ -492,3 +494,136 @@ def download_documento(request, pk):
     if os.path.exists(documento.documento.path):
         return FileResponse(open(documento.documento.path, 'rb'), content_type='application/force-download')
     raise Http404
+
+@login_required
+@staff_member_required
+def cambiar_estado(request, estado, solicitud):
+
+    estado_solicitud = get_object_or_404(Estatus, pk=estado)
+    solicitud_obj = get_object_or_404(Solicitud, pk=solicitud)
+
+    if solicitud_obj.id_estatus == estado_solicitud:
+        messages.error(request, f'esta solicitud ya tiene el estado de {estado_solicitud.nombre}')
+        return redirect('administracion:solicitudes_apoyos_nuevas')
+
+    estado_nombre = estado_solicitud.nombre
+    if estado_nombre == "Pendiente":
+        solicitud_obj.id_estatus = get_object_or_404(Estatus, pk=1)
+    elif estado_nombre == "Documentación completa":
+        solicitud_obj.id_estatus = get_object_or_404(Estatus, pk=2)
+    elif estado_nombre == "En proceso de análisis":
+        solicitud_obj.id_estatus = get_object_or_404(Estatus, pk=3)
+    elif estado_nombre == "Aceptado":
+        solicitud_obj.id_estatus = get_object_or_404(Estatus, pk=4)
+    elif estado_nombre == "Rechazado":
+        solicitud_obj.id_estatus = get_object_or_404(Estatus, pk=5)
+    elif estado_nombre == "Autorizado":
+        solicitud_obj.id_estatus = get_object_or_404(Estatus, pk=6)
+    elif estado_nombre == "Borrado":
+        solicitud_obj.id_estatus = get_object_or_404(Estatus, pk=7)
+    elif estado_nombre == "Documentación incompleta":
+        solicitud_obj.id_estatus = get_object_or_404(Estatus, pk=8)
+    elif estado_nombre == "Finalizada":
+        solicitud_obj.id_estatus = get_object_or_404(Estatus, pk=9)
+    else:
+        messages.error(request, 'Ese estado no esta disponible')
+        return redirect('administracion:panel')
+
+    solicitud_obj.save()
+    messages.success(request, f'Estado cambiado exitosamente a {estado_solicitud.nombre}')
+    return redirect('administracion:panel')
+
+
+@login_required
+@staff_member_required
+def actualizar_solicitud(request, id):
+    solicitud_obj = get_object_or_404(Solicitud, pk=id)
+
+    monto_aprobado = request.POST.get(f'monto_aprobado{id}')
+    if monto_aprobado:
+        monto_aprobado = Decimal(monto_aprobado.replace(',', ''))
+    else:
+        messages.error(request, 'Monto aprobado no puede estar vacío.')
+        return redirect('administracion:panel')
+
+    observaciones = request.POST.get(f'observaciones{id}')
+
+    modalidad = solicitud_obj.id_modalidad
+    if not modalidad:
+        messages.error(request, 'La modalidad no puede estar vacía.')
+        return redirect('administracion:panel')
+
+    if monto_aprobado > modalidad.presupuesto:
+        messages.error(request, 'El monto aprobado no puede ser mayor que el presupuesto de la modalidad.')
+        return redirect('administracion:panel')
+
+    solicitud_obj.monto_aprobado = monto_aprobado
+    solicitud_obj.observaciones = observaciones
+    solicitud_obj.save()
+
+    messages.success(request, 'La solicitud ha sido actualizada exitosamente.')
+    return redirect('administracion:panel')
+
+@login_required
+@staff_member_required
+def solicitudes_apoyos_proceso(request):
+    analisis_status = Estatus.objects.get(pk=3)
+    aceptado_status = Estatus.objects.get(pk=4)
+
+    solicitudes_apoyos = Solicitud.objects.filter(Q(id_estatus=analisis_status) | Q(id_estatus=aceptado_status))
+
+    solicitudes_data = []
+    for solicitud in solicitudes_apoyos:
+        documentos = solicitud.documentos.all()
+        solicitudes_data.append({
+            'solicitud': solicitud,
+            'documentos': documentos
+        })
+
+    data = {
+        'solicitudes_data': solicitudes_data
+    }
+
+    return render(request, 'solicitudes_apoyos_proceso.html', data)
+
+@login_required
+@staff_member_required
+def solicitudes_aprovadas(request):
+    aprovado_status = Estatus.objects.get(pk=6)
+
+    solicitudes_apoyos = Solicitud.objects.filter(Q(id_estatus=aprovado_status))
+
+    solicitudes_data = []
+    for solicitud in solicitudes_apoyos:
+        documentos = solicitud.documentos.all()
+        solicitudes_data.append({
+            'solicitud': solicitud,
+            'documentos': documentos
+        })
+
+    data = {
+        'solicitudes_data': solicitudes_data
+    }
+
+    return render(request, 'solicitudes_apoyos_autorizadas.html', data)
+
+@login_required
+@staff_member_required
+def solicitudes_finalizadas(request):
+    aprovado_status = Estatus.objects.get(pk=9)
+
+    solicitudes_apoyos = Solicitud.objects.filter(Q(id_estatus=aprovado_status))
+
+    solicitudes_data = []
+    for solicitud in solicitudes_apoyos:
+        documentos = solicitud.documentos.all()
+        solicitudes_data.append({
+            'solicitud': solicitud,
+            'documentos': documentos
+        })
+
+    data = {
+        'solicitudes_data': solicitudes_data
+    }
+
+    return render(request, 'solicitudes_apoyos_finalizadas.html', data)

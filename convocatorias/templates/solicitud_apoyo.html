@@ -60,6 +60,7 @@
         </section>
         <section id="form-container">
             <h3 id="form-container-h3">Solicitud de apoyo</h3>
+            {% if atributos %}
             <form method="POST" action=""  enctype="multipart/form-data">
                 {% csrf_token %}
                 <div id="forms">
@@ -121,6 +122,9 @@
                     </div>
                 </div>
             </form>
+            {% else %}
+            <h3 id="form-container-h3">POR EL MOMENTO NO SE PUEDEN ENVIAR DOCUMENTOS </h3>
+            {% endif %}
         </section>
     </main>
     {% include "footer.html" %}
