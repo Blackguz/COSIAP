@@ -88,9 +88,14 @@ def lista_apoyos(request):
     contact_list = numero_becas()
     paginator = Paginator(contact_list, 6)
 
-    page_number = request.GET.get("page")
+    page_number = request.GET.get("page",1)
     page_obj = paginator.get_page(page_number)
+
+    page_numero = request.GET.get('page')
+    pag_actual = int(page_numero) if page_numero else 1
+
+    page_range = paginator.get_elided_page_range(number=pag_actual,on_each_side=2,on_ends=1)
 
     lista_modalidaes=list(page_obj)
 
-    return render(request, "lista_apoyos.html", {"page_obj": page_obj, "modalidades":procesar_becas(lista_modalidaes)})
+    return render(request, "lista_apoyos.html", {"page_obj": page_obj, "modalidades":procesar_becas(lista_modalidaes),"page_range":page_range})
