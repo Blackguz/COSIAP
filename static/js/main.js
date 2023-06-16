@@ -236,4 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             });
     }
+
+
+    /* LISTA SOLICITUDES */
 });
