@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import user_passes_test
 from .forms import SolicitanteCreationForm
 from administracion.models import UsuariosBaneados
@@ -72,3 +72,7 @@ def register_solicitante(request):
     else:
         form = SolicitanteCreationForm()
     return render(request, 'register.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('index')

@@ -35,7 +35,6 @@
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">Nuevas solicitudes de apoyo</h4>
-          <a href="{% url 'administracion:crear_usuario' %}" class="btn btn-success float-end">Crear usuario</a>
         </div>
         <div class="card-content">
           <!-- table striped -->
@@ -100,12 +99,12 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
-        <form method="POST"  enctype="multipart/form-data">
+        <form method="POST" action="{% url 'administracion:actualizar_solicitud' solicitud_data.solicitud.pk%}" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="modal-body" style="  max-height: calc(100vh - 210px);
           overflow-y: auto;">
             <div class="row">
-              <input id="id{{solicitud_data.solicitud.pk}}" type="text" hidden placeholder="id" class="form-control" value="{{solicitud_data.solicitud.pk}}" disabled>
+              <input id="id{{solicitud_data.solicitud.pk}}" type="text" hidden placeholder="id" class="form-control" value="{{solicitud_data.solicitud.pk}}">
               
               <div class="col-md-6 col-12">
                 <label for="curp">Nombre: </label>
@@ -157,7 +156,7 @@
                 </div>
                 <label for="monto_aprobado">Monto aprobado: </label>
                 <div class="form-group">
-                  <input id="monto_aprobado{{solicitud_data.solicitud.pk}}" type="number" placeholder="Monto aprobado" class="form-control" value="{{solicitud_data.solicitud.monto_aprobado}}">
+                  <input id="monto_aprobado{{solicitud_data.solicitud.pk}}" name="monto_aprobado{{solicitud_data.solicitud.pk}}" type="number" placeholder="Monto aprobado" class="form-control" value="{{solicitud_data.solicitud.monto_aprobado}}">
                 </div>
               </div>
 
@@ -188,31 +187,38 @@
 
               <label for="observaciones">Observaciones: </label>
               <div class="form-group">
-                <textarea id="observaciones{{solicitud_data.solicitud.pk}}" placeholder="Observaciones" class="form-control" rows="4">{{solicitud_data.solicitud.observaciones}}</textarea>
+                <textarea id="observaciones{{solicitud_data.solicitud.pk}}" name="observaciones{{solicitud_data.solicitud.pk}}" placeholder="Observaciones" class="form-control" rows="4">{{solicitud_data.solicitud.observaciones}}</textarea>
               </div>
 
 
             </div>
             <div class="modal-footer modal-dialog-scrollable">
-              <button href="{% url 'administracion:cambiar_estado' 5 solicitud_data.solicitud.pk %}" type="submit" class="btn icon icon-left btn-danger"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle">
+              <a href="{% url 'administracion:cambiar_estado' 5 solicitud_data.solicitud.pk %}" class="btn btn-sm icon icon-left btn-danger"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle">
                 <circle cx="12" cy="12" r="10">
                 </circle><line x1="12" y1="8" x2="12" y2="12">
                 </line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> RECHAZAR
-              </button>
-              <button href="{% url 'administracion:cambiar_estado' 3 solicitud_data.solicitud.pk %}" type="submit" class="btn icon icon-left btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+              </a>
+              <a href="{% url 'administracion:cambiar_estado' 3 solicitud_data.solicitud.pk %}" class="btn btn-sm icon icon-left btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01">
                 </polyline></svg> Proceso de análisis
-              </button>
+              </a>
 
-              <button href="{% url 'administracion:cambiar_estado' 8 solicitud_data.solicitud.pk %}" type="submit" class="btn icon icon-left btn-warning"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+              <a href="{% url 'administracion:cambiar_estado' 8 solicitud_data.solicitud.pk %}" class="btn btn-sm icon icon-left btn-warning"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                 <polyline points="13 2 13 9 20 9">
                 </polyline></svg>Documentacion incompleta
-              </button>
+              </a>
 
-              <button href="#" class="btn icon icon-left btn-primary" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" 
+              <a href="{% url 'administracion:cambiar_estado' 2 solicitud_data.solicitud.pk %}" class="btn btn-sm icon icon-left btn-info"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
+                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                <polyline points="13 2 13 9 20 9">
+                </polyline></svg>Documentacion completa
+              </a>
+
+              <button href="" class="btn btn-sm icon icon-left btn-primary" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" 
                 height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">

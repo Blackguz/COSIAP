@@ -1,33 +1,86 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Solicitud enviada</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-{% if messages %}
-  {% for message in messages %}
-    {% if message.tags == 'error' %}
-      <script>
-          Swal.fire({
-          title: "Error",
-          text: "{{ message }}",
-          icon: "error",
-        });
-      </script>
-  {% endif %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de apoyos</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+  </head>
+  {% if messages %} 
+  {% for message in messages %} 
+  {% if message.tags == 'error'%}
+  <script>
+    Swal.fire({
+      title: "Error",
+      text: "{{ message }}",
+      icon: "error",
+    });
+  </script>
+  {% endif %} 
   {% if message.tags == 'success' %}
-      <script>
-        Swal.fire({
-        title: "Éxito",
-        text: "{{ message }}",
-        icon: "success",
-      });
-      </script>
+  <script>
+    Swal.fire({
+      title: "Éxito",
+      text: "{{ message }}",
+      icon: "success",
+    });
+  </script>
+  {% endif %} 
+  {% endfor %} 
   {% endif %}
-  {% endfor %}
-{% endif %}
-<body>
-    <h1>Hola mundo</h1>
-</body>
+  <body class="preload">
+    <!------------------------CABECERA--------------------------------------------------->
+    {% include "navbar.html" with a_style='link-header' displayer_style='True' link_index='True' %}
+    <!--------------------------------------------------------------------------->
+    <div class="info-bar">
+      <h2 class="bg-text-line">Apoyos solicitados</h2>
+    </div>
+    
+    <table>
+      <tr>
+          <th>Nombre modalidad</th>
+          <th>Fecha solicitud</th>
+          <th>Estado</th>
+          <th>Monto solicitado</th>
+          <th>Acciones</th>
+      </tr>
+      {% for solicitud in page_obj %}
+      <tr>
+          <td>{{ solicitud.id_modalidad.nombre }}</td>
+          <td>{{ solicitud.fecha_solicitud }}</td>
+          <td>{{ solicitud.id_estatus.nombre }}</td>
+          <td>{{ solicitud.monto_solicitado }}</td>
+          <td>
+              <button class="detail-button" data-id="{{ solicitud.id_solicitud }}">Detalles</button>
+          </td>
+      </tr>
+      {% endfor %}
+  </table>
+
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; First</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    <span class="current-page">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+    {% endif %}
+  </div>
+
+
+
+    {% include "footer.html" %}
+  </body>
+  <script src="{% static 'js/navbar_utils.js' %}"></script>
 </html>
