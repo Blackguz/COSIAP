@@ -8,6 +8,7 @@ from datetime import datetime
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import render
+from django.http import JsonResponse
 
 import os
 from django.core.files.base import ContentFile
@@ -56,20 +57,37 @@ def solicitud_de_apoyos(request, idModalidad):
         messages.success(request, "Solicitud enviada con éxito")
         return redirect('solicitudes_realizadas')
     else:
-        modalidad = get_object_or_404(Modalidad, pk=idModalidad)
-        formulario = Formulario.objects.get(id_modalidad=modalidad)
-        if formulario is None:
+        modalidad = Modalidad.objects.get(pk=idModalidad)
+        try:
+            formulario = Formulario.objects.get(id_modalidad=modalidad)
+            atributosFormulario = AtributosFormulario.objects.filter(id_formulario=formulario)
+        except Formulario.DoesNotExist:
             formulario = []
-            atributosFormulario =[]
-            return render(request, 'solicitud_apoyo.html',
-                          {'modalidad': modalidad, 'formulario': formulario, 'atributos': atributosFormulario})
+            atributosFormulario = []
 
-        atributosFormulario = AtributosFormulario.objects.filter(id_formulario=formulario)
         return render(request, 'solicitud_apoyo.html', {'modalidad': modalidad, 'formulario':formulario, 'atributos':atributosFormulario})
 
 
 def solicitudes_realizadas(request):
-    return render(request, 'solicitudes_realizadas.html')
+    solicitudes_list = Solicitud.objects.all()
+    paginator = Paginator(solicitudes_list, 6)  # Mostrar 6 solicitudes por página.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'solicitudes_realizadas.html', {'page_obj': page_obj})
+
+
+def detalle_solicitud(request, id_solicitud):
+    solicitud = Solicitud.objects.get(pk=id_solicitud)
+
+    data = {
+        'nombre': solicitud.id_modalidad.nombre,
+        'descripcion': solicitud.id_modalidad.descripcion,
+        'monto': str(solicitud.monto_solicitado),  # Convertimos Decimal a string para la serialización
+    }
+
+    return JsonResponse(data)
 
 """
 def lista_apoyos(request):

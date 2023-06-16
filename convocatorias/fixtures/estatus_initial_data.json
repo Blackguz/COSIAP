@@ -54,6 +54,13 @@
         "fields": {
             "nombre": "Documentación incompleta"
         }
+    },
+    {
+        "model": "convocatorias.estatus",
+        "pk": 9,
+        "fields": {
+            "nombre": "Finalizada"
+        }
     }
 ]
   
