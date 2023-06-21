@@ -1,0 +1,17 @@
+[
+  {
+      "model": "usuarios.Administrador",
+      "pk": 1,
+      "fields": {
+          "first_name": "Juan",
+          "last_name": "Perez",
+          "email": "juan@correo.com",
+          "username": "juanp",
+          "password": "hashed_password",
+          "apellido_materno": "Lopez",
+          "apellido_paterno": "Gomez",
+          "telefono_celular": "555-555-5555",
+          "nivel_acceso": "N1"
+      }
+  }
+]
