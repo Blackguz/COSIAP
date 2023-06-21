@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.http import JsonResponse
-
+from django.http import FileResponse
 import os
 from django.core.files.base import ContentFile
 from django.conf import settings
@@ -117,3 +117,10 @@ def lista_apoyos(request):
     lista_modalidaes=list(page_obj)
 
     return render(request, "lista_apoyos.html", {"page_obj": page_obj, "modalidades":procesar_becas(lista_modalidaes),"page_range":page_range})
+
+
+def download_pdf(request):
+    file_path = os.path.join(settings.MEDIA_ROOT, 'reglas_operacion', 'reglas_operacion2023.pdf')
+    file = open(file_path, 'rb')
+    response = FileResponse(file, as_attachment=True, filename='reglas_operacion2023.pdf')
+    return response
