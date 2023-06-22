@@ -873,17 +873,15 @@ footer{
 #footer-top div{
     margin:0 2.5vw 0 2.5vw;
 }
-#footer-div-img{
-    padding-top: 12px;
-}
 #footer-ubi-cont{
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
 }
 #footer-div-img{
-    margin: 1.8%;
-    width: 150px;
+    margin: .5%;
+    width: 250px;
+    padding-top: 28px;
 }
 #footer-bottom{
     background-color: var(--footer-bottom-regular-color);
