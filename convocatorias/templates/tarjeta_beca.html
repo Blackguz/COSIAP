@@ -1,6 +1,6 @@
 {% load static %}
 {% for modalidad in modalidades %}
-<div class="becas {{disposicion}}">
+<div class="becas {{modalidad.disposicion}}">
     {% for beca in modalidad.becas %}
     <div class="beca">
         <!-- <i class="fa-solid fa-file-contract"></i> -->

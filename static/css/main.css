@@ -189,8 +189,7 @@ p {
 }
 
 #brand-logo {
-    height: 2.4rem;
-    width: 7rem;
+    height: 2.8rem;
 }
 
 /*
@@ -357,6 +356,7 @@ p {
     .dropdown-menu > li {
         padding: 0;
         text-align: center;
+        border-bottom: none;
     }
 }
 
@@ -545,80 +545,6 @@ p {
     }
 }
 
-.form-style1 {
-    border: solid 0.1rem var(--beca-card-border-1);
-    border-radius: 0.2rem;
-    margin-top: 1rem;
-    margin: 1rem 4rem;
-    padding-top: 2rem;
-}
-
-.form-style1 h2 {
-    font-size: 2rem;
-    color: var(--bg-regular-color);
-}
-
-.form-style1 form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0 1rem;
-    margin-top: 1.5rem;
-}
-
-@media (min-width: 768px) {
-    .form-style1 form {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        row-gap: 1.5rem;
-    }
-
-    .form-style1 form .big-input {
-        grid-column-end: span 2;
-    }
-}
-
-.form-style1 form .big-input .regular-input {
-    min-height: 5rem;
-}
-
-.form-style1 form .contenedor-campo {
-    display: flex;
-    margin: 0.5rem 0.5rem;
-}
-
-@media (min-width: 768px) {
-    .form-style1 form .contenedor-campo {
-        display: flex;
-        margin: 0 0.5rem;
-    }
-}
-
-.form-style1 form i {
-    display: inline-block;
-    color: white;
-    background-color: var(--bg-regular-color);
-    width: 2rem;
-    text-align: center;
-    padding-top: .4rem;
-    border-radius: 0.3rem 0 0 0.3rem;
-}
-
-.form-style1 form .contenedor-campo .regular-input {
-    flex-grow: 2;
-    height: 2rem;
-    border-radius: 0 0.3rem 0.3rem 0;
-    padding-left: 0.5rem;
-}
-
-.form-style1 form >.contenedor-campo:last-child .regular-input {
-    height: 5rem;
-}
-
-.form-style1 form button {
-    margin-left: 0.5rem;
-}
-
 .contacts-sect {
     padding-left: 4rem;
     margin-bottom: 4rem;
@@ -626,10 +552,6 @@ p {
 
 .contact-card {
     margin: 1rem 0;
-}
-
-.gray-footer {
-    background-color: rgb(66, 66, 66);
 }
 
 /*
@@ -848,8 +770,6 @@ section div .info-container-title{
     margin-top: -19px;
 }
 
-
-
 footer{
     background-color: var(--footer-regular-color);
     color: white;
@@ -909,10 +829,6 @@ footer{
 #redes-container{
     margin-right: 6vw;
 }
-
-
-
-
 
 @media (max-width: 700px) {
     .two-container{

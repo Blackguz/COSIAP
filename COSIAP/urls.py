@@ -28,5 +28,6 @@ urlpatterns = [
     path('solicitud_de_apoyos/<int:idModalidad>', solicitud_de_apoyos, name="solicitud_de_apoyos"),
     path('solicitudes_realizadas/', solicitudes_realizadas, name="solicitudes_realizadas"),
     path('detalle_solicitud/<int:id_solicitud>', detalle_solicitud, name='detalle_solicitud'),
-    path('lista_apoyos/', lista_apoyos, name="lista_apoyos")
+    path('lista_apoyos/', lista_apoyos, name="lista_apoyos"),
+    path('convocatorias/', include('convocatorias.urls', namespace='convocatorias'))
 ]
