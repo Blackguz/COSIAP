@@ -11,6 +11,9 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, smart_str
 from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth import get_user_model
 
 def not_authenticated(user):
     return not user.is_authenticated
@@ -169,7 +172,6 @@ def activate_account(request, uidb64, token):
     try:
         uid = smart_str(urlsafe_base64_decode(uidb64))
         solicitante = Solicitante.objects.get(pk=uid)
-        is_token_valid = default_token_generator.check_token(solicitante, token)
         if default_token_generator.check_token(solicitante, token):
             solicitante.is_active = True
             solicitante.save()
@@ -181,3 +183,53 @@ def activate_account(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, Solicitante.DoesNotExist):
         messages.error(request, 'El enlace de activación es inválido.')
         return redirect('usuarios:registro')
+    
+def reset_password(request):
+    if request.method == 'POST':
+        email = request.POST['correo']
+        user = Solicitante.objects.filter(email=email)
+        if user:
+            user = user[0]
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            current_site = get_current_site(request)
+            mail_subject = 'Restablecer tu contraseña'
+            message_plain = "Haz clic en el enlace para restablecer tu contraseña."
+            message_html = render_to_string('password_reset_send_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': uid,
+                'token': token,
+            })
+            email = EmailMultiAlternatives(mail_subject, message_plain, to=[user.email])
+            email.attach_alternative(message_html, "text/html")
+            email.send()
+            messages.success(request, 'Te hemos enviado un correo con instrucciones para restablecer tu contraseña.')
+        return redirect('usuarios:login')
+    else:
+       return render(request, 'recuperar_password.html')
+    
+def reset_confirm(request, uidb64, token):
+    UserModel = get_user_model()
+
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = UserModel._default_manager.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            new_password = request.POST['password']
+            confirm_password = request.POST['repassword']
+            if new_password == confirm_password:
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, 'Tu contraseña ha sido actualizada.')
+                return redirect('usuarios:login')
+            else:
+                messages.error(request, 'Las contraseñas no coinciden.')
+        return render(request, 'password_reset_email.html')
+    else:
+        messages.error(request, 'El enlace de restablecimiento de contraseña no es válido.')
+        return redirect('usuarios:login')

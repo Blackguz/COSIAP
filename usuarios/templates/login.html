@@ -44,7 +44,7 @@
         <div class="col-lg-5 col-12">
             <div id="auth-left">
                 <div class="auth-logo">
-                    <a href="index.html"><img src="{% static 'img/icons/Logocozcyt.png' %}" alt="Logo"></a>
+                    <a href="{% url 'index' %}"><img src="{% static 'img/icons/Logocozcyt.png' %}" alt="Logo"></a>
                 </div>
                 <h1 class="auth-title">Iniciar sesion</h1>
                 {% if error %}
@@ -78,7 +78,7 @@
                     <p class="text-gray-600">¿Aun no tienes cuenta? <a href="{% url 'usuarios:registro' %}" class="font-bold">
                         Registrate
                     </a>.</p>
-                    <p><a class="font-bold" href="#">¿Haz olvidado tú contraseña?</a>.</p>
+                    <p><a class="font-bold" href="{% url 'usuarios:recuperar_password'%}">¿Haz olvidado tú contraseña?</a>.</p>
                 </div>
             </div>
         </div>
