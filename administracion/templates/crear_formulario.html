@@ -154,17 +154,16 @@ Crear formulario
       if (formCount < maxForms) {
         const formTemplate = document.querySelector(".atributos-container");
         const newForm = formTemplate.cloneNode(true);
-        const formRegex = RegExp(`form-(\\d){1}-`, "g");
-        formCount++;
+        const formRegex = RegExp(`form-(\\d+)-`, "g");
         newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formCount}-`);
-  
+        formCount++;
+
         const removeBtn = newForm.querySelector(".btn-remove");
         removeBtn.addEventListener("click", function () {
           removeForm(this);
         });
   
-        const parentDiv = formContainer.parentElement;
-        parentDiv.insertBefore(newForm, formContainer.nextSibling);
+        formContainer.appendChild(newForm);
   
         TOTAL_FORMS.setAttribute("value", `${formCount}`);
       } else {
@@ -183,5 +182,5 @@ Crear formulario
       TOTAL_FORMS.setAttribute("value", `${formCount}`);
     }
   });
-  </script>
+</script>
 {% endblock extra_scripts %}
