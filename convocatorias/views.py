@@ -75,7 +75,10 @@ def solicitudes_realizadas(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'solicitudes_realizadas.html', {'page_obj': page_obj})
+    pag_actual = int(page_number) if page_number else 1
+    page_range = paginator.get_elided_page_range(number=pag_actual, on_each_side=2, on_ends=1)
+
+    return render(request, 'solicitudes_realizadas.html', {'page_obj': page_obj, 'page_range':page_range})
 
 
 def detalle_solicitud(request, id_solicitud):

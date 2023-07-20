@@ -40,42 +40,51 @@
     {% include "navbar.html" with a_style='link-header' displayer_style='True' link_index='True' %}
     <!--------------------------------------------------------------------------->
     <div class="info-bar">
-      <h2 class="bg-text-line">Apoyos solicitados</h2>
+      <h2 class="bg-text-line apoyos-solicitados-title">Apoyos solicitados</h2>
     </div>
-    
-    <table>
-      <tr>
-          <th>Nombre modalidad</th>
-          <th>Fecha solicitud</th>
-          <th>Estado</th>
-          <th>Monto solicitado</th>
-          <th>Acciones</th>
-      </tr>
-      {% for solicitud in page_obj %}
-      <tr>
-          <td>{{ solicitud.id_modalidad.nombre }}</td>
-          <td>{{ solicitud.fecha_solicitud }}</td>
-          <td>{{ solicitud.id_estatus.nombre }}</td>
-          <td>{{ solicitud.monto_solicitado }}</td>
-          <td>
-              <button class="detail-button" data-id="{{ solicitud.id_solicitud }}">Detalles</button>
-          </td>
-      </tr>
-      {% endfor %}
-  </table>
+    <div class="table-solicitudes-container">
+        <table class="table-solicitudes">
+          <tr>
+              <th>Nombre modalidad</th>
+              <th>Fecha solicitud</th>
+              <th>Estado</th>
+              <th>Monto solicitado</th>
+              <th>Acciones</th>
+          </tr>
+          {% for solicitud in page_obj %}
+          <tr>
+              <td>{{ solicitud.id_modalidad.nombre }}</td>
+              <td>{{ solicitud.fecha_solicitud }}</td>
+              <td>{{ solicitud.id_estatus.nombre }}</td>
+              <td>${{solicitud.monto_solicitado|floatformat:"2g"}}</td>
+              <td>
+                  <button class="detail-button" data-id="{{ solicitud.id_solicitud }}">Detalles</button>
+              </td>
+          </tr>
+          {% endfor %}
+      </table>
+    </div>
 
-  <div class="pagination">
-    {% if page_obj.has_previous %}
-        <a href="?page=1">&laquo; First</a>
-        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-    {% endif %}
+  <div class="pagination page-number">
+      {% if page_obj.has_previous %}
+            <a href="?page={{page_obj.previous_page_number}}" class="page-link" title="Anterior">&laquo;</a>
+        {% else %}
+            <a href="#" class="page-link desactivar">&laquo;</a>
+        {% endif %}
 
-    <span class="current-page">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% for var1 in page_range %}
+            {% if var1 == page_obj.paginator.ELLIPSIS %}
+                <a href="#" class="page-link desactivar">...</a>
+            {% else %}
+                <a href="?page={{ var1 }}" class="page-link {% if page_obj.number == var1 %} link_activo {% endif %}">{{ var1 }}</a>
+            {% endif %}
+        {% endfor %}
 
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">Next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
-    {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}" class="page-link" title="Siguiente">&raquo;</a>
+        {% else %}
+            <a href="#" class="page-link desactivar">&raquo;</a>
+        {% endif %}
   </div>
 
 
