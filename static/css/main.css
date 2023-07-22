@@ -46,6 +46,7 @@ button {
     border: none;
     border-radius: 3px;
     font-size: var(--btn-font-size-def);
+    cursor: pointer;
 }
 
 i {
@@ -201,10 +202,12 @@ p {
     background-size: 100% 115%;
     background-repeat: no-repeat;
     background-position: center center;
+    padding:0;
 }
 
 .topbar-bg {
     background-color: rgba(65, 65, 65, 0.6);
+    width:100%;
 }
 
 .header-bar {
@@ -231,9 +234,7 @@ p {
     font-size: var(--header-font-size-reg);
 }
 
-.topbar-container>.header-bar {
-    padding: 2rem;
-}
+
 
 .topbar {
     display: flex;
@@ -773,6 +774,7 @@ section div .info-container-title{
 footer{
     background-color: var(--footer-regular-color);
     color: white;
+    width: 100%
 }
 #footer-top{
     display: flex;
@@ -799,9 +801,9 @@ footer{
     justify-content: center;
 }
 #footer-div-img{
-    padding-top: 12px;
-    margin: 1.8%;
-    width: 18rem;
+    margin: .5%;
+    width: 250px;
+    padding-top: 28px;
 }
 #footer-bottom{
     background-color: var(--footer-bottom-regular-color);
@@ -1031,4 +1033,63 @@ footer{
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+
+
+
+
+.apoyos-solicitados-title{
+    margin-left: 10vw
+
+}
+
+
+
+.table-solicitudes-container{
+    margin:3rem 2rem 5rem;
+    display:flex;
+    justify-content:center;
+}
+.table-solicitudes{
+    border-collapse: collapse;
+    border: 0.25rem solid var(--bg-regular-color);
+    min-width:600px;
+}
+.page-number{
+    padding-bottom: 3rem;
+}
+
+@media (max-width: 680px) {
+    .table-solicitudes-container{
+        overflow-x: auto;
+        white-space: nowrap;
+        display:block;
+    }
+    .table-solicitudes-container::-webkit-scrollbar {
+        height: 10px;
+    }
+    .table-solicitudes-container::-webkit-scrollbar-thumb {
+        background-color: rgb(110,110,110);
+        border-radius: 0.5rem;
+    }
+    .table-solicitudes-container::-webkit-scrollbar-thumb:hover {
+        background-color: rgb(50,50,50);
+    }
+}
+
+
+.table-solicitudes tr th{
+    padding:0.8rem 3vw 0.8rem;
+    background-color:rgba(118, 21, 14, 0.12);
+    border-right: 0.1rem solid var(--bg-regular-color);
+    border-left: 0.1rem solid var(--bg-regular-color);
+    border-bottom: 0.18rem solid var(--bg-regular-color);
+}
+
+.table-solicitudes tr td{
+    text-align:center;
+    border-right: 0.1rem solid var(--bg-regular-color);
+    border-left: 0.1rem solid var(--bg-regular-color);
+    border-bottom: 0.1rem solid var(--bg-regular-color);
 }
