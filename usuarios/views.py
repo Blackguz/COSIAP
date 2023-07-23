@@ -13,7 +13,7 @@ from django.utils.encoding import force_bytes, smart_str
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.core.mail import EmailMultiAlternatives
-from django.contrib.auth import get_user_model
+
 
 def not_authenticated(user):
     return not user.is_authenticated

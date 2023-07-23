@@ -1,0 +1,87 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} Crear modalidad {% endblock %} 
+{% block mainb %}
+<section id="multiple-column-form">
+  {% if messages %} 
+    {% for message in messages %}
+      {% if message.tags == 'error' %}
+        <script>
+          Swal.fire({
+            title: "Error",
+            text: "{{ message }}",
+            icon: "error",
+          });
+        </script>
+      {% endif %} 
+      {% if message.tags == 'success' %}
+        <script>
+          Swal.fire({
+            title: "Éxito",
+            text: "{{ message }}",
+            icon: "success",
+          });
+        </script>
+      {% endif %}
+    {% endfor %}  
+  {% endif %} 
+  
+  {% if form.errors %}
+  <div class="alert alert-danger">
+    <ul>
+      {% for field in form %} {% for error in field.errors %}
+      <li>{{ field.label }}: {{ error }}</li>
+      {% endfor %} {% endfor %}
+    </ul>
+    <span class="close-btn" onclick="this.parentElement.style.display='none';"
+      >&times;</span
+    >
+  </div>
+  {% endif %}
+  <div class="row match-height">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Enviar correo</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <form
+  class="form"
+  action="{% url 'administracion:enviar_correo' usuario.id %}"
+  method="POST"
+>
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-md-6 col-12">
+      <div class="form-group">
+        <label for="{{ form.asunto.id_for_label }}">Asunto</label>
+        {{ form.asunto|add_class:"form-control" }}
+      </div>
+    </div>
+    <div class="col-md-6 col-12">
+      <div class="form-group">
+        <label for="{{ form.mensaje.id_for_label }}">Mensaje</label>
+        {{ form.mensaje|add_class:"form-control" }}
+      </div>
+    </div>
+  </div>
+  <!-- Fin de campos del formulario -->
+  <div class="col-12 d-flex justify-content-end">
+    <button type="submit" class="btn btn-light-secondary me-1 mb-1">
+      Enviar
+    </button>
+  </div>
+</form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock mainb %} 
+{% block extra_scripts %} 
+{% endblock extra_scripts %}
