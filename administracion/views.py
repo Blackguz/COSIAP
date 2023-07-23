@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.http import JsonResponse, FileResponse, Http404
 from convocatorias.models import Solicitud, Modalidad, Formulario, AtributosFormulario, DocumentoSolicitud
 from convocatorias.forms import ModalidadForm, FormularioForm, AtributoFormularioForm
+from soporte.models import SolicitudSoporte
 from django.forms.formsets import formset_factory
 from usuarios.models import Solicitante, Administrador
 from usuarios.forms import SolicitanteCreationForm, AdministradorForm
@@ -35,7 +36,7 @@ def panel_administracion(request):
     solicitudes_en_proceso = Solicitud.objects.filter(id_estatus=2).count() + Solicitud.objects.filter(id_estatus=1).count() + Solicitud.objects.filter(id_estatus=3).count() + Solicitud.objects.filter(id_estatus=4).count()
     
     # Obtenemos el numero de solicitudes de soporte tecnico pendientes
-    #solicitudes_soporte_tecnico = SolicitudSoporte.objects.filter(estado='Pendiente').count()
+    solicitudes_soporte_tecnico = SolicitudSoporte.objects.filter(estado='EN').count()
 
 
 
@@ -44,7 +45,8 @@ def panel_administracion(request):
         "solicitudes_por_nivel": estudios_nivel[1],
         "generos": [generos['Masculino'], generos['Femenino']],
         "solicitudes_autorizado": solicitudes_autorizado,
-        "solicitudes_en_proceso": solicitudes_en_proceso
+        "solicitudes_en_proceso": solicitudes_en_proceso,
+        "soporte": solicitudes_soporte_tecnico
     }
 
     return render(request, "panel.html", context)
