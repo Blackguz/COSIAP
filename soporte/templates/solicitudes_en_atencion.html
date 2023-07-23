@@ -1,0 +1,86 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %} 
+  <title>Lista de solicitudes en espera</title> 
+{% endblock %} 
+
+{% block mainb %}
+
+{% if messages %}
+{% for message in messages %}
+  {% if message.tags == 'error' %}
+    <script>
+      Swal.fire({
+      title: "Error",
+      text: "{{ message }}",
+      icon: "error",
+    });
+    </script>
+  {% endif %}
+  {% if message.tags == 'success' %}
+    <script>
+      Swal.fire({
+      title: "Éxito",
+      text: "{{ message }}",
+      icon: "success",
+    });
+    </script>
+  {% endif %}
+{% endfor %}
+{% endif %}
+
+
+<section class="section">
+  <div class="row" id="table-striped">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Solicitudes de soporte en espera</h4>
+        </div>
+        <div class="card-content">
+          <!-- table striped -->
+          <div class="table-responsive">
+            <table class="table table-striped mb-0">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Teléfono</th>
+                  <th>Asunto</th>
+                  <th>Comentarios</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for solicitud in object_list %}
+                <tr>
+                  <td>{{solicitud.nombre}}</td>
+                  <td>{{solicitud.correo}}</td>
+                  <td>{{solicitud.telefono}}</td>
+                  <td>{{solicitud.asunto}}</td>
+                  <td>{{solicitud.comentarios}}</td>
+                  <td>
+                    <a href="{% url 'soporte:cambiar_estado' solicitud.id 'AT' %}" 
+                    class="btn btn-icon btn-primary"
+                    ><i class="bi-check"></i>
+                  </a>                  
+                  </td>
+                </tr>
+                {% empty %}
+                <h2>No se encontraron solicitudes en espera.</h2>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock mainb %} 
+{% block extra_scripts %} 
+<script src="{% static 'assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+{% endblock extra_scripts %}
