@@ -15,6 +15,12 @@ from convocatorias.models import Estatus
 from django.db.models import Q
 from usuarios.forms import SolicitanteCreationForm
 from .utils import get_solicitudes_por_nivel, get_generos_solicitantes
+from .forms import EmailForm
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.sites.shortcuts import get_current_site
 import json
 import os
 from decimal import Decimal
@@ -237,8 +243,29 @@ def desbanear_usuario(request, id):
 @login_required
 @staff_member_required
 def enviar_correo(request, id):
-    pass
+    user = get_object_or_404(Solicitante, id=id)
+    current_site = get_current_site(request)
 
+    if request.method == "POST":
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            current_site = get_current_site(request)
+            mail_subject = form.cleaned_data.get('asunto')
+            message_plain = form.cleaned_data.get('mensaje')
+            message_html = render_to_string('correo_template.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'mensaje': message_plain  # Aquí se cambió 'message' a 'mensaje'
+            })
+            email = EmailMultiAlternatives(mail_subject, message_plain, to=[user.email])
+            email.attach_alternative(message_html, "text/html")
+            email.send()
+            messages.success(request, 'Correo enviado con exito!')
+            return redirect('administracion:panel')
+    else:
+        form = EmailForm()
+
+    return render(request, 'enviar_correo.html', {'form': form, 'usuario':user})
 
 @login_required
 @staff_member_required

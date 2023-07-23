@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Correo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .correo-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        .correo-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .correo-header h2 {
+            margin: 0;
+            color: #333;
+        }
+        .correo-body {
+            color: #333;
+            line-height: 1.5;
+        }
+        .correo-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="correo-container">
+        <div class="correo-header">
+            <h2>{{ asunto }}</h2>
+        </div>
+        <div class="correo-body">
+            <p>Hola {{ user.username }},</p>
+            <p>
+                {{ mensaje }}
+            </p>
+            <p>Saludos,</p>
+            <p>El equipo de Apoyos COZCyT</p>
+        </div>
+        <div class="correo-footer">
+            <p>© 2023 Apoyos COZCyT Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>
