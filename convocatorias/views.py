@@ -16,6 +16,20 @@ from django.conf import settings
 # Create your views here.
 
 def index(request):
+    """
+    Handles requests to the application's index page.
+
+    If the request method is POST, the support request form is validated and saved.
+    If the form is valid, the user is redirected to the index page.
+    If the request method is not POST, a new support request form is created.
+
+    Args:
+    request (HttpRequest): The HTTP request.
+
+    Returns:
+    HttpResponse: The HTTP response. Renders the index page with the support request form and the output 
+    of the 'procesar_becas' function as context variables.
+    """
     if request.method == 'POST':
         formulario_solicitud = SolicitudSoporteForm(request.POST)
         if formulario_solicitud.is_valid():
@@ -26,6 +40,25 @@ def index(request):
     return render(request, 'index.html', {'form': formulario_solicitud, "modalidades":procesar_becas()})
 
 def solicitud_de_apoyos(request, idModalidad):
+    """
+    Handles requests related to the submission of support requests.
+
+    If the request method is POST, a new support request is created and saved. The details of the request are 
+    extracted from the form data and the currently logged in user. Associated documents are also saved if they 
+    meet the criteria (PDF format and size less than 2MB).
+
+    If the request method is not POST, the function retrieves the form and its associated attributes for the 
+    given modality.
+
+    Args:
+    request (HttpRequest): The HTTP request.
+    idModalidad (int): The id of the modality for which the support request is being submitted.
+
+    Returns:
+    HttpResponse: If the request method is POST and the form is valid, redirects to the 'solicitudes_realizadas' 
+    page and displays a success message. If the request method is not POST, or if the form is not valid, renders 
+    the 'solicitud_apoyo.html' template with the modality, form, and form attributes as context variables.
+    """
     if request.method == 'POST':
         id_formulario = request.POST["id_formulario"]
         atributosFormulario = AtributosFormulario.objects.filter(id_formulario=id_formulario)
@@ -69,6 +102,19 @@ def solicitud_de_apoyos(request, idModalidad):
 
 
 def solicitudes_realizadas(request):
+    """
+    Handles requests related to the display of all support requests.
+
+    Retrieves all support requests from the database and paginates them with 6 requests per page. 
+    The page number is retrieved from the GET parameters of the request.
+
+    Args:
+    request (HttpRequest): The HTTP request.
+
+    Returns:
+    HttpResponse: Renders the 'solicitudes_realizadas.html' template with the page object and the page range 
+    as context variables.
+    """
     solicitudes_list = Solicitud.objects.all()
     paginator = Paginator(solicitudes_list, 6)  # Mostrar 6 solicitudes por página.
 
@@ -82,6 +128,19 @@ def solicitudes_realizadas(request):
 
 
 def detalle_solicitud(request, id_solicitud):
+    """
+    Handles requests related to the display of details for a specific support request.
+
+    Retrieves the support request with the given id from the database and creates a JSON object with 
+    the request's details.
+
+    Args:
+    request (HttpRequest): The HTTP request.
+    id_solicitud (int): The id of the support request.
+
+    Returns:
+    JsonResponse: A JSON response containing the details of the support request.
+    """
     solicitud = Solicitud.objects.get(pk=id_solicitud)
 
     data = {
@@ -106,6 +165,19 @@ def lista_apoyos(request):
 
 
 def lista_apoyos(request):
+    """
+    Handles requests related to the display of a list of all available supports.
+
+    Retrieves all supports from the database and paginates them with 6 supports per page. The page 
+    number is retrieved from the GET parameters of the request.
+
+    Args:
+    request (HttpRequest): The HTTP request.
+
+    Returns:
+    HttpResponse: Renders the 'lista_apoyos.html' template with the page object, the supports processed 
+    by the 'procesar_becas' function and the page range as context variables.
+    """
     contact_list = numero_becas()
     paginator = Paginator(contact_list, 6)
 
@@ -123,6 +195,19 @@ def lista_apoyos(request):
 
 
 def download_pdf(request):
+    """
+    Handles requests related to the download of a specific PDF file.
+
+    Opens the 'reglas_operacion2023.pdf' file from the media directory and returns it as a response 
+    with the attachment disposition, which prompts the user to download the file.
+
+    Args:
+    request (HttpRequest): The HTTP request.
+
+    Returns:
+    FileResponse: A FileResponse object containing the contents of the PDF file. This will prompt the 
+    user to download the file with the name 'reglas_operacion2023.pdf'.
+    """
     file_path = os.path.join(settings.MEDIA_ROOT, 'reglas_operacion', 'reglas_operacion2023.pdf')
     file = open(file_path, 'rb')
     response = FileResponse(file, as_attachment=True, filename='reglas_operacion2023.pdf')
