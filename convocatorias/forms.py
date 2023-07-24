@@ -3,6 +3,17 @@ from convocatorias.models import Modalidad, Estatus, Formulario, AtributosFormul
 from django.core.exceptions import ValidationError
 
 class ModalidadForm(forms.ModelForm):
+    """
+    ModelForm class for creating and updating instances of the Modalidad model.
+
+    This form is a ModelForm that corresponds to the Modalidad model. It includes fields for 'nombre', 'descripcion',
+    'requisitos', 'fecha_inicio', 'fecha_fin', 'presupuesto', and 'estatus'. Each field is mapped to the corresponding
+    model field, and they are customized using widgets to provide a consistent and user-friendly interface.
+
+    Attributes:
+        Meta (class): A nested class that defines metadata options for the form.
+        clean() (method): Custom validation method to check if 'fecha_fin' is not earlier than 'fecha_inicio'.
+    """
     class Meta:
         model = Modalidad
         fields = [
@@ -35,6 +46,16 @@ class ModalidadForm(forms.ModelForm):
                 raise ValidationError("La fecha de finalización no puede ser anterior a la fecha de inicio.")
             
 class FormularioForm(forms.ModelForm):
+    """
+    ModelForm class for creating and updating instances of the Formulario model.
+
+    This form is a ModelForm that corresponds to the Formulario model. It includes fields for 'nombre' and 'id_modalidad'.
+    Each field is mapped to the corresponding model field, and they are customized using widgets and labels to provide
+    a consistent and user-friendly interface.
+
+    Attributes:
+        Meta (class): A nested class that defines metadata options for the form.
+    """
     class Meta:
         model = Formulario
         fields = ['nombre', 'id_modalidad']
@@ -48,6 +69,16 @@ class FormularioForm(forms.ModelForm):
         }
 
 class AtributoFormularioForm(forms.ModelForm):
+    """
+    ModelForm class for creating and updating instances of the AtributosFormulario model.
+
+    This form is a ModelForm that corresponds to the AtributosFormulario model. It includes fields for 'nombre',
+    'tipo_atributo', and 'es_documento'. Each field is mapped to the corresponding model field, and they are customized
+    using widgets and labels to provide a consistent and user-friendly interface.
+
+    Attributes:
+        Meta (class): A nested class that defines metadata options for the form.
+    """
     class Meta:
         model = AtributosFormulario
         fields = ['nombre', 'tipo_atributo', 'es_documento']
