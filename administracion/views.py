@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
-from django.http import JsonResponse, FileResponse, Http404
+from django.http import JsonResponse, FileResponse, Http404, HttpResponse
 from convocatorias.models import Solicitud, Modalidad, Formulario, AtributosFormulario, DocumentoSolicitud
 from convocatorias.forms import ModalidadForm, FormularioForm, AtributoFormularioForm
 from soporte.models import SolicitudSoporte
@@ -11,7 +11,7 @@ from django.forms.formsets import formset_factory
 from usuarios.models import Solicitante, Administrador
 from usuarios.forms import SolicitanteCreationForm, AdministradorForm
 from administracion.models import UsuariosBaneados
-from convocatorias.models import Estatus
+from convocatorias.models import Solicitud, Estatus, Solicitante, Modalidad
 from django.db.models import Q
 from usuarios.forms import SolicitanteCreationForm
 from .utils import get_solicitudes_por_nivel, get_generos_solicitantes
@@ -21,11 +21,51 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.sites.shortcuts import get_current_site
+from openpyxl.utils import get_column_letter
+import pandas as pd
 import json
 import os
 from decimal import Decimal
 
 # Create your views here.
+
+@login_required
+@staff_member_required
+def export_solicitudes_excel(request):
+    estatus_autorizado = Estatus.objects.get(nombre='Autorizado')
+    estatus_finalizado = Estatus.objects.get(nombre='Finalizada')
+
+    solicitudes = Solicitud.objects.filter(Q(id_estatus=estatus_autorizado) | Q(id_estatus=estatus_finalizado)).order_by('-fecha_solicitud')
+
+    df = pd.DataFrame.from_records(solicitudes.values('id_solicitud', 'monto_solicitado', 'monto_aprobado', 'fecha_solicitud', 'id_solicitante__first_name', 'id_solicitante__apellido_paterno', 'id_solicitante__apellido_materno', 'id_solicitante__curp', 'id_estatus__nombre', 'id_modalidad__nombre', 'observaciones'))
+
+    df.columns = ['ID Solicitud', 'Monto Solicitado', 'Monto Aprobado', 'Fecha Solicitud', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'CURP', 'Estatus', 'Modalidad', 'Observaciones']
+
+    df['Solicitante'] = df['Nombre'] + ' ' + df['Apellido Paterno'] + ' ' + df['Apellido Materno']
+    df = df.drop(columns=['Nombre', 'Apellido Paterno', 'Apellido Materno'])
+
+    df = df[['ID Solicitud', 'Solicitante', 'CURP', 'Monto Solicitado', 'Monto Aprobado', 'Fecha Solicitud', 'Estatus', 'Modalidad', 'Observaciones']]
+
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=solicitudes.xlsx'
+
+    with pd.ExcelWriter(response, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Solicitudes')
+
+        worksheet = writer.sheets['Solicitudes']
+        for column in df:
+            max_length = 0
+            column_index = df.columns.get_loc(column) + 1
+            for row in range(1, len(df) + 2): # +2 to consider the header row and 1-indexing
+                cell_value = worksheet.cell(row=row, column=column_index).value
+                if cell_value is not None:
+                    cell_length = len(str(cell_value))
+                    if cell_length > max_length:
+                        max_length = cell_length
+            adjusted_width = (max_length + 2)
+            worksheet.column_dimensions[get_column_letter(column_index)].width = adjusted_width
+
+    return response
 
 @login_required
 @staff_member_required

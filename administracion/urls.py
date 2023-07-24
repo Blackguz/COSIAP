@@ -36,5 +36,6 @@ urlpatterns = [
     path('solicitud/actualizar_solicitud/<int:id>/', actualizar_solicitud, name='actualizar_solicitud'),
     path('solicitud/en_proceso/', solicitudes_apoyos_proceso, name='solicitudes_en_proceso'),
     path('solicitud/aprovadas/', solicitudes_aprovadas, name='solicitudes_aprovadas'),
-    path('solicitud/finalizadas/', solicitudes_finalizadas, name='solicitudes_finalizadas')
+    path('solicitud/finalizadas/', solicitudes_finalizadas, name='solicitudes_finalizadas'),
+    path('export_excel/', export_solicitudes_excel, name='export_excel')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

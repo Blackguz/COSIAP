@@ -25,7 +25,8 @@ class Solicitante(User):
     class Meta:
         verbose_name_plural = "Solicitantes"
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        full_name = f"{self.first_name} {self.apellido_paterno} {self.apellido_materno}"
+        return f"{full_name.strip()} - {self.curp}"
 
 class Administrador(User):
     NIVEL_ACCESO = (

@@ -61,7 +61,7 @@
         <section id="form-container">
             <h3 id="form-container-h3">Solicitud de apoyo</h3>
             {% if atributos %}
-            <form method="POST" action="{% url 'crear_solicitud' %}"  enctype="multipart/form-data">
+            <form method="POST"  enctype="multipart/form-data">
                 {% csrf_token %}
                 <div id="forms">
                     <div class="two-container">

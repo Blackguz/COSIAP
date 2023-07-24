@@ -2,3 +2,5 @@ Django==4.1.7
 mysqlclient==2.1.0
 django-widget-tweaks==1.4.8
 python-dotenv==1.0.0
+openpyxl
+pandas

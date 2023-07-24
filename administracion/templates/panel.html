@@ -25,7 +25,8 @@
 {% endfor %}
 {% endif %}
 <div class="container">
-    <h1>Panel de control</h1>
+  <h1>Panel de control</h1>
+  <a href="{% url 'administracion:export_excel' %}" class="btn btn-primary">Descargar Excel de Solicitudes</a>
 
     <section class="datos_solicitudes">
         <div class="row">
